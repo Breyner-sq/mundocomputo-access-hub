@@ -19,6 +19,7 @@ export default function Auth() {
 
     try {
       await signIn(email, password);
+      navigate('/');
     } catch (error) {
       console.error('Error:', error);
     } finally {

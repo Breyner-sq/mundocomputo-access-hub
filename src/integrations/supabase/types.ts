@@ -14,6 +14,112 @@ export type Database = {
   }
   public: {
     Tables: {
+      categorias: {
+        Row: {
+          created_at: string
+          descripcion: string | null
+          id: string
+          nombre: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          descripcion?: string | null
+          id?: string
+          nombre: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          descripcion?: string | null
+          id?: string
+          nombre?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      lotes_inventario: {
+        Row: {
+          cantidad: number
+          created_at: string
+          fecha_ingreso: string
+          id: string
+          notas: string | null
+          precio_compra: number
+          producto_id: string
+          updated_at: string
+        }
+        Insert: {
+          cantidad: number
+          created_at?: string
+          fecha_ingreso?: string
+          id?: string
+          notas?: string | null
+          precio_compra: number
+          producto_id: string
+          updated_at?: string
+        }
+        Update: {
+          cantidad?: number
+          created_at?: string
+          fecha_ingreso?: string
+          id?: string
+          notas?: string | null
+          precio_compra?: number
+          producto_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lotes_inventario_producto_id_fkey"
+            columns: ["producto_id"]
+            isOneToOne: false
+            referencedRelation: "productos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      productos: {
+        Row: {
+          categoria_id: string | null
+          codigo_barras: string | null
+          created_at: string
+          descripcion: string | null
+          id: string
+          nombre: string
+          precio_venta: number
+          updated_at: string
+        }
+        Insert: {
+          categoria_id?: string | null
+          codigo_barras?: string | null
+          created_at?: string
+          descripcion?: string | null
+          id?: string
+          nombre: string
+          precio_venta: number
+          updated_at?: string
+        }
+        Update: {
+          categoria_id?: string | null
+          codigo_barras?: string | null
+          created_at?: string
+          descripcion?: string | null
+          id?: string
+          nombre?: string
+          precio_venta?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "productos_categoria_id_fkey"
+            columns: ["categoria_id"]
+            isOneToOne: false
+            referencedRelation: "categorias"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           activo: boolean

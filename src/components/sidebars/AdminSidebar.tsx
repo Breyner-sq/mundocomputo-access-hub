@@ -20,6 +20,13 @@ const menuItems = [
   { title: 'Configuración', url: '/admin/configuracion', icon: Settings },
 ];
 
+const inventarioMenuItems = [
+  { title: 'Dashboard Inventario', url: '/admin/inventario', icon: LayoutDashboard },
+  { title: 'Productos', url: '/admin/inventario/productos', icon: Package },
+  { title: 'Categorías', url: '/admin/inventario/categorias', icon: FileText },
+  { title: 'Control de Stock', url: '/admin/inventario/stock', icon: Settings },
+];
+
 export function AdminSidebar() {
   const { state } = useSidebar();
   const isCollapsed = state === 'collapsed';

@@ -2,6 +2,7 @@ import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { LogOut } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 import { AdminSidebar } from '@/components/sidebars/AdminSidebar';
 import { TecnicoSidebar } from '@/components/sidebars/TecnicoSidebar';
 import { VentasSidebar } from '@/components/sidebars/VentasSidebar';
@@ -13,8 +14,14 @@ interface DashboardLayoutProps {
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const { role, signOut, user } = useAuth();
+  const location = useLocation();
 
   const getSidebar = () => {
+    // Si estamos en rutas de admin/inventario, mostramos el InventarioSidebar
+    if (location.pathname.startsWith('/admin/inventario')) {
+      return <InventarioSidebar />;
+    }
+    
     switch (role) {
       case 'administrador':
         return <AdminSidebar />;

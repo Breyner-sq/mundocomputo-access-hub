@@ -1,5 +1,5 @@
 import { Package, ClipboardCheck, LayoutDashboard, TruckIcon } from 'lucide-react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import {
   Sidebar,
   SidebarContent,
@@ -12,16 +12,22 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar';
 
-const menuItems = [
-  { title: 'Dashboard', url: '/inventario', icon: LayoutDashboard },
-  { title: 'Productos', url: '/inventario/productos', icon: Package },
-  { title: 'Control de Stock', url: '/inventario/stock', icon: ClipboardCheck },
-  { title: 'Proveedores', url: '/inventario/proveedores', icon: TruckIcon },
-];
-
 export function InventarioSidebar() {
   const { state } = useSidebar();
   const isCollapsed = state === 'collapsed';
+  const location = useLocation();
+  
+  // Detectar si estamos en rutas de admin o inventario
+  const baseUrl = location.pathname.startsWith('/admin/inventario') 
+    ? '/admin/inventario' 
+    : '/inventario';
+  
+  const menuItems = [
+    { title: 'Dashboard', url: baseUrl, icon: LayoutDashboard },
+    { title: 'Productos', url: `${baseUrl}/productos`, icon: Package },
+    { title: 'Categorías', url: `${baseUrl}/categorias`, icon: TruckIcon },
+    { title: 'Control de Stock', url: `${baseUrl}/stock`, icon: ClipboardCheck },
+  ];
 
   return (
     <Sidebar className={isCollapsed ? 'w-14' : 'w-60'}>

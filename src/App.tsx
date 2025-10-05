@@ -13,6 +13,9 @@ import GestionUsuarios from "./pages/admin/GestionUsuarios";
 import TecnicoDashboard from "./pages/tecnico/TecnicoDashboard";
 import VentasDashboard from "./pages/ventas/VentasDashboard";
 import InventarioDashboard from "./pages/inventario/InventarioDashboard";
+import InventarioProductos from "./pages/inventario/InventarioProductos";
+import InventarioCategorias from "./pages/inventario/InventarioCategorias";
+import InventarioStock from "./pages/inventario/InventarioStock";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -71,8 +74,66 @@ const App = () => (
             <Route
               path="/inventario"
               element={
-                <ProtectedRoute allowedRoles={['inventario']}>
+                <ProtectedRoute allowedRoles={['inventario', 'administrador']}>
                   <InventarioDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/inventario/productos"
+              element={
+                <ProtectedRoute allowedRoles={['inventario', 'administrador']}>
+                  <InventarioProductos />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/inventario/categorias"
+              element={
+                <ProtectedRoute allowedRoles={['inventario', 'administrador']}>
+                  <InventarioCategorias />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/inventario/stock"
+              element={
+                <ProtectedRoute allowedRoles={['inventario', 'administrador']}>
+                  <InventarioStock />
+                </ProtectedRoute>
+              }
+            />
+            
+            {/* Admin Inventario Routes (same as inventario) */}
+            <Route
+              path="/admin/inventario"
+              element={
+                <ProtectedRoute allowedRoles={['administrador']}>
+                  <InventarioDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/inventario/productos"
+              element={
+                <ProtectedRoute allowedRoles={['administrador']}>
+                  <InventarioProductos />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/inventario/categorias"
+              element={
+                <ProtectedRoute allowedRoles={['administrador']}>
+                  <InventarioCategorias />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/inventario/stock"
+              element={
+                <ProtectedRoute allowedRoles={['administrador']}>
+                  <InventarioStock />
                 </ProtectedRoute>
               }
             />

@@ -16,6 +16,7 @@ export type Database = {
     Tables: {
       profiles: {
         Row: {
+          activo: boolean
           created_at: string | null
           email: string
           id: string
@@ -23,6 +24,7 @@ export type Database = {
           updated_at: string | null
         }
         Insert: {
+          activo?: boolean
           created_at?: string | null
           email: string
           id: string
@@ -30,6 +32,7 @@ export type Database = {
           updated_at?: string | null
         }
         Update: {
+          activo?: boolean
           created_at?: string | null
           email?: string
           id?: string

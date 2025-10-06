@@ -59,6 +59,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const fetchUserRole = async (userId: string) => {
     try {
+      // Verificar si el usuario está activo
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('activo')
+        .eq('id', userId)
+        .single();
+
+      if (profileError) throw profileError;
+
+      if (!profile?.activo) {
+        await supabase.auth.signOut();
+        toast({
+          title: 'Acceso denegado',
+          description: 'Tu cuenta ha sido desactivada. Contacta al administrador.',
+          variant: 'destructive',
+        });
+        setRole(null);
+        setLoading(false);
+        return;
+      }
+
       const { data, error } = await supabase
         .from('user_roles')
         .select('role')

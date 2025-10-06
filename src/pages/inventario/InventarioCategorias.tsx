@@ -10,7 +10,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Plus, Trash2, FolderOpen } from 'lucide-react';
+import { Plus, Trash2, FolderOpen, Edit } from 'lucide-react';
 import { format } from 'date-fns';
 
 interface Category {
@@ -25,6 +25,7 @@ export default function InventarioCategorias() {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const { toast } = useToast();
 
   const [formData, setFormData] = useState({
@@ -58,27 +59,54 @@ export default function InventarioCategorias() {
     e.preventDefault();
     setLoading(true);
 
-    const { error } = await supabase.from('categorias').insert([
-      {
-        nombre: formData.nombre,
-        descripcion: formData.descripcion || null,
-      },
-    ]);
+    if (editingCategory) {
+      // Actualizar categoría existente
+      const { error } = await supabase
+        .from('categorias')
+        .update({
+          nombre: formData.nombre,
+          descripcion: formData.descripcion || null,
+        })
+        .eq('id', editingCategory.id);
 
-    if (error) {
+      if (error) {
+        toast({
+          title: 'Error',
+          description: 'No se pudo actualizar la categoría',
+          variant: 'destructive',
+        });
+        setLoading(false);
+        return;
+      }
+
       toast({
-        title: 'Error',
-        description: 'No se pudo crear la categoría',
-        variant: 'destructive',
+        title: 'Éxito',
+        description: 'Categoría actualizada correctamente',
       });
-      setLoading(false);
-      return;
-    }
+    } else {
+      // Crear nueva categoría
+      const { error } = await supabase.from('categorias').insert([
+        {
+          nombre: formData.nombre,
+          descripcion: formData.descripcion || null,
+        },
+      ]);
 
-    toast({
-      title: 'Éxito',
-      description: 'Categoría creada correctamente',
-    });
+      if (error) {
+        toast({
+          title: 'Error',
+          description: 'No se pudo crear la categoría',
+          variant: 'destructive',
+        });
+        setLoading(false);
+        return;
+      }
+
+      toast({
+        title: 'Éxito',
+        description: 'Categoría creada correctamente',
+      });
+    }
 
     setFormData({
       nombre: '',
@@ -86,12 +114,47 @@ export default function InventarioCategorias() {
     });
 
     setOpen(false);
+    setEditingCategory(null);
     setLoading(false);
     fetchCategories();
   };
 
+  const handleEdit = (category: Category) => {
+    setEditingCategory(category);
+    setFormData({
+      nombre: category.nombre,
+      descripcion: category.descripcion || '',
+    });
+    setOpen(true);
+  };
+
   const handleDelete = async () => {
     if (!deleteId) return;
+
+    // Verificar si hay productos asociados a esta categoría
+    const { count, error: countError } = await supabase
+      .from('productos')
+      .select('id', { count: 'exact', head: true })
+      .eq('categoria_id', deleteId);
+
+    if (countError) {
+      toast({
+        title: 'Error',
+        description: 'No se pudo verificar los productos asociados',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (count && count > 0) {
+      toast({
+        title: 'No se puede eliminar',
+        description: `Esta categoría tiene ${count} producto(s) asociado(s). Elimina o reasigna los productos primero.`,
+        variant: 'destructive',
+      });
+      setDeleteId(null);
+      return;
+    }
 
     const { error } = await supabase
       .from('categorias')
@@ -116,6 +179,15 @@ export default function InventarioCategorias() {
     fetchCategories();
   };
 
+  const handleCloseDialog = () => {
+    setOpen(false);
+    setEditingCategory(null);
+    setFormData({
+      nombre: '',
+      descripcion: '',
+    });
+  };
+
   return (
     <DashboardLayout>
       <div className="space-y-6">
@@ -124,7 +196,7 @@ export default function InventarioCategorias() {
             <h2 className="text-3xl font-bold tracking-tight">Categorías</h2>
             <p className="text-muted-foreground">Organiza tus productos por categorías</p>
           </div>
-          <Dialog open={open} onOpenChange={setOpen}>
+          <Dialog open={open} onOpenChange={handleCloseDialog}>
             <DialogTrigger asChild>
               <Button>
                 <Plus className="mr-2 h-4 w-4" />
@@ -133,7 +205,9 @@ export default function InventarioCategorias() {
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Crear Nueva Categoría</DialogTitle>
+                <DialogTitle>
+                  {editingCategory ? 'Editar Categoría' : 'Crear Nueva Categoría'}
+                </DialogTitle>
               </DialogHeader>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
@@ -161,7 +235,7 @@ export default function InventarioCategorias() {
                 </div>
 
                 <Button type="submit" disabled={loading} className="w-full">
-                  {loading ? 'Creando...' : 'Crear Categoría'}
+                  {loading ? (editingCategory ? 'Actualizando...' : 'Creando...') : (editingCategory ? 'Actualizar Categoría' : 'Crear Categoría')}
                 </Button>
               </form>
             </DialogContent>
@@ -203,13 +277,22 @@ export default function InventarioCategorias() {
                         {format(new Date(category.created_at), 'dd/MM/yyyy')}
                       </TableCell>
                       <TableCell>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => setDeleteId(category.id)}
-                        >
-                          <Trash2 className="h-4 w-4 text-destructive" />
-                        </Button>
+                        <div className="flex gap-2">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => handleEdit(category)}
+                          >
+                            <Edit className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => setDeleteId(category.id)}
+                          >
+                            <Trash2 className="h-4 w-4 text-destructive" />
+                          </Button>
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))

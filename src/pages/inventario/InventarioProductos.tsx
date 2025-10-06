@@ -11,7 +11,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Plus, Trash2, Package } from 'lucide-react';
+import { Plus, Trash2, Package, Edit } from 'lucide-react';
 
 interface Category {
   id: string;
@@ -34,6 +34,7 @@ export default function InventarioProductos() {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const { toast } = useToast();
 
   const [formData, setFormData] = useState({
@@ -89,30 +90,60 @@ export default function InventarioProductos() {
     e.preventDefault();
     setLoading(true);
 
-    const { error } = await supabase.from('productos').insert([
-      {
-        nombre: formData.nombre,
-        descripcion: formData.descripcion || null,
-        categoria_id: formData.categoria_id || null,
-        precio_venta: parseFloat(formData.precio_venta),
-        codigo_barras: formData.codigo_barras || null,
-      },
-    ]);
+    if (editingProduct) {
+      // Actualizar producto existente
+      const { error } = await supabase
+        .from('productos')
+        .update({
+          nombre: formData.nombre,
+          descripcion: formData.descripcion || null,
+          categoria_id: formData.categoria_id || null,
+          precio_venta: parseFloat(formData.precio_venta),
+          codigo_barras: formData.codigo_barras || null,
+        })
+        .eq('id', editingProduct.id);
 
-    if (error) {
+      if (error) {
+        toast({
+          title: 'Error',
+          description: 'No se pudo actualizar el producto',
+          variant: 'destructive',
+        });
+        setLoading(false);
+        return;
+      }
+
       toast({
-        title: 'Error',
-        description: 'No se pudo crear el producto',
-        variant: 'destructive',
+        title: 'Éxito',
+        description: 'Producto actualizado correctamente',
       });
-      setLoading(false);
-      return;
-    }
+    } else {
+      // Crear nuevo producto
+      const { error } = await supabase.from('productos').insert([
+        {
+          nombre: formData.nombre,
+          descripcion: formData.descripcion || null,
+          categoria_id: formData.categoria_id || null,
+          precio_venta: parseFloat(formData.precio_venta),
+          codigo_barras: formData.codigo_barras || null,
+        },
+      ]);
 
-    toast({
-      title: 'Éxito',
-      description: 'Producto creado correctamente',
-    });
+      if (error) {
+        toast({
+          title: 'Error',
+          description: 'No se pudo crear el producto',
+          variant: 'destructive',
+        });
+        setLoading(false);
+        return;
+      }
+
+      toast({
+        title: 'Éxito',
+        description: 'Producto creado correctamente',
+      });
+    }
 
     setFormData({
       nombre: '',
@@ -123,12 +154,50 @@ export default function InventarioProductos() {
     });
 
     setOpen(false);
+    setEditingProduct(null);
     setLoading(false);
     fetchProducts();
   };
 
+  const handleEdit = (product: Product) => {
+    setEditingProduct(product);
+    setFormData({
+      nombre: product.nombre,
+      descripcion: product.descripcion || '',
+      categoria_id: product.categoria_id || '',
+      precio_venta: product.precio_venta.toString(),
+      codigo_barras: product.codigo_barras || '',
+    });
+    setOpen(true);
+  };
+
   const handleDelete = async () => {
     if (!deleteId) return;
+
+    // Verificar si hay lotes asociados a este producto
+    const { count, error: countError } = await supabase
+      .from('lotes_inventario')
+      .select('id', { count: 'exact', head: true })
+      .eq('producto_id', deleteId);
+
+    if (countError) {
+      toast({
+        title: 'Error',
+        description: 'No se pudo verificar los lotes asociados',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (count && count > 0) {
+      toast({
+        title: 'No se puede eliminar',
+        description: `Este producto tiene ${count} lote(s) de inventario asociado(s). Elimina los lotes primero.`,
+        variant: 'destructive',
+      });
+      setDeleteId(null);
+      return;
+    }
 
     const { error } = await supabase
       .from('productos')
@@ -153,6 +222,18 @@ export default function InventarioProductos() {
     fetchProducts();
   };
 
+  const handleCloseDialog = () => {
+    setOpen(false);
+    setEditingProduct(null);
+    setFormData({
+      nombre: '',
+      descripcion: '',
+      categoria_id: '',
+      precio_venta: '',
+      codigo_barras: '',
+    });
+  };
+
   return (
     <DashboardLayout>
       <div className="space-y-6">
@@ -161,7 +242,7 @@ export default function InventarioProductos() {
             <h2 className="text-3xl font-bold tracking-tight">Productos</h2>
             <p className="text-muted-foreground">Gestiona el catálogo de productos</p>
           </div>
-          <Dialog open={open} onOpenChange={setOpen}>
+          <Dialog open={open} onOpenChange={handleCloseDialog}>
             <DialogTrigger asChild>
               <Button>
                 <Plus className="mr-2 h-4 w-4" />
@@ -170,7 +251,9 @@ export default function InventarioProductos() {
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Crear Nuevo Producto</DialogTitle>
+                <DialogTitle>
+                  {editingProduct ? 'Editar Producto' : 'Crear Nuevo Producto'}
+                </DialogTitle>
               </DialogHeader>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
@@ -244,7 +327,7 @@ export default function InventarioProductos() {
                 </div>
 
                 <Button type="submit" disabled={loading} className="w-full">
-                  {loading ? 'Creando...' : 'Crear Producto'}
+                  {loading ? (editingProduct ? 'Actualizando...' : 'Creando...') : (editingProduct ? 'Actualizar Producto' : 'Crear Producto')}
                 </Button>
               </form>
             </DialogContent>
@@ -290,13 +373,22 @@ export default function InventarioProductos() {
                       <TableCell>${product.precio_venta.toFixed(2)}</TableCell>
                       <TableCell>{product.codigo_barras || '-'}</TableCell>
                       <TableCell>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => setDeleteId(product.id)}
-                        >
-                          <Trash2 className="h-4 w-4 text-destructive" />
-                        </Button>
+                        <div className="flex gap-2">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => handleEdit(product)}
+                          >
+                            <Edit className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => setDeleteId(product.id)}
+                          >
+                            <Trash2 className="h-4 w-4 text-destructive" />
+                          </Button>
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))

@@ -7,6 +7,7 @@ import { AdminSidebar } from '@/components/sidebars/AdminSidebar';
 import { TecnicoSidebar } from '@/components/sidebars/TecnicoSidebar';
 import { VentasSidebar } from '@/components/sidebars/VentasSidebar';
 import { InventarioSidebar } from '@/components/sidebars/InventarioSidebar';
+import { AdminInventarioSidebar } from '@/components/sidebars/AdminInventarioSidebar';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -17,9 +18,9 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   const location = useLocation();
 
   const getSidebar = () => {
-    // Si estamos en rutas de admin/inventario, mostramos el InventarioSidebar
-    if (location.pathname.startsWith('/admin/inventario')) {
-      return <InventarioSidebar />;
+    // Si el admin está en rutas de inventario, mostramos el AdminInventarioSidebar
+    if (role === 'administrador' && location.pathname.startsWith('/admin/inventario')) {
+      return <AdminInventarioSidebar />;
     }
     
     switch (role) {

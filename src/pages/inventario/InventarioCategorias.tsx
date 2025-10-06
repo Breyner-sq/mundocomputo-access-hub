@@ -10,8 +10,10 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Plus, Trash2, FolderOpen, Edit } from 'lucide-react';
+import { Plus, Trash2, FolderOpen, Edit, FileDown } from 'lucide-react';
 import { format } from 'date-fns';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 interface Category {
   id: string;
@@ -188,6 +190,34 @@ export default function InventarioCategorias() {
     });
   };
 
+  const exportToPDF = () => {
+    const doc = new jsPDF();
+    
+    doc.setFontSize(18);
+    doc.text('Reporte de Categorías', 14, 22);
+    doc.setFontSize(11);
+    doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 14, 30);
+    
+    const tableData = categories.map(category => [
+      category.nombre,
+      category.descripcion || '-',
+      format(new Date(category.created_at), 'dd/MM/yyyy')
+    ]);
+    
+    autoTable(doc, {
+      head: [['Nombre', 'Descripción', 'Fecha Creación']],
+      body: tableData,
+      startY: 35,
+    });
+    
+    doc.save(`reporte-categorias-${new Date().toISOString().split('T')[0]}.pdf`);
+    
+    toast({
+      title: 'Éxito',
+      description: 'Reporte exportado correctamente',
+    });
+  };
+
   return (
     <DashboardLayout>
       <div className="space-y-6">
@@ -196,7 +226,12 @@ export default function InventarioCategorias() {
             <h2 className="text-3xl font-bold tracking-tight">Categorías</h2>
             <p className="text-muted-foreground">Organiza tus productos por categorías</p>
           </div>
-          <Dialog open={open} onOpenChange={handleCloseDialog}>
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={exportToPDF}>
+              <FileDown className="mr-2 h-4 w-4" />
+              Exportar PDF
+            </Button>
+            <Dialog open={open} onOpenChange={handleCloseDialog}>
             <DialogTrigger asChild>
               <Button>
                 <Plus className="mr-2 h-4 w-4" />
@@ -240,6 +275,7 @@ export default function InventarioCategorias() {
               </form>
             </DialogContent>
           </Dialog>
+          </div>
         </div>
 
         <Card>

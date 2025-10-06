@@ -10,8 +10,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Plus, Package } from 'lucide-react';
+import { Plus, Package, FileDown } from 'lucide-react';
 import { format } from 'date-fns';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 interface Product {
   id: string;
@@ -27,7 +29,9 @@ interface InventoryBatch {
   fecha_ingreso: string;
   notas: string | null;
   created_at: string;
-  productos: Product;
+  productos: Product & {
+    categorias: { nombre: string } | null;
+  };
 }
 
 export default function InventarioStock() {
@@ -35,6 +39,10 @@ export default function InventarioStock() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [categories, setCategories] = useState<{ id: string; nombre: string }[]>([]);
   const { toast } = useToast();
 
   const [formData, setFormData] = useState({
@@ -48,12 +56,13 @@ export default function InventarioStock() {
   useEffect(() => {
     fetchBatches();
     fetchProducts();
+    fetchCategories();
   }, []);
 
   const fetchBatches = async () => {
     const { data, error } = await supabase
       .from('lotes_inventario')
-      .select('*, productos(id, nombre, codigo_barras)')
+      .select('*, productos(id, nombre, codigo_barras, categorias(nombre))')
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -84,6 +93,24 @@ export default function InventarioStock() {
     }
 
     setProducts(data || []);
+  };
+
+  const fetchCategories = async () => {
+    const { data, error } = await supabase
+      .from('categorias')
+      .select('id, nombre')
+      .order('nombre');
+
+    if (error) {
+      toast({
+        title: 'Error',
+        description: 'No se pudieron cargar las categorías',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setCategories(data || []);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -134,6 +161,70 @@ export default function InventarioStock() {
       .reduce((sum, b) => sum + b.cantidad, 0);
   };
 
+  const exportToPDF = () => {
+    let filteredBatches = [...batches];
+
+    // Filtrar por rango de fechas
+    if (startDate) {
+      filteredBatches = filteredBatches.filter(
+        batch => new Date(batch.fecha_ingreso) >= new Date(startDate)
+      );
+    }
+    if (endDate) {
+      filteredBatches = filteredBatches.filter(
+        batch => new Date(batch.fecha_ingreso) <= new Date(endDate)
+      );
+    }
+
+    // Filtrar por categoría
+    if (selectedCategory) {
+      filteredBatches = filteredBatches.filter(
+        batch => batch.productos.categorias?.nombre === selectedCategory
+      );
+    }
+
+    const doc = new jsPDF();
+    
+    doc.setFontSize(18);
+    doc.text('Reporte de Lotes de Inventario', 14, 22);
+    doc.setFontSize(11);
+    doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 14, 30);
+    
+    if (startDate || endDate) {
+      doc.text(
+        `Rango: ${startDate ? format(new Date(startDate), 'dd/MM/yyyy') : 'Inicio'} - ${endDate ? format(new Date(endDate), 'dd/MM/yyyy') : 'Actual'}`,
+        14,
+        36
+      );
+    }
+    
+    if (selectedCategory) {
+      doc.text(`Categoría: ${selectedCategory}`, 14, startDate || endDate ? 42 : 36);
+    }
+    
+    const tableData = filteredBatches.map(batch => [
+      batch.productos.nombre,
+      batch.productos.categorias?.nombre || '-',
+      batch.cantidad.toString(),
+      `$${batch.precio_compra.toFixed(2)}`,
+      format(new Date(batch.fecha_ingreso), 'dd/MM/yyyy'),
+      batch.notas || '-'
+    ]);
+    
+    autoTable(doc, {
+      head: [['Producto', 'Categoría', 'Cantidad', 'Precio Compra', 'Fecha Ingreso', 'Notas']],
+      body: tableData,
+      startY: selectedCategory ? 48 : (startDate || endDate ? 42 : 36),
+    });
+    
+    doc.save(`reporte-lotes-${new Date().toISOString().split('T')[0]}.pdf`);
+    
+    toast({
+      title: 'Éxito',
+      description: 'Reporte exportado correctamente',
+    });
+  };
+
   return (
     <DashboardLayout>
       <div className="space-y-6">
@@ -142,7 +233,8 @@ export default function InventarioStock() {
             <h2 className="text-3xl font-bold tracking-tight">Control de Stock</h2>
             <p className="text-muted-foreground">Gestiona los lotes de inventario</p>
           </div>
-          <Dialog open={open} onOpenChange={setOpen}>
+          <div className="flex gap-2">
+            <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
               <Button>
                 <Plus className="mr-2 h-4 w-4" />
@@ -236,7 +328,57 @@ export default function InventarioStock() {
               </form>
             </DialogContent>
           </Dialog>
+          </div>
         </div>
+
+        {/* Filtros para exportación */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Exportar Reporte</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-wrap gap-4 items-end">
+              <div className="flex-1 min-w-[200px] space-y-2">
+                <Label htmlFor="start-date">Fecha Inicio</Label>
+                <Input
+                  id="start-date"
+                  type="date"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                />
+              </div>
+              <div className="flex-1 min-w-[200px] space-y-2">
+                <Label htmlFor="end-date">Fecha Fin</Label>
+                <Input
+                  id="end-date"
+                  type="date"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                />
+              </div>
+              <div className="flex-1 min-w-[200px] space-y-2">
+                <Label>Categoría</Label>
+                <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Todas las categorías" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="">Todas las categorías</SelectItem>
+                    {categories.map((category) => (
+                      <SelectItem key={category.id} value={category.nombre}>
+                        {category.nombre}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <Button onClick={exportToPDF} variant="outline">
+                <FileDown className="mr-2 h-4 w-4" />
+                Exportar PDF
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
 
         <Card>
           <CardHeader>

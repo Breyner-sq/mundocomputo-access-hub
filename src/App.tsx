@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { AccessibilityMenu } from "@/components/AccessibilityMenu";
-import { ThemeProvider } from "next-themes";
+import { ThemeProvider } from '@/components/theme-provider';
 import Auth from "./pages/Auth";
 import RoleRedirect from "./pages/RoleRedirect";
 import Unauthorized from "./pages/Unauthorized";
@@ -15,17 +15,21 @@ import GestionUsuarios from "./pages/admin/GestionUsuarios";
 import Reportes from "./pages/admin/Reportes";
 import TecnicoDashboard from "./pages/tecnico/TecnicoDashboard";
 import VentasDashboard from "./pages/ventas/VentasDashboard";
+import VentasRegistro from "./pages/ventas/VentasRegistro";
+import VentasClientes from "./pages/ventas/VentasClientes";
+import VentasEstadisticas from "./pages/ventas/VentasEstadisticas";
 import InventarioDashboard from "./pages/inventario/InventarioDashboard";
 import InventarioProductos from "./pages/inventario/InventarioProductos";
 import InventarioCategorias from "./pages/inventario/InventarioCategorias";
 import InventarioStock from "./pages/inventario/InventarioStock";
+import Perfil from "./pages/configuracion/Perfil";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+    <ThemeProvider defaultTheme="system"  storageKey="app-theme">
       <TooltipProvider>
         <Toaster />
         <Sonner />
@@ -77,8 +81,42 @@ const App = () => (
             <Route
               path="/ventas"
               element={
-                <ProtectedRoute allowedRoles={['ventas']}>
+                <ProtectedRoute allowedRoles={['ventas', 'administrador']}>
                   <VentasDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/ventas/registro"
+              element={
+                <ProtectedRoute allowedRoles={['ventas', 'administrador']}>
+                  <VentasRegistro />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/ventas/clientes"
+              element={
+                <ProtectedRoute allowedRoles={['ventas', 'administrador']}>
+                  <VentasClientes />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/ventas/estadisticas"
+              element={
+                <ProtectedRoute allowedRoles={['ventas', 'administrador']}>
+                  <VentasEstadisticas />
+                </ProtectedRoute>
+              }
+            />
+            
+            {/* Configuración Routes */}
+            <Route
+              path="/configuracion/perfil"
+              element={
+                <ProtectedRoute allowedRoles={['administrador', 'tecnico', 'ventas', 'inventario']}>
+                  <Perfil />
                 </ProtectedRoute>
               }
             />

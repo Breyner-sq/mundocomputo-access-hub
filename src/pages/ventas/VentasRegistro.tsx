@@ -41,8 +41,6 @@ interface Venta {
   vendedor_id: string;
   total: number;
   fecha: string;
-  clientes: { nombre: string; email: string };
-  profiles: { nombre_completo: string };
 }
 
 export default function VentasRegistro() {
@@ -99,11 +97,7 @@ export default function VentasRegistro() {
     try {
       const { data, error } = await supabase
         .from('ventas')
-        .select(`
-          *,
-          clientes (nombre, email),
-          profiles (nombre_completo)
-        `)
+        .select('*')
         .order('fecha', { ascending: false });
 
       if (error) throw error;
@@ -247,12 +241,15 @@ export default function VentasRegistro() {
     doc.setFontSize(18);
     doc.text('Reporte de Ventas', 14, 20);
     
-    const tableData = ventas.map(venta => [
-      format(new Date(venta.fecha), 'dd/MM/yyyy HH:mm', { locale: es }),
-      venta.clientes.nombre,
-      venta.profiles?.nombre_completo || 'N/A',
-      `$${venta.total.toFixed(2)}`,
-    ]);
+    const tableData = ventas.map(venta => {
+      const cliente = clientes.find(c => c.id === venta.cliente_id);
+      return [
+        format(new Date(venta.fecha), 'dd/MM/yyyy HH:mm', { locale: es }),
+        cliente?.nombre || 'N/A',
+        'Vendedor',
+        `$${venta.total.toFixed(2)}`,
+      ];
+    });
 
     autoTable(doc, {
       head: [['Fecha', 'Cliente', 'Vendedor', 'Total']],
@@ -434,16 +431,19 @@ export default function VentasRegistro() {
                     </TableCell>
                   </TableRow>
                 ) : (
-                  ventas.map((venta) => (
-                    <TableRow key={venta.id}>
-                      <TableCell>
-                        {format(new Date(venta.fecha), 'dd/MM/yyyy HH:mm', { locale: es })}
-                      </TableCell>
-                      <TableCell>{venta.clientes.nombre}</TableCell>
-                      <TableCell>{venta.profiles?.nombre_completo || 'N/A'}</TableCell>
-                      <TableCell className="font-medium">${venta.total.toFixed(2)}</TableCell>
-                    </TableRow>
-                  ))
+                  ventas.map((venta) => {
+                    const cliente = clientes.find(c => c.id === venta.cliente_id);
+                    return (
+                      <TableRow key={venta.id}>
+                        <TableCell>
+                          {format(new Date(venta.fecha), 'dd/MM/yyyy HH:mm', { locale: es })}
+                        </TableCell>
+                        <TableCell>{cliente?.nombre || 'N/A'}</TableCell>
+                        <TableCell>Vendedor</TableCell>
+                        <TableCell className="font-medium">${venta.total.toFixed(2)}</TableCell>
+                      </TableRow>
+                    );
+                  })
                 )}
               </TableBody>
             </Table>

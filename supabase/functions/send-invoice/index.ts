@@ -1,7 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { Resend } from "npm:resend@4.0.0";
 
-const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
+const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -39,7 +38,7 @@ const handler = async (req: Request): Promise<Response> => {
       </tr>
     `).join('');
 
-    const emailResponse = await resend.emails.send({
+    const emailBody = {
       from: "Sistema de Ventas <onboarding@resend.dev>",
       to: [clientEmail],
       subject: `Factura #${invoiceNumber}`,
@@ -93,11 +92,22 @@ const handler = async (req: Request): Promise<Response> => {
           </body>
         </html>
       `,
+    };
+
+    const emailResponse = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${RESEND_API_KEY}`,
+      },
+      body: JSON.stringify(emailBody),
     });
 
-    console.log("Invoice email sent successfully:", emailResponse);
+    const emailData = await emailResponse.json();
 
-    return new Response(JSON.stringify(emailResponse), {
+    console.log("Invoice email sent successfully:", emailData);
+
+    return new Response(JSON.stringify(emailData), {
       status: 200,
       headers: {
         "Content-Type": "application/json",

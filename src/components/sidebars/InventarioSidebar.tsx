@@ -1,4 +1,4 @@
-import { Package, ClipboardCheck, LayoutDashboard, TruckIcon } from 'lucide-react';
+import { Package, ClipboardCheck, LayoutDashboard, TruckIcon, Settings } from 'lucide-react';
 import { NavLink, useLocation } from 'react-router-dom';
 import {
   Sidebar,
@@ -27,6 +27,7 @@ export function InventarioSidebar() {
     { title: 'Productos', url: `${baseUrl}/productos`, icon: Package },
     { title: 'Categorías', url: `${baseUrl}/categorias`, icon: TruckIcon },
     { title: 'Control de Stock', url: `${baseUrl}/stock`, icon: ClipboardCheck },
+    { title: 'Configuración', url: '/configuracion/perfil', icon: Settings },
   ];
 
   return (

@@ -17,7 +17,7 @@ const menuItems = [
   { title: 'Gestionar Usuarios', url: '/admin/usuarios', icon: Users },
   { title: 'Inventario', url: '/admin/inventario', icon: Package },
   { title: 'Reportes', url: '/admin/reportes', icon: FileText },
-  { title: 'Configuración', url: '/admin/configuracion', icon: Settings },
+  { title: 'Configuración', url: '/configuracion/perfil', icon: Settings },
 ];
 
 const inventarioMenuItems = [

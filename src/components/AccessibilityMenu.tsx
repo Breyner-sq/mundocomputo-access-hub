@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Label } from '@/components/ui/label';
 import { Accessibility, Sun, Moon, Type, Languages } from 'lucide-react';
-import { useTheme } from 'next-themes';
+import { useTheme } from '@/components/theme-provider';
 
 export function AccessibilityMenu() {
   const [fontSize, setFontSize] = useState<'normal' | 'large' | 'x-large'>('normal');

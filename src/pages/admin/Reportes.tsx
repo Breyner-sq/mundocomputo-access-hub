@@ -30,27 +30,59 @@ export default function Reportes() {
     setLoading(true);
     
     try {
-      // Obtener logs de autenticación de los últimos 30 días
-      const thirtyDaysAgo = new Date();
-      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+      const { data: { session } } = await supabase.auth.getSession();
       
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('email, created_at');
+      if (!session) {
+        toast({
+          title: 'Error',
+          description: 'No hay sesión activa',
+          variant: 'destructive',
+        });
+        return;
+      }
 
-      if (error) throw error;
+      // Llamar a la función de Supabase para obtener logs de autenticación
+      const response = await fetch(
+        `https://twaqppiracythbmwyjnn.supabase.co/rest/v1/rpc/get_auth_logs`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3YXFwcGlyYWN5dGhibXd5am5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk1MjkzNTAsImV4cCI6MjA3NTEwNTM1MH0.-Cv4lYJDqENRrtdr2z6KmMUfPy8QPJTr6pZXGY0NxRE',
+            'Authorization': `Bearer ${session.access_token}`,
+          },
+        }
+      );
 
-      // Por ahora mostramos los perfiles creados
-      // En producción, esto debería consultar los logs reales de Supabase
-      const logsData: AuthLog[] = (data || []).map((profile: any, index: number) => ({
-        id: `${index}`,
-        timestamp: new Date(profile.created_at).getTime(),
-        email: profile.email,
-        ip_address: 'N/A', // Los logs reales vendrían de Supabase Analytics
-        event: 'login',
-      }));
+      const logsData = await response.json();
+      
+      // Parsear los logs de autenticación
+      const parsedLogs: AuthLog[] = (logsData || [])
+        .filter((log: any) => log.event_message && (log.msg === 'Login' || log.event_message.includes('login')))
+        .map((log: any, index: number) => {
+          let email = 'N/A';
+          let ipAddress = 'N/A';
+          
+          try {
+            const message = JSON.parse(log.event_message);
+            email = message.actor_username || message.user_id || 'N/A';
+            ipAddress = message.remote_addr || 'N/A';
+          } catch (e) {
+            console.error('Error parsing log:', e);
+          }
 
-      setAuthLogs(logsData.sort((a, b) => b.timestamp - a.timestamp).slice(0, 50));
+          return {
+            id: log.id || `${index}`,
+            timestamp: log.timestamp / 1000 || Date.now(),
+            email,
+            ip_address: ipAddress,
+            event: 'login',
+          };
+        })
+        .sort((a: AuthLog, b: AuthLog) => b.timestamp - a.timestamp)
+        .slice(0, 100);
+
+      setAuthLogs(parsedLogs);
     } catch (error) {
       console.error('Error fetching auth logs:', error);
       toast({

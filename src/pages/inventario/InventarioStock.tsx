@@ -358,12 +358,12 @@ export default function InventarioStock() {
               </div>
               <div className="flex-1 min-w-[200px] space-y-2">
                 <Label>Categoría</Label>
-                <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                <Select value={selectedCategory || "all"} onValueChange={(value) => setSelectedCategory(value === "all" ? "" : value)}>
                   <SelectTrigger>
                     <SelectValue placeholder="Todas las categorías" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">Todas las categorías</SelectItem>
+                    <SelectItem value="all">Todas las categorías</SelectItem>
                     {categories.map((category) => (
                       <SelectItem key={category.id} value={category.nombre}>
                         {category.nombre}

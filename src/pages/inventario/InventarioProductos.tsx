@@ -45,6 +45,7 @@ export default function InventarioProductos() {
     categoria_id: '',
     precio_venta: '',
     codigo_barras: '',
+    stock_minimo: '10',
   });
 
   useEffect(() => {
@@ -102,6 +103,7 @@ export default function InventarioProductos() {
           categoria_id: formData.categoria_id || null,
           precio_venta: parseFloat(formData.precio_venta),
           codigo_barras: formData.codigo_barras || null,
+          stock_minimo: parseInt(formData.stock_minimo),
         })
         .eq('id', editingProduct.id);
 
@@ -128,6 +130,7 @@ export default function InventarioProductos() {
           categoria_id: formData.categoria_id || null,
           precio_venta: parseFloat(formData.precio_venta),
           codigo_barras: formData.codigo_barras || null,
+          stock_minimo: parseInt(formData.stock_minimo),
         },
       ]);
 
@@ -153,6 +156,7 @@ export default function InventarioProductos() {
       categoria_id: '',
       precio_venta: '',
       codigo_barras: '',
+      stock_minimo: '10',
     });
 
     setOpen(false);
@@ -169,6 +173,7 @@ export default function InventarioProductos() {
       categoria_id: product.categoria_id || '',
       precio_venta: product.precio_venta.toString(),
       codigo_barras: product.codigo_barras || '',
+      stock_minimo: (product as any).stock_minimo?.toString() || '10',
     });
     setOpen(true);
   };
@@ -224,16 +229,19 @@ export default function InventarioProductos() {
     fetchProducts();
   };
 
-  const handleCloseDialog = () => {
-    setOpen(false);
-    setEditingProduct(null);
-    setFormData({
-      nombre: '',
-      descripcion: '',
-      categoria_id: '',
-      precio_venta: '',
-      codigo_barras: '',
-    });
+  const handleCloseDialog = (isOpen: boolean) => {
+    setOpen(isOpen);
+    if (!isOpen) {
+      setEditingProduct(null);
+      setFormData({
+        nombre: '',
+        descripcion: '',
+        categoria_id: '',
+        precio_venta: '',
+        codigo_barras: '',
+        stock_minimo: '10',
+      });
+    }
   };
 
   const exportToPDF = () => {
@@ -360,6 +368,20 @@ export default function InventarioProductos() {
                     onChange={(e) =>
                       setFormData({ ...formData, codigo_barras: e.target.value })
                     }
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="stock_minimo">Stock Mínimo</Label>
+                  <Input
+                    id="stock_minimo"
+                    type="number"
+                    min="0"
+                    value={formData.stock_minimo}
+                    onChange={(e) =>
+                      setFormData({ ...formData, stock_minimo: e.target.value })
+                    }
+                    required
                   />
                 </div>
 

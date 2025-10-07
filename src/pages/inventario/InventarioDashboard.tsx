@@ -3,10 +3,18 @@ import { DashboardLayout } from '@/components/layouts/DashboardLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Package, FolderOpen, Package2, TrendingUp } from 'lucide-react';
+import { Package, FolderOpen, Package2, TrendingUp, AlertTriangle } from 'lucide-react';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 
 const COLORS = ['hsl(var(--primary))', 'hsl(var(--secondary))', 'hsl(var(--accent))', 'hsl(var(--muted))'];
+
+interface LowStockProduct {
+  id: string;
+  nombre: string;
+  stock_actual: number;
+  stock_minimo: number;
+}
 
 export default function InventarioDashboard() {
   const [stats, setStats] = useState({
@@ -17,12 +25,14 @@ export default function InventarioDashboard() {
   });
   const [productsByCategory, setProductsByCategory] = useState<{ nombre: string; cantidad: number }[]>([]);
   const [recentBatches, setRecentBatches] = useState<{ nombre: string; cantidad: number; fecha: string }[]>([]);
+  const [lowStockProducts, setLowStockProducts] = useState<LowStockProduct[]>([]);
   const { toast } = useToast();
 
   useEffect(() => {
     fetchStats();
     fetchProductsByCategory();
     fetchRecentBatches();
+    fetchLowStockProducts();
   }, []);
 
   const fetchStats = async () => {
@@ -95,6 +105,47 @@ export default function InventarioDashboard() {
     setRecentBatches(chartData);
   };
 
+  const fetchLowStockProducts = async () => {
+    try {
+      // Obtener todos los productos con su stock actual
+      const { data: productos, error: prodError } = await supabase
+        .from('productos')
+        .select('id, nombre, stock_minimo');
+
+      if (prodError) throw prodError;
+
+      // Calcular stock actual por producto
+      const { data: lotes, error: lotesError } = await supabase
+        .from('lotes_inventario')
+        .select('producto_id, cantidad');
+
+      if (lotesError) throw lotesError;
+
+      // Agrupar por producto y sumar cantidades
+      const stockPorProducto: { [key: string]: number } = {};
+      lotes?.forEach((lote: any) => {
+        if (!stockPorProducto[lote.producto_id]) {
+          stockPorProducto[lote.producto_id] = 0;
+        }
+        stockPorProducto[lote.producto_id] += lote.cantidad;
+      });
+
+      // Filtrar productos con stock bajo
+      const productosStockBajo: LowStockProduct[] = productos
+        ?.map((prod: any) => ({
+          id: prod.id,
+          nombre: prod.nombre,
+          stock_actual: stockPorProducto[prod.id] || 0,
+          stock_minimo: prod.stock_minimo,
+        }))
+        .filter((prod) => prod.stock_actual < prod.stock_minimo) || [];
+
+      setLowStockProducts(productosStockBajo);
+    } catch (error) {
+      console.error('Error fetching low stock products:', error);
+    }
+  };
+
   return (
     <DashboardLayout>
       <div className="space-y-6">
@@ -102,6 +153,28 @@ export default function InventarioDashboard() {
           <h2 className="text-3xl font-bold tracking-tight">Dashboard de Inventario</h2>
           <p className="text-muted-foreground">Visión general del estado del inventario</p>
         </div>
+
+        {/* Alertas de Stock Bajo */}
+        {lowStockProducts.length > 0 && (
+          <Alert variant="destructive">
+            <AlertTriangle className="h-4 w-4" />
+            <AlertTitle>¡Alerta de Stock Bajo!</AlertTitle>
+            <AlertDescription>
+              <div className="mt-2 space-y-1">
+                {lowStockProducts.slice(0, 5).map((product) => (
+                  <div key={product.id} className="text-sm">
+                    <strong>{product.nombre}</strong>: Stock actual {product.stock_actual} (mínimo: {product.stock_minimo})
+                  </div>
+                ))}
+                {lowStockProducts.length > 5 && (
+                  <div className="text-sm mt-2">
+                    ...y {lowStockProducts.length - 5} producto(s) más con stock bajo
+                  </div>
+                )}
+              </div>
+            </AlertDescription>
+          </Alert>
+        )}
 
         {/* Stats Cards */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">

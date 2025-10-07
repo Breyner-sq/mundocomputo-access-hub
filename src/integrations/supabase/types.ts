@@ -88,6 +88,7 @@ export type Database = {
           id: string
           nombre: string
           precio_venta: number
+          stock_minimo: number
           updated_at: string
         }
         Insert: {
@@ -98,6 +99,7 @@ export type Database = {
           id?: string
           nombre: string
           precio_venta: number
+          stock_minimo?: number
           updated_at?: string
         }
         Update: {
@@ -108,6 +110,7 @@ export type Database = {
           id?: string
           nombre?: string
           precio_venta?: number
+          stock_minimo?: number
           updated_at?: string
         }
         Relationships: [

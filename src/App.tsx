@@ -5,11 +5,14 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { AccessibilityMenu } from "@/components/AccessibilityMenu";
+import { ThemeProvider } from "next-themes";
 import Auth from "./pages/Auth";
 import RoleRedirect from "./pages/RoleRedirect";
 import Unauthorized from "./pages/Unauthorized";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import GestionUsuarios from "./pages/admin/GestionUsuarios";
+import Reportes from "./pages/admin/Reportes";
 import TecnicoDashboard from "./pages/tecnico/TecnicoDashboard";
 import VentasDashboard from "./pages/ventas/VentasDashboard";
 import InventarioDashboard from "./pages/inventario/InventarioDashboard";
@@ -22,12 +25,14 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <AuthProvider>
-          <Routes>
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <AuthProvider>
+            <AccessibilityMenu />
+            <Routes>
             <Route path="/" element={<RoleRedirect />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
@@ -46,6 +51,14 @@ const App = () => (
               element={
                 <ProtectedRoute allowedRoles={['administrador']}>
                   <GestionUsuarios />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/reportes"
+              element={
+                <ProtectedRoute allowedRoles={['administrador']}>
+                  <Reportes />
                 </ProtectedRoute>
               }
             />
@@ -140,10 +153,11 @@ const App = () => (
 
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
-          </Routes>
-        </AuthProvider>
-      </BrowserRouter>
-    </TooltipProvider>
+            </Routes>
+          </AuthProvider>
+        </BrowserRouter>
+      </TooltipProvider>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 

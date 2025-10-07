@@ -181,13 +181,15 @@ export default function InventarioCategorias() {
     fetchCategories();
   };
 
-  const handleCloseDialog = () => {
-    setOpen(false);
-    setEditingCategory(null);
-    setFormData({
-      nombre: '',
-      descripcion: '',
-    });
+  const handleCloseDialog = (isOpen: boolean) => {
+    setOpen(isOpen);
+    if (!isOpen) {
+      setEditingCategory(null);
+      setFormData({
+        nombre: '',
+        descripcion: '',
+      });
+    }
   };
 
   const exportToPDF = () => {

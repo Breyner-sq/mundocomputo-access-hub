@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Plus, Package, FileDown } from 'lucide-react';
+import { Plus, Package, FileDown, AlertTriangle } from 'lucide-react';
 import { format } from 'date-fns';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
@@ -34,9 +34,18 @@ interface InventoryBatch {
   };
 }
 
+interface LowStockProduct {
+  id: string;
+  nombre: string;
+  stock_actual: number;
+  stock_minimo: number;
+  categoria: string | null;
+}
+
 export default function InventarioStock() {
   const [batches, setBatches] = useState<InventoryBatch[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
+  const [lowStockProducts, setLowStockProducts] = useState<LowStockProduct[]>([]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [startDate, setStartDate] = useState('');
@@ -57,6 +66,7 @@ export default function InventarioStock() {
     fetchBatches();
     fetchProducts();
     fetchCategories();
+    fetchLowStockProducts();
   }, []);
 
   const fetchBatches = async () => {
@@ -113,6 +123,48 @@ export default function InventarioStock() {
     setCategories(data || []);
   };
 
+  const fetchLowStockProducts = async () => {
+    try {
+      // Obtener todos los productos con su stock mínimo
+      const { data: productos, error: prodError } = await supabase
+        .from('productos')
+        .select('id, nombre, stock_minimo, categorias(nombre)');
+
+      if (prodError) throw prodError;
+
+      // Calcular stock actual por producto
+      const { data: lotes, error: lotesError } = await supabase
+        .from('lotes_inventario')
+        .select('producto_id, cantidad');
+
+      if (lotesError) throw lotesError;
+
+      // Agrupar por producto y sumar cantidades
+      const stockPorProducto: { [key: string]: number } = {};
+      lotes?.forEach((lote: any) => {
+        if (!stockPorProducto[lote.producto_id]) {
+          stockPorProducto[lote.producto_id] = 0;
+        }
+        stockPorProducto[lote.producto_id] += lote.cantidad;
+      });
+
+      // Filtrar productos con stock bajo
+      const productosStockBajo: LowStockProduct[] = productos
+        ?.map((prod: any) => ({
+          id: prod.id,
+          nombre: prod.nombre,
+          stock_actual: stockPorProducto[prod.id] || 0,
+          stock_minimo: prod.stock_minimo,
+          categoria: prod.categorias?.nombre || null,
+        }))
+        .filter((prod) => prod.stock_actual < prod.stock_minimo) || [];
+
+      setLowStockProducts(productosStockBajo);
+    } catch (error) {
+      console.error('Error fetching low stock products:', error);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -153,6 +205,7 @@ export default function InventarioStock() {
     setOpen(false);
     setLoading(false);
     fetchBatches();
+    fetchLowStockProducts();
   };
 
   const getTotalStock = (productId: string) => {
@@ -416,6 +469,56 @@ export default function InventarioStock() {
                       <TableCell>{format(new Date(batch.fecha_ingreso), 'dd/MM/yyyy')}</TableCell>
                       <TableCell className="text-sm text-muted-foreground">
                         {batch.notas || '-'}
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+
+        {/* Tabla de Productos con Stock Bajo */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-destructive" />
+              Productos con Stock Bajo
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Producto</TableHead>
+                  <TableHead>Categoría</TableHead>
+                  <TableHead>Stock Actual</TableHead>
+                  <TableHead>Stock Mínimo</TableHead>
+                  <TableHead>Estado</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {lowStockProducts.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={5} className="text-center text-muted-foreground">
+                      No hay productos con stock bajo
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  lowStockProducts.map((product) => (
+                    <TableRow key={product.id}>
+                      <TableCell className="font-medium">{product.nombre}</TableCell>
+                      <TableCell>{product.categoria || '-'}</TableCell>
+                      <TableCell>
+                        <span className="font-semibold text-destructive">
+                          {product.stock_actual}
+                        </span>
+                      </TableCell>
+                      <TableCell>{product.stock_minimo}</TableCell>
+                      <TableCell>
+                        <span className="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium bg-destructive/10 text-destructive">
+                          Stock Bajo
+                        </span>
                       </TableCell>
                     </TableRow>
                   ))

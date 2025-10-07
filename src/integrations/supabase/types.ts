@@ -38,6 +38,42 @@ export type Database = {
         }
         Relationships: []
       }
+      clientes: {
+        Row: {
+          activo: boolean
+          cedula: string
+          created_at: string
+          direccion: string | null
+          email: string
+          id: string
+          nombre: string
+          telefono: string | null
+          updated_at: string
+        }
+        Insert: {
+          activo?: boolean
+          cedula: string
+          created_at?: string
+          direccion?: string | null
+          email: string
+          id?: string
+          nombre: string
+          telefono?: string | null
+          updated_at?: string
+        }
+        Update: {
+          activo?: boolean
+          cedula?: string
+          created_at?: string
+          direccion?: string | null
+          email?: string
+          id?: string
+          nombre?: string
+          telefono?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       lotes_inventario: {
         Row: {
           cantidad: number
@@ -126,6 +162,7 @@ export type Database = {
       profiles: {
         Row: {
           activo: boolean
+          avatar_url: string | null
           created_at: string | null
           email: string
           id: string
@@ -134,6 +171,7 @@ export type Database = {
         }
         Insert: {
           activo?: boolean
+          avatar_url?: string | null
           created_at?: string | null
           email: string
           id: string
@@ -142,6 +180,7 @@ export type Database = {
         }
         Update: {
           activo?: boolean
+          avatar_url?: string | null
           created_at?: string | null
           email?: string
           id?: string
@@ -167,6 +206,86 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      venta_items: {
+        Row: {
+          cantidad: number
+          created_at: string
+          id: string
+          precio_unitario: number
+          producto_id: string
+          subtotal: number
+          venta_id: string
+        }
+        Insert: {
+          cantidad: number
+          created_at?: string
+          id?: string
+          precio_unitario: number
+          producto_id: string
+          subtotal: number
+          venta_id: string
+        }
+        Update: {
+          cantidad?: number
+          created_at?: string
+          id?: string
+          precio_unitario?: number
+          producto_id?: string
+          subtotal?: number
+          venta_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "venta_items_producto_id_fkey"
+            columns: ["producto_id"]
+            isOneToOne: false
+            referencedRelation: "productos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "venta_items_venta_id_fkey"
+            columns: ["venta_id"]
+            isOneToOne: false
+            referencedRelation: "ventas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ventas: {
+        Row: {
+          cliente_id: string
+          created_at: string
+          fecha: string
+          id: string
+          total: number
+          vendedor_id: string
+        }
+        Insert: {
+          cliente_id: string
+          created_at?: string
+          fecha?: string
+          id?: string
+          total: number
+          vendedor_id: string
+        }
+        Update: {
+          cliente_id?: string
+          created_at?: string
+          fecha?: string
+          id?: string
+          total?: number
+          vendedor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ventas_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "clientes"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {

@@ -1,4 +1,4 @@
-import { Users, Settings, LayoutDashboard, Package, FileText, ShoppingCart, TrendingUp, ChevronRight } from 'lucide-react';
+import { Users, Settings, LayoutDashboard, Package, FileText, ShoppingCart, TrendingUp, ChevronRight, BarChart } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import {
   Sidebar,
@@ -27,18 +27,18 @@ const menuItems = [
     title: 'Inventario', 
     icon: Package, 
     subItems: [
-      { title: 'Dashboard Inventario', url: '/admin/inventario', icon: LayoutDashboard },
+      { title: 'Dashboard', url: '/admin/inventario', icon: LayoutDashboard },
       { title: 'Productos', url: '/admin/inventario/productos', icon: Package },
       { title: 'Categorías', url: '/admin/inventario/categorias', icon: FileText },
-      { title: 'Control de Stock', url: '/admin/inventario/stock', icon: Settings },
+      { title: 'Stock', url: '/admin/inventario/stock', icon: BarChart },
     ]
   },
   { 
     title: 'Ventas', 
     icon: ShoppingCart, 
     subItems: [
-      { title: 'Dashboard Ventas', url: '/admin/ventas', icon: LayoutDashboard },
-      { title: 'Registro de Ventas', url: '/admin/ventas/registro', icon: ShoppingCart },
+      { title: 'Dashboard', url: '/admin/ventas', icon: LayoutDashboard },
+      { title: 'Registro', url: '/admin/ventas/registro', icon: ShoppingCart },
       { title: 'Clientes', url: '/admin/ventas/clientes', icon: Users },
       { title: 'Estadísticas', url: '/admin/ventas/estadisticas', icon: TrendingUp },
     ]

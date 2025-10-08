@@ -1,6 +1,8 @@
+import { useState, useEffect } from 'react';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { LogOut } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { AdminSidebar } from '@/components/sidebars/AdminSidebar';
@@ -8,6 +10,7 @@ import { TecnicoSidebar } from '@/components/sidebars/TecnicoSidebar';
 import { VentasSidebar } from '@/components/sidebars/VentasSidebar';
 import { InventarioSidebar } from '@/components/sidebars/InventarioSidebar';
 import { AdminInventarioSidebar } from '@/components/sidebars/AdminInventarioSidebar';
+import { supabase } from '@/integrations/supabase/client';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -16,6 +19,25 @@ interface DashboardLayoutProps {
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const { role, signOut, user } = useAuth();
   const location = useLocation();
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (user?.id) {
+      fetchAvatar();
+    }
+  }, [user?.id]);
+
+  const fetchAvatar = async () => {
+    const { data } = await supabase
+      .from('profiles')
+      .select('avatar_url')
+      .eq('id', user?.id)
+      .single();
+    
+    if (data?.avatar_url) {
+      setAvatarUrl(data.avatar_url);
+    }
+  };
 
   const getSidebar = () => {
     // Si el admin está en rutas de inventario, mostramos el AdminInventarioSidebar
@@ -48,9 +70,17 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               <h1 className="text-xl font-bold">MundoComputo</h1>
             </div>
             <div className="flex items-center gap-4">
-              <span className="text-sm text-muted-foreground">
-                {user?.email}
-              </span>
+              <div className="flex items-center gap-2">
+                <Avatar className="h-8 w-8">
+                  <AvatarImage src={avatarUrl || undefined} />
+                  <AvatarFallback>
+                    {user?.email?.charAt(0).toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+                <span className="text-sm text-muted-foreground">
+                  {user?.email}
+                </span>
+              </div>
               <Button variant="ghost" size="sm" onClick={signOut}>
                 <LogOut className="h-4 w-4 mr-2" />
                 Cerrar sesión

@@ -27,6 +27,7 @@ export default function GestionUsuarios() {
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState<UserWithRole[]>([]);
   const [deleteUserId, setDeleteUserId] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
   const { toast } = useToast();
 
   const [formData, setFormData] = useState({
@@ -179,6 +180,11 @@ export default function GestionUsuarios() {
     }
   };
 
+  const filteredUsers = users.filter(user =>
+    user.nombre_completo.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    user.email.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <DashboardLayout>
       <div className="space-y-6">
@@ -261,6 +267,13 @@ export default function GestionUsuarios() {
             <CardTitle>Usuarios del Sistema</CardTitle>
           </CardHeader>
           <CardContent>
+            <div className="mb-4">
+              <Input
+                placeholder="Buscar por nombre o correo..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
             <Table>
               <TableHeader>
                 <TableRow>
@@ -273,7 +286,14 @@ export default function GestionUsuarios() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {users.map((user) => (
+                {filteredUsers.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={6} className="text-center text-muted-foreground">
+                      {searchQuery ? 'No se encontraron usuarios' : 'No hay usuarios registrados'}
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  filteredUsers.map((user) => (
                   <TableRow key={user.id}>
                     <TableCell className="font-medium">{user.nombre_completo}</TableCell>
                     <TableCell>{user.email}</TableCell>
@@ -307,7 +327,8 @@ export default function GestionUsuarios() {
                       </div>
                     </TableCell>
                   </TableRow>
-                ))}
+                ))
+                )}
               </TableBody>
             </Table>
           </CardContent>

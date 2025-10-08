@@ -20,6 +20,8 @@ interface Cliente {
   id: string;
   nombre: string;
   email: string;
+  cedula: string;
+  activo: boolean;
 }
 
 interface Producto {
@@ -52,12 +54,14 @@ export default function VentasRegistro() {
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
 
-  const [selectedCliente, setSelectedCliente] = useState('');
+  const [selectedCliente, setSelectedCliente] = useState<Cliente | null>(null);
+  const [cedulaInput, setCedulaInput] = useState('');
   const [items, setItems] = useState<VentaItem[]>([]);
   const [currentItem, setCurrentItem] = useState({
     producto_id: '',
     cantidad: 1,
   });
+  const [searchFilter, setSearchFilter] = useState('');
 
   useEffect(() => {
     fetchClientes();
@@ -69,7 +73,7 @@ export default function VentasRegistro() {
     try {
       const { data, error } = await supabase
         .from('clientes')
-        .select('id, nombre, email')
+        .select('id, nombre, email, cedula, activo')
         .eq('activo', true);
 
       if (error) throw error;
@@ -83,12 +87,18 @@ export default function VentasRegistro() {
     try {
       const { data, error } = await supabase
         .from('productos')
-        .select('id, nombre, precio_venta');
+        .select('id, nombre, precio_venta')
+        .order('nombre');
 
       if (error) throw error;
       setProductos(data || []);
     } catch (error: any) {
       console.error('Error fetching products:', error);
+      toast({
+        title: 'Error',
+        description: 'No se pudieron cargar los productos',
+        variant: 'destructive',
+      });
     }
   };
 
@@ -145,6 +155,43 @@ export default function VentasRegistro() {
     return items.reduce((sum, item) => sum + item.subtotal, 0);
   };
 
+  const handleClientSearch = async () => {
+    if (!cedulaInput.trim()) {
+      toast({
+        title: 'Error',
+        description: 'Ingrese una cédula para buscar',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    const cliente = clientes.find(c => c.cedula === cedulaInput.trim());
+    
+    if (!cliente) {
+      toast({
+        title: 'Cliente no encontrado',
+        description: 'No se encontró un cliente con esa cédula',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (!cliente.activo) {
+      toast({
+        title: 'Cliente inactivo',
+        description: 'Este cliente está inactivo',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setSelectedCliente(cliente);
+    toast({
+      title: 'Cliente encontrado',
+      description: `Cliente: ${cliente.nombre}`,
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -165,7 +212,7 @@ export default function VentasRegistro() {
       const { data: venta, error: ventaError } = await supabase
         .from('ventas')
         .insert([{
-          cliente_id: selectedCliente,
+          cliente_id: selectedCliente.id,
           vendedor_id: user?.id,
           total,
         }])
@@ -185,10 +232,7 @@ export default function VentasRegistro() {
 
       if (itemsError) throw itemsError;
 
-      const cliente = clientes.find(c => c.id === selectedCliente);
-      if (cliente) {
-        await sendInvoice(venta.id, cliente, items, total);
-      }
+      await sendInvoice(venta.id, selectedCliente, items, total);
 
       toast({
         title: 'Venta registrada',
@@ -267,10 +311,17 @@ export default function VentasRegistro() {
 
   const handleCloseDialog = () => {
     setOpen(false);
-    setSelectedCliente('');
+    setSelectedCliente(null);
+    setCedulaInput('');
     setItems([]);
     setCurrentItem({ producto_id: '', cantidad: 1 });
   };
+
+  const filteredVentas = ventas.filter(venta => {
+    const cliente = clientes.find(c => c.id === venta.cliente_id);
+    return cliente?.nombre.toLowerCase().includes(searchFilter.toLowerCase()) ||
+           cliente?.cedula.toLowerCase().includes(searchFilter.toLowerCase());
+  });
 
   return (
     <DashboardLayout>
@@ -296,21 +347,41 @@ export default function VentasRegistro() {
                 <DialogHeader>
                   <DialogTitle>Registrar Nueva Venta</DialogTitle>
                 </DialogHeader>
-                <form onSubmit={handleSubmit} className="space-y-4">
+                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="space-y-2">
-                    <Label>Cliente</Label>
-                    <Select value={selectedCliente} onValueChange={setSelectedCliente} required>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Seleccione un cliente" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {clientes.map((cliente) => (
-                          <SelectItem key={cliente.id} value={cliente.id}>
-                            {cliente.nombre}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <Label>Buscar Cliente por Cédula</Label>
+                    <div className="flex gap-2">
+                      <Input
+                        placeholder="Ingrese la cédula del cliente"
+                        value={cedulaInput}
+                        onChange={(e) => setCedulaInput(e.target.value)}
+                        disabled={!!selectedCliente}
+                      />
+                      {!selectedCliente ? (
+                        <Button type="button" onClick={handleClientSearch}>
+                          Buscar
+                        </Button>
+                      ) : (
+                        <Button 
+                          type="button" 
+                          variant="outline" 
+                          onClick={() => {
+                            setSelectedCliente(null);
+                            setCedulaInput('');
+                          }}
+                        >
+                          Cambiar
+                        </Button>
+                      )}
+                    </div>
+                    {selectedCliente && (
+                      <div className="p-3 bg-muted rounded-md">
+                        <p className="font-medium">{selectedCliente.nombre}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {selectedCliente.email} - {selectedCliente.cedula}
+                        </p>
+                      </div>
+                    )}
                   </div>
 
                   <Card>
@@ -414,6 +485,13 @@ export default function VentasRegistro() {
             <CardTitle>Ventas Realizadas</CardTitle>
           </CardHeader>
           <CardContent>
+            <div className="mb-4">
+              <Input
+                placeholder="Filtrar por cliente (nombre o cédula)..."
+                value={searchFilter}
+                onChange={(e) => setSearchFilter(e.target.value)}
+              />
+            </div>
             <Table>
               <TableHeader>
                 <TableRow>
@@ -424,14 +502,14 @@ export default function VentasRegistro() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {ventas.length === 0 ? (
+                {filteredVentas.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={4} className="text-center text-muted-foreground">
-                      {loading ? 'Cargando...' : 'No hay ventas registradas'}
+                      {loading ? 'Cargando...' : searchFilter ? 'No se encontraron ventas' : 'No hay ventas registradas'}
                     </TableCell>
                   </TableRow>
                 ) : (
-                  ventas.map((venta) => {
+                  filteredVentas.map((venta) => {
                     const cliente = clientes.find(c => c.id === venta.cliente_id);
                     return (
                       <TableRow key={venta.id}>

@@ -1,4 +1,4 @@
-import { Users, Settings, LayoutDashboard, Package, FileText } from 'lucide-react';
+import { Users, Settings, LayoutDashboard, Package, FileText, ShoppingCart, TrendingUp, ChevronRight } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import {
   Sidebar,
@@ -9,13 +9,31 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubItem,
+  SidebarMenuSubButton,
   useSidebar,
 } from '@/components/ui/sidebar';
+import {
+  Collapsible,
+  CollapsibleTrigger,
+  CollapsibleContent,
+} from '@/components/ui/collapsible';
 
 const menuItems = [
   { title: 'Dashboard', url: '/admin', icon: LayoutDashboard },
   { title: 'Gestionar Usuarios', url: '/admin/usuarios', icon: Users },
   { title: 'Inventario', url: '/admin/inventario', icon: Package },
+  { 
+    title: 'Ventas', 
+    icon: ShoppingCart, 
+    subItems: [
+      { title: 'Dashboard Ventas', url: '/admin/ventas', icon: LayoutDashboard },
+      { title: 'Registro de Ventas', url: '/admin/ventas/registro', icon: ShoppingCart },
+      { title: 'Clientes', url: '/admin/ventas/clientes', icon: Users },
+      { title: 'Estadísticas', url: '/admin/ventas/estadisticas', icon: TrendingUp },
+    ]
+  },
   { title: 'Reportes', url: '/admin/reportes', icon: FileText },
   { title: 'Configuración', url: '/configuracion/perfil', icon: Settings },
 ];
@@ -38,24 +56,62 @@ export function AdminSidebar() {
           <SidebarGroupLabel>Administrador</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {menuItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <NavLink
-                      to={item.url}
-                      end
-                      className={({ isActive }) =>
-                        isActive
-                          ? 'bg-primary/10 text-primary font-medium'
-                          : 'hover:bg-muted/50'
-                      }
-                    >
-                      <item.icon className="h-4 w-4" />
-                      {!isCollapsed && <span>{item.title}</span>}
-                    </NavLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {menuItems.map((item) => 
+                item.subItems ? (
+                  <Collapsible key={item.title} className="group/collapsible">
+                    <SidebarMenuItem>
+                      <CollapsibleTrigger asChild>
+                        <SidebarMenuButton>
+                          <item.icon className="h-4 w-4" />
+                          {!isCollapsed && <span>{item.title}</span>}
+                          {!isCollapsed && <ChevronRight className="ml-auto h-4 w-4 transition-transform group-data-[state=open]/collapsible:rotate-90" />}
+                        </SidebarMenuButton>
+                      </CollapsibleTrigger>
+                      {!isCollapsed && (
+                        <CollapsibleContent>
+                          <SidebarMenuSub>
+                            {item.subItems.map((subItem) => (
+                              <SidebarMenuSubItem key={subItem.title}>
+                                <SidebarMenuSubButton asChild>
+                                  <NavLink
+                                    to={subItem.url}
+                                    end
+                                    className={({ isActive }) =>
+                                      isActive
+                                        ? 'bg-primary/10 text-primary font-medium'
+                                        : 'hover:bg-muted/50'
+                                    }
+                                  >
+                                    <subItem.icon className="h-4 w-4" />
+                                    <span>{subItem.title}</span>
+                                  </NavLink>
+                                </SidebarMenuSubButton>
+                              </SidebarMenuSubItem>
+                            ))}
+                          </SidebarMenuSub>
+                        </CollapsibleContent>
+                      )}
+                    </SidebarMenuItem>
+                  </Collapsible>
+                ) : (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <NavLink
+                        to={item.url}
+                        end
+                        className={({ isActive }) =>
+                          isActive
+                            ? 'bg-primary/10 text-primary font-medium'
+                            : 'hover:bg-muted/50'
+                        }
+                      >
+                        <item.icon className="h-4 w-4" />
+                        {!isCollapsed && <span>{item.title}</span>}
+                      </NavLink>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                )
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

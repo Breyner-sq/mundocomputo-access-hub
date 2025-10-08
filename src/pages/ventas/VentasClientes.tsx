@@ -27,6 +27,7 @@ export default function VentasClientes() {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [editingCliente, setEditingCliente] = useState<Cliente | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
   const { toast } = useToast();
 
   const [formData, setFormData] = useState({
@@ -179,6 +180,11 @@ export default function VentasClientes() {
     });
   };
 
+  const filteredClientes = clientes.filter(cliente =>
+    cliente.nombre.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    cliente.cedula.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <DashboardLayout>
       <div className="space-y-6">
@@ -261,6 +267,13 @@ export default function VentasClientes() {
             <CardTitle>Lista de Clientes</CardTitle>
           </CardHeader>
           <CardContent>
+            <div className="mb-4">
+              <Input
+                placeholder="Buscar por nombre o cédula..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
             <Table>
               <TableHeader>
                 <TableRow>
@@ -273,14 +286,14 @@ export default function VentasClientes() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {clientes.length === 0 ? (
+                {filteredClientes.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={6} className="text-center text-muted-foreground">
-                      {loading ? 'Cargando...' : 'No hay clientes registrados'}
+                      {loading ? 'Cargando...' : searchQuery ? 'No se encontraron clientes' : 'No hay clientes registrados'}
                     </TableCell>
                   </TableRow>
                 ) : (
-                  clientes.map((cliente) => (
+                  filteredClientes.map((cliente) => (
                     <TableRow key={cliente.id}>
                       <TableCell className="font-medium">{cliente.nombre}</TableCell>
                       <TableCell>{cliente.email}</TableCell>

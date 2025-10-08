@@ -28,6 +28,7 @@ export default function InventarioCategorias() {
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
   const { toast } = useToast();
 
   const [formData, setFormData] = useState({
@@ -192,6 +193,10 @@ export default function InventarioCategorias() {
     }
   };
 
+  const filteredCategories = categories.filter(category =>
+    category.nombre.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   const exportToPDF = () => {
     const doc = new jsPDF();
     
@@ -288,6 +293,13 @@ export default function InventarioCategorias() {
             </CardTitle>
           </CardHeader>
           <CardContent>
+            <div className="mb-4">
+              <Input
+                placeholder="Buscar categoría por nombre..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
             <Table>
               <TableHeader>
                 <TableRow>
@@ -298,14 +310,14 @@ export default function InventarioCategorias() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {categories.length === 0 ? (
+                {filteredCategories.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={4} className="text-center text-muted-foreground">
-                      No hay categorías registradas
+                      {searchQuery ? 'No se encontraron categorías' : 'No hay categorías registradas'}
                     </TableCell>
                   </TableRow>
                 ) : (
-                  categories.map((category) => (
+                  filteredCategories.map((category) => (
                     <TableRow key={category.id}>
                       <TableCell className="font-medium">{category.nombre}</TableCell>
                       <TableCell className="text-sm text-muted-foreground">

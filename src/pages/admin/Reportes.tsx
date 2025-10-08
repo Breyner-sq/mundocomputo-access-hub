@@ -11,7 +11,7 @@ import { es } from 'date-fns/locale';
 
 interface AuthLog {
   id: string;
-  timestamp: number;
+  timestamp: string;
   email: string;
   ip_address: string;
   event: string;
@@ -73,13 +73,13 @@ export default function Reportes() {
 
           return {
             id: log.id || `${index}`,
-            timestamp: log.timestamp / 1000 || Date.now(),
+            timestamp: new Date((log.timestamp / 1000) || Date.now()).toISOString(),
             email,
             ip_address: ipAddress,
             event: 'login',
           };
         })
-        .sort((a: AuthLog, b: AuthLog) => b.timestamp - a.timestamp)
+        .sort((a: AuthLog, b: AuthLog) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
         .slice(0, 100);
 
       setAuthLogs(parsedLogs);

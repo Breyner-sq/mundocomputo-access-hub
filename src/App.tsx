@@ -67,6 +67,12 @@ const App = () => (
               }
             />
             
+            {/* Admin Ventas Routes */}
+            <Route path="/admin/ventas" element={<ProtectedRoute allowedRoles={['administrador']}><VentasDashboard /></ProtectedRoute>} />
+            <Route path="/admin/ventas/registro" element={<ProtectedRoute allowedRoles={['administrador']}><VentasRegistro /></ProtectedRoute>} />
+            <Route path="/admin/ventas/clientes" element={<ProtectedRoute allowedRoles={['administrador']}><VentasClientes /></ProtectedRoute>} />
+            <Route path="/admin/ventas/estadisticas" element={<ProtectedRoute allowedRoles={['administrador']}><VentasEstadisticas /></ProtectedRoute>} />
+            
             {/* Tecnico Routes */}
             <Route
               path="/tecnico"

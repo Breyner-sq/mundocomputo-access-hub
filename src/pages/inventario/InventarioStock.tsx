@@ -52,6 +52,8 @@ export default function InventarioStock() {
   const [endDate, setEndDate] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [categories, setCategories] = useState<{ id: string; nombre: string }[]>([]);
+  const [searchBatches, setSearchBatches] = useState('');
+  const [searchLowStock, setSearchLowStock] = useState('');
   const { toast } = useToast();
 
   const [formData, setFormData] = useState({
@@ -278,6 +280,14 @@ export default function InventarioStock() {
     });
   };
 
+  const filteredBatches = batches.filter(batch =>
+    batch.productos.nombre.toLowerCase().includes(searchBatches.toLowerCase())
+  );
+
+  const filteredLowStock = lowStockProducts.filter(product =>
+    product.nombre.toLowerCase().includes(searchLowStock.toLowerCase())
+  );
+
   return (
     <DashboardLayout>
       <div className="space-y-6">
@@ -441,6 +451,13 @@ export default function InventarioStock() {
             </CardTitle>
           </CardHeader>
           <CardContent>
+            <div className="mb-4">
+              <Input
+                placeholder="Buscar lote por producto..."
+                value={searchBatches}
+                onChange={(e) => setSearchBatches(e.target.value)}
+              />
+            </div>
             <Table>
               <TableHeader>
                 <TableRow>
@@ -452,14 +469,14 @@ export default function InventarioStock() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {batches.length === 0 ? (
+                {filteredBatches.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={5} className="text-center text-muted-foreground">
-                      No hay lotes registrados
+                      {searchBatches ? 'No se encontraron lotes' : 'No hay lotes registrados'}
                     </TableCell>
                   </TableRow>
                 ) : (
-                  batches.map((batch) => (
+                  filteredBatches.map((batch) => (
                     <TableRow key={batch.id}>
                       <TableCell className="font-medium">
                         {batch.productos.nombre}
@@ -487,6 +504,13 @@ export default function InventarioStock() {
             </CardTitle>
           </CardHeader>
           <CardContent>
+            <div className="mb-4">
+              <Input
+                placeholder="Buscar producto con stock bajo..."
+                value={searchLowStock}
+                onChange={(e) => setSearchLowStock(e.target.value)}
+              />
+            </div>
             <Table>
               <TableHeader>
                 <TableRow>
@@ -498,14 +522,14 @@ export default function InventarioStock() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {lowStockProducts.length === 0 ? (
+                {filteredLowStock.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={5} className="text-center text-muted-foreground">
-                      No hay productos con stock bajo
+                      {searchLowStock ? 'No se encontraron productos' : 'No hay productos con stock bajo'}
                     </TableCell>
                   </TableRow>
                 ) : (
-                  lowStockProducts.map((product) => (
+                  filteredLowStock.map((product) => (
                     <TableRow key={product.id}>
                       <TableCell className="font-medium">{product.nombre}</TableCell>
                       <TableCell>{product.categoria || '-'}</TableCell>

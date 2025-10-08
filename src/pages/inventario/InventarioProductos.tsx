@@ -37,6 +37,7 @@ export default function InventarioProductos() {
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
   const { toast } = useToast();
 
   const [formData, setFormData] = useState({
@@ -244,6 +245,10 @@ export default function InventarioProductos() {
     }
   };
 
+  const filteredProducts = products.filter(product =>
+    product.nombre.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   const exportToPDF = () => {
     const doc = new jsPDF();
     
@@ -402,6 +407,13 @@ export default function InventarioProductos() {
             </CardTitle>
           </CardHeader>
           <CardContent>
+            <div className="mb-4">
+              <Input
+                placeholder="Buscar producto por nombre..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
             <Table>
               <TableHeader>
                 <TableRow>
@@ -414,14 +426,14 @@ export default function InventarioProductos() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {products.length === 0 ? (
+                {filteredProducts.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={6} className="text-center text-muted-foreground">
-                      No hay productos registrados
+                      {searchQuery ? 'No se encontraron productos' : 'No hay productos registrados'}
                     </TableCell>
                   </TableRow>
                 ) : (
-                  products.map((product) => (
+                  filteredProducts.map((product) => (
                     <TableRow key={product.id}>
                       <TableCell className="font-medium">{product.nombre}</TableCell>
                       <TableCell className="text-sm text-muted-foreground">

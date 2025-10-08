@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
-import { ShoppingCart, FileDown, Download } from 'lucide-react';
+import { ShoppingCart, FileDown, Download, FileText } from 'lucide-react';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import jsPDF from 'jspdf';
@@ -43,6 +43,9 @@ interface Venta {
   vendedor_id: string;
   total: number;
   fecha: string;
+  vendedor?: {
+    nombre_completo: string;
+  };
 }
 
 export default function VentasRegistro() {
@@ -107,7 +110,15 @@ export default function VentasRegistro() {
     try {
       const { data, error } = await supabase
         .from('ventas')
-        .select('id, cliente_id, vendedor_id, total, fecha, created_at')
+        .select(`
+          id, 
+          cliente_id, 
+          vendedor_id, 
+          total, 
+          fecha, 
+          created_at,
+          vendedor:profiles!ventas_vendedor_id_fkey(nombre_completo)
+        `)
         .order('fecha', { ascending: false });
 
       if (error) throw error;
@@ -279,6 +290,81 @@ export default function VentasRegistro() {
     }
   };
 
+  const generateInvoice = async (ventaId: string) => {
+    try {
+      const { data: venta, error: ventaError } = await supabase
+        .from('ventas')
+        .select(`
+          *,
+          vendedor:profiles!ventas_vendedor_id_fkey(nombre_completo)
+        `)
+        .eq('id', ventaId)
+        .single();
+
+      if (ventaError) throw ventaError;
+
+      const { data: items, error: itemsError } = await supabase
+        .from('venta_items')
+        .select(`
+          *,
+          producto:productos(nombre)
+        `)
+        .eq('venta_id', ventaId);
+
+      if (itemsError) throw itemsError;
+
+      const cliente = clientes.find(c => c.id === venta.cliente_id);
+
+      const doc = new jsPDF();
+      
+      doc.setFontSize(20);
+      doc.text('FACTURA DE VENTA', 105, 20, { align: 'center' });
+      
+      doc.setFontSize(12);
+      doc.text(`Factura No: ${ventaId.substring(0, 8).toUpperCase()}`, 14, 40);
+      doc.text(`Fecha: ${format(new Date(venta.fecha), 'dd/MM/yyyy HH:mm', { locale: es })}`, 14, 48);
+      
+      doc.text('CLIENTE:', 14, 62);
+      doc.setFontSize(10);
+      doc.text(`Nombre: ${cliente?.nombre || 'N/A'}`, 14, 70);
+      doc.text(`Cédula: ${cliente?.cedula || 'N/A'}`, 14, 76);
+      doc.text(`Email: ${cliente?.email || 'N/A'}`, 14, 82);
+      
+      doc.setFontSize(12);
+      doc.text('VENDEDOR:', 14, 96);
+      doc.setFontSize(10);
+      doc.text(`${venta.vendedor?.nombre_completo || 'N/A'}`, 14, 104);
+
+      const tableData = items.map(item => [
+        item.producto?.nombre || 'N/A',
+        item.cantidad.toString(),
+        `$${item.precio_unitario.toFixed(2)}`,
+        `$${item.subtotal.toFixed(2)}`,
+      ]);
+
+      autoTable(doc, {
+        head: [['Producto', 'Cantidad', 'Precio Unit.', 'Subtotal']],
+        body: tableData,
+        startY: 115,
+        foot: [['', '', 'TOTAL:', `$${venta.total.toFixed(2)}`]],
+        footStyles: { fontStyle: 'bold', fillColor: [240, 240, 240] },
+      });
+
+      doc.save(`factura-${ventaId.substring(0, 8)}.pdf`);
+
+      toast({
+        title: 'Factura generada',
+        description: 'La factura ha sido descargada',
+      });
+    } catch (error: any) {
+      toast({
+        title: 'Error',
+        description: 'No se pudo generar la factura',
+        variant: 'destructive',
+      });
+    }
+  };
+
   const exportSalesReport = async () => {
     const doc = new jsPDF();
     
@@ -290,7 +376,7 @@ export default function VentasRegistro() {
       return [
         format(new Date(venta.fecha), 'dd/MM/yyyy HH:mm', { locale: es }),
         cliente?.nombre || 'N/A',
-        'Vendedor',
+        venta.vendedor?.nombre_completo || 'N/A',
         `$${venta.total.toFixed(2)}`,
       ];
     });
@@ -499,12 +585,13 @@ export default function VentasRegistro() {
                   <TableHead>Cliente</TableHead>
                   <TableHead>Vendedor</TableHead>
                   <TableHead>Total</TableHead>
+                  <TableHead>Acciones</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filteredVentas.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={4} className="text-center text-muted-foreground">
+                    <TableCell colSpan={5} className="text-center text-muted-foreground">
                       {loading ? 'Cargando...' : searchFilter ? 'No se encontraron ventas' : 'No hay ventas registradas'}
                     </TableCell>
                   </TableRow>
@@ -517,8 +604,18 @@ export default function VentasRegistro() {
                           {format(new Date(venta.fecha), 'dd/MM/yyyy HH:mm', { locale: es })}
                         </TableCell>
                         <TableCell>{cliente?.nombre || 'N/A'}</TableCell>
-                        <TableCell>Vendedor</TableCell>
+                        <TableCell>{venta.vendedor?.nombre_completo || 'N/A'}</TableCell>
                         <TableCell className="font-medium">${venta.total.toFixed(2)}</TableCell>
+                        <TableCell>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => generateInvoice(venta.id)}
+                          >
+                            <FileText className="h-4 w-4 mr-2" />
+                            Ver Factura
+                          </Button>
+                        </TableCell>
                       </TableRow>
                     );
                   })

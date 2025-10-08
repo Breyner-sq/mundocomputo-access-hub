@@ -1,4 +1,4 @@
-import { ShoppingCart, Users, LayoutDashboard, TrendingUp, Settings } from 'lucide-react';
+import { ShoppingCart, Users, LayoutDashboard, TrendingUp, Settings, Package, ClipboardCheck } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import {
   Sidebar,
@@ -17,6 +17,8 @@ const menuItems = [
   { title: 'Ventas', url: '/ventas/registro', icon: ShoppingCart },
   { title: 'Clientes', url: '/ventas/clientes', icon: Users },
   { title: 'Estadísticas', url: '/ventas/estadisticas', icon: TrendingUp },
+  { title: 'Productos', url: '/ventas/productos', icon: Package },
+  { title: 'Stock', url: '/ventas/stock', icon: ClipboardCheck },
   { title: 'Configuración', url: '/configuracion/perfil', icon: Settings },
 ];
 

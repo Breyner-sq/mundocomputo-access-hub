@@ -43,7 +43,7 @@ const menuItems = [
       { title: 'Estadísticas', url: '/admin/ventas/estadisticas', icon: TrendingUp },
     ]
   },
-  { title: 'Reportes', url: '/admin/reportes', icon: FileText },
+  { title: 'Registros de Autentificación', url: '/admin/auth-logs', icon: FileText },
   { title: 'Configuración', url: '/configuracion/perfil', icon: Settings },
 ];
 

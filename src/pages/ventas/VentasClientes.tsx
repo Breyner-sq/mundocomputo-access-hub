@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Badge } from '@/components/ui/badge';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { UserPlus, Pencil, Trash2, Search, XCircle, CheckCircle, FileDown } from 'lucide-react';
+import { UserPlus, Pencil, Trash2, Search, XCircle, CheckCircle, FileDown, FileText } from 'lucide-react';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { format } from 'date-fns';
@@ -298,12 +298,19 @@ export default function VentasClientes() {
 
     autoTable(doc, {
       startY: 58,
-      head: [['Fecha', 'Hora', 'Total']],
-      body: ventasCliente.map(venta => [
-        format(new Date(venta.fecha), 'dd/MM/yyyy', { locale: es }),
-        format(new Date(venta.fecha), 'HH:mm', { locale: es }),
-        `$${Number(venta.total).toFixed(2)}`,
-      ]),
+      head: [['Fecha', 'Hora', 'Productos', 'Total']],
+      body: ventasCliente.map(venta => {
+        const productosVendidos = venta.items?.map(item => 
+          `${item.producto?.nombre || 'N/A'} (${item.cantidad})`
+        ).join(', ') || 'N/A';
+        
+        return [
+          format(new Date(venta.fecha), 'dd/MM/yyyy', { locale: es }),
+          format(new Date(venta.fecha), 'HH:mm', { locale: es }),
+          productosVendidos,
+          `$${Number(venta.total).toFixed(2)}`,
+        ];
+      }),
     });
 
     doc.save(`ventas_${clienteEncontrado.cedula}_${Date.now()}.pdf`);
@@ -311,6 +318,45 @@ export default function VentasClientes() {
     toast({
       title: 'PDF generado',
       description: 'El reporte ha sido descargado correctamente',
+    });
+  };
+
+  const exportarTodosClientesPDF = () => {
+    if (clientes.length === 0) {
+      toast({
+        title: 'Error',
+        description: 'No hay clientes para exportar',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    const doc = new jsPDF();
+    
+    doc.setFontSize(18);
+    doc.text('Reporte de Todos los Clientes', 14, 20);
+    
+    doc.setFontSize(11);
+    doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 14, 28);
+    doc.text(`Total de clientes: ${clientes.length}`, 14, 35);
+
+    autoTable(doc, {
+      startY: 42,
+      head: [['Nombre', 'Email', 'Cédula', 'Teléfono', 'Estado']],
+      body: clientes.map(cliente => [
+        cliente.nombre,
+        cliente.email,
+        cliente.cedula,
+        cliente.telefono || '-',
+        cliente.activo ? 'Activo' : 'Inactivo'
+      ]),
+    });
+
+    doc.save(`clientes_${new Date().toISOString().split('T')[0]}.pdf`);
+
+    toast({
+      title: 'PDF generado',
+      description: 'El reporte de todos los clientes ha sido descargado',
     });
   };
 
@@ -323,6 +369,10 @@ export default function VentasClientes() {
             <p className="text-muted-foreground">Gestiona la información de tus clientes</p>
           </div>
           <div className="flex gap-2">
+            <Button variant="outline" onClick={exportarTodosClientesPDF}>
+              <FileText className="mr-2 h-4 w-4" />
+              Exportar Todos (PDF)
+            </Button>
             <Dialog open={searchCedulaDialog} onOpenChange={setSearchCedulaDialog}>
               <DialogTrigger asChild>
                 <Button variant="outline">

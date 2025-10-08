@@ -12,12 +12,14 @@ import RoleRedirect from "./pages/RoleRedirect";
 import Unauthorized from "./pages/Unauthorized";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import GestionUsuarios from "./pages/admin/GestionUsuarios";
-import Reportes from "./pages/admin/Reportes";
+import AuthLogs from "./pages/admin/AuthLogs";
 import TecnicoDashboard from "./pages/tecnico/TecnicoDashboard";
 import VentasDashboard from "./pages/ventas/VentasDashboard";
 import VentasRegistro from "./pages/ventas/VentasRegistro";
 import VentasClientes from "./pages/ventas/VentasClientes";
 import VentasEstadisticas from "./pages/ventas/VentasEstadisticas";
+import VentasProductos from "./pages/ventas/VentasProductos";
+import VentasStock from "./pages/ventas/VentasStock";
 import InventarioDashboard from "./pages/inventario/InventarioDashboard";
 import InventarioProductos from "./pages/inventario/InventarioProductos";
 import InventarioCategorias from "./pages/inventario/InventarioCategorias";
@@ -59,10 +61,10 @@ const App = () => (
               }
             />
             <Route
-              path="/admin/reportes"
+              path="/admin/auth-logs"
               element={
                 <ProtectedRoute allowedRoles={['administrador']}>
-                  <Reportes />
+                  <AuthLogs />
                 </ProtectedRoute>
               }
             />
@@ -113,6 +115,22 @@ const App = () => (
               element={
                 <ProtectedRoute allowedRoles={['ventas', 'administrador']}>
                   <VentasEstadisticas />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/ventas/productos"
+              element={
+                <ProtectedRoute allowedRoles={['ventas', 'administrador']}>
+                  <VentasProductos />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/ventas/stock"
+              element={
+                <ProtectedRoute allowedRoles={['ventas', 'administrador']}>
+                  <VentasStock />
                 </ProtectedRoute>
               }
             />

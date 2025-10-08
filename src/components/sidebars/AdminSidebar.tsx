@@ -24,16 +24,6 @@ const menuItems = [
   { title: 'Dashboard', url: '/admin', icon: LayoutDashboard },
   { title: 'Gestionar Usuarios', url: '/admin/usuarios', icon: Users },
   { 
-    title: 'Inventario', 
-    icon: Package, 
-    subItems: [
-      { title: 'Dashboard', url: '/admin/inventario', icon: LayoutDashboard },
-      { title: 'Productos', url: '/admin/inventario/productos', icon: Package },
-      { title: 'Categorías', url: '/admin/inventario/categorias', icon: FileText },
-      { title: 'Stock', url: '/admin/inventario/stock', icon: BarChart },
-    ]
-  },
-  { 
     title: 'Ventas', 
     icon: ShoppingCart, 
     subItems: [

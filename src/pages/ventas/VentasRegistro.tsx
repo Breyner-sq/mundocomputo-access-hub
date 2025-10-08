@@ -28,6 +28,7 @@ interface Producto {
   id: string;
   nombre: string;
   precio_venta: number;
+  stock_actual?: number;
 }
 
 interface VentaItem {
@@ -46,6 +47,12 @@ interface Venta {
   vendedor?: {
     nombre_completo: string;
   };
+  items?: Array<{
+    cantidad: number;
+    producto?: {
+      nombre: string;
+    };
+  }>;
 }
 
 export default function VentasRegistro() {
@@ -88,13 +95,29 @@ export default function VentasRegistro() {
 
   const fetchProductos = async () => {
     try {
-      const { data, error } = await supabase
+      const { data: productosData, error: productosError } = await supabase
         .from('productos')
         .select('id, nombre, precio_venta')
         .order('nombre');
 
-      if (error) throw error;
-      setProductos(data || []);
+      if (productosError) throw productosError;
+
+      // Fetch stock for each product
+      const { data: lotesData, error: lotesError } = await supabase
+        .from('lotes_inventario')
+        .select('producto_id, cantidad');
+
+      if (lotesError) throw lotesError;
+
+      // Calculate total stock for each product
+      const productosConStock = (productosData || []).map(producto => {
+        const stock_actual = (lotesData || [])
+          .filter(lote => lote.producto_id === producto.id)
+          .reduce((sum, lote) => sum + lote.cantidad, 0);
+        return { ...producto, stock_actual };
+      });
+
+      setProductos(productosConStock);
     } catch (error: any) {
       console.error('Error fetching products:', error);
       toast({
@@ -108,7 +131,7 @@ export default function VentasRegistro() {
   const fetchVentas = async () => {
     setLoading(true);
     try {
-      const { data, error } = await supabase
+      const { data: ventasData, error: ventasError } = await supabase
         .from('ventas')
         .select(`
           id, 
@@ -121,8 +144,27 @@ export default function VentasRegistro() {
         `)
         .order('fecha', { ascending: false });
 
-      if (error) throw error;
-      setVentas(data || []);
+      if (ventasError) throw ventasError;
+
+      // Fetch items for each venta
+      const ventasConItems = await Promise.all(
+        (ventasData || []).map(async (venta) => {
+          const { data: itemsData } = await supabase
+            .from('venta_items')
+            .select(`
+              cantidad,
+              producto:productos(nombre)
+            `)
+            .eq('venta_id', venta.id);
+
+          return {
+            ...venta,
+            items: itemsData || []
+          };
+        })
+      );
+
+      setVentas(ventasConItems);
     } catch (error: any) {
       toast({
         title: 'Error',
@@ -146,6 +188,32 @@ export default function VentasRegistro() {
 
     const producto = productos.find(p => p.id === currentItem.producto_id);
     if (!producto) return;
+
+    // Verificar stock disponible
+    const stockDisponible = producto.stock_actual || 0;
+    const cantidadYaEnItems = items
+      .filter(item => item.producto_id === currentItem.producto_id)
+      .reduce((sum, item) => sum + item.cantidad, 0);
+    
+    const stockRestante = stockDisponible - cantidadYaEnItems;
+
+    if (stockRestante <= 0) {
+      toast({
+        title: 'Sin stock',
+        description: `No hay stock disponible de ${producto.nombre}`,
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (currentItem.cantidad > stockRestante) {
+      toast({
+        title: 'Stock insuficiente',
+        description: `Solo hay ${stockRestante} unidades disponibles de ${producto.nombre}`,
+        variant: 'destructive',
+      });
+      return;
+    }
 
     const newItem: VentaItem = {
       producto_id: currentItem.producto_id,
@@ -243,15 +311,21 @@ export default function VentasRegistro() {
 
       if (itemsError) throw itemsError;
 
+      // Descontar del inventario
+      for (const item of items) {
+        await descontarInventario(item.producto_id, item.cantidad);
+      }
+
       await sendInvoice(venta.id, selectedCliente, items, total);
 
       toast({
         title: 'Venta registrada',
-        description: 'La venta ha sido registrada y la factura enviada por correo',
+        description: 'La venta ha sido registrada y el inventario actualizado',
       });
 
       handleCloseDialog();
       fetchVentas();
+      fetchProductos(); // Actualizar stock
     } catch (error: any) {
       toast({
         title: 'Error',
@@ -260,6 +334,41 @@ export default function VentasRegistro() {
       });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const descontarInventario = async (productoId: string, cantidadVendida: number) => {
+    try {
+      // Obtener lotes del producto ordenados por fecha (FIFO)
+      const { data: lotes, error: lotesError } = await supabase
+        .from('lotes_inventario')
+        .select('*')
+        .eq('producto_id', productoId)
+        .gt('cantidad', 0)
+        .order('fecha_ingreso', { ascending: true });
+
+      if (lotesError) throw lotesError;
+
+      let cantidadRestante = cantidadVendida;
+
+      for (const lote of lotes || []) {
+        if (cantidadRestante <= 0) break;
+
+        const cantidadADescontar = Math.min(lote.cantidad, cantidadRestante);
+        const nuevaCantidad = lote.cantidad - cantidadADescontar;
+
+        const { error: updateError } = await supabase
+          .from('lotes_inventario')
+          .update({ cantidad: nuevaCantidad })
+          .eq('id', lote.id);
+
+        if (updateError) throw updateError;
+
+        cantidadRestante -= cantidadADescontar;
+      }
+    } catch (error: any) {
+      console.error('Error descontando inventario:', error);
+      throw error;
     }
   };
 
@@ -487,8 +596,15 @@ export default function VentasRegistro() {
                             </SelectTrigger>
                             <SelectContent>
                               {productos.map((producto) => (
-                                <SelectItem key={producto.id} value={producto.id}>
-                                  {producto.nombre} - ${producto.precio_venta}
+                                <SelectItem 
+                                  key={producto.id} 
+                                  value={producto.id}
+                                  disabled={(producto.stock_actual || 0) <= 0}
+                                >
+                                  {producto.nombre} - ${producto.precio_venta} 
+                                  {(producto.stock_actual || 0) > 0 
+                                    ? ` (Stock: ${producto.stock_actual})` 
+                                    : ' (Sin stock)'}
                                 </SelectItem>
                               ))}
                             </SelectContent>
@@ -584,6 +700,7 @@ export default function VentasRegistro() {
                   <TableHead>Fecha</TableHead>
                   <TableHead>Cliente</TableHead>
                   <TableHead>Vendedor</TableHead>
+                  <TableHead>Productos</TableHead>
                   <TableHead>Total</TableHead>
                   <TableHead>Acciones</TableHead>
                 </TableRow>
@@ -591,13 +708,17 @@ export default function VentasRegistro() {
               <TableBody>
                 {filteredVentas.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={5} className="text-center text-muted-foreground">
+                    <TableCell colSpan={6} className="text-center text-muted-foreground">
                       {loading ? 'Cargando...' : searchFilter ? 'No se encontraron ventas' : 'No hay ventas registradas'}
                     </TableCell>
                   </TableRow>
                 ) : (
                   filteredVentas.map((venta) => {
                     const cliente = clientes.find(c => c.id === venta.cliente_id);
+                    const productosVendidos = venta.items?.map(item => 
+                      `${item.producto?.nombre || 'N/A'} (${item.cantidad})`
+                    ).join(', ') || 'N/A';
+                    
                     return (
                       <TableRow key={venta.id}>
                         <TableCell>
@@ -605,6 +726,9 @@ export default function VentasRegistro() {
                         </TableCell>
                         <TableCell>{cliente?.nombre || 'N/A'}</TableCell>
                         <TableCell>{venta.vendedor?.nombre_completo || 'N/A'}</TableCell>
+                        <TableCell className="max-w-xs truncate" title={productosVendidos}>
+                          {productosVendidos}
+                        </TableCell>
                         <TableCell className="font-medium">${venta.total.toFixed(2)}</TableCell>
                         <TableCell>
                           <Button

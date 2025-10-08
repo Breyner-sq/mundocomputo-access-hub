@@ -57,7 +57,8 @@ export default function Reportes() {
       const logsData = await response.json();
       
       // Parsear los logs de autenticación
-      const parsedLogs: AuthLog[] = (logsData || [])
+      const logsArray = Array.isArray(logsData) ? logsData : [];
+      const parsedLogs: AuthLog[] = logsArray
         .filter((log: any) => log.event_message && (log.msg === 'Login' || log.event_message.includes('login')))
         .map((log: any, index: number) => {
           let email = 'N/A';

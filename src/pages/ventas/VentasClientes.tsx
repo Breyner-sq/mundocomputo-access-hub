@@ -9,7 +9,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Badge } from '@/components/ui/badge';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { UserPlus, Pencil, Trash2, Eye, XCircle, CheckCircle } from 'lucide-react';
+import { UserPlus, Pencil, Trash2, Search, XCircle, CheckCircle, FileDown } from 'lucide-react';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
 
 interface Cliente {
   id: string;
@@ -22,12 +26,23 @@ interface Cliente {
   created_at: string;
 }
 
+interface Venta {
+  id: string;
+  fecha: string;
+  total: number;
+  cliente_id: string;
+}
+
 export default function VentasClientes() {
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [editingCliente, setEditingCliente] = useState<Cliente | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [searchCedulaDialog, setSearchCedulaDialog] = useState(false);
+  const [cedulaSearch, setCedulaSearch] = useState('');
+  const [ventasCliente, setVentasCliente] = useState<Venta[]>([]);
+  const [clienteEncontrado, setClienteEncontrado] = useState<Cliente | null>(null);
   const { toast } = useToast();
 
   const [formData, setFormData] = useState({
@@ -185,6 +200,96 @@ export default function VentasClientes() {
     cliente.cedula.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const buscarVentasPorCedula = async () => {
+    if (!cedulaSearch.trim()) {
+      toast({
+        title: 'Error',
+        description: 'Ingrese una cédula para buscar',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const { data: cliente, error: clienteError } = await supabase
+        .from('clientes')
+        .select('*')
+        .eq('cedula', cedulaSearch.trim())
+        .single();
+
+      if (clienteError) throw new Error('Cliente no encontrado');
+
+      setClienteEncontrado(cliente);
+
+      const { data: ventas, error: ventasError } = await supabase
+        .from('ventas')
+        .select('id, fecha, total, cliente_id')
+        .eq('cliente_id', cliente.id)
+        .order('fecha', { ascending: false });
+
+      if (ventasError) throw ventasError;
+
+      setVentasCliente(ventas || []);
+
+      toast({
+        title: 'Búsqueda exitosa',
+        description: `Se encontraron ${ventas?.length || 0} ventas para ${cliente.nombre}`,
+      });
+    } catch (error: any) {
+      toast({
+        title: 'Error',
+        description: error.message,
+        variant: 'destructive',
+      });
+      setVentasCliente([]);
+      setClienteEncontrado(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const exportarVentasClientePDF = () => {
+    if (!clienteEncontrado || ventasCliente.length === 0) {
+      toast({
+        title: 'Error',
+        description: 'No hay ventas para exportar',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    const doc = new jsPDF();
+    
+    doc.setFontSize(18);
+    doc.text('Historial de Ventas', 14, 20);
+    
+    doc.setFontSize(12);
+    doc.text(`Cliente: ${clienteEncontrado.nombre}`, 14, 30);
+    doc.text(`Cédula: ${clienteEncontrado.cedula}`, 14, 37);
+    doc.text(`Total de ventas: ${ventasCliente.length}`, 14, 44);
+    
+    const totalGeneral = ventasCliente.reduce((sum, v) => sum + Number(v.total), 0);
+    doc.text(`Monto total: $${totalGeneral.toFixed(2)}`, 14, 51);
+
+    autoTable(doc, {
+      startY: 58,
+      head: [['Fecha', 'Hora', 'Total']],
+      body: ventasCliente.map(venta => [
+        format(new Date(venta.fecha), 'dd/MM/yyyy', { locale: es }),
+        format(new Date(venta.fecha), 'HH:mm', { locale: es }),
+        `$${Number(venta.total).toFixed(2)}`,
+      ]),
+    });
+
+    doc.save(`ventas_${clienteEncontrado.cedula}_${Date.now()}.pdf`);
+
+    toast({
+      title: 'PDF generado',
+      description: 'El reporte ha sido descargado correctamente',
+    });
+  };
+
   return (
     <DashboardLayout>
       <div className="space-y-6">
@@ -193,14 +298,106 @@ export default function VentasClientes() {
             <h2 className="text-3xl font-bold tracking-tight">Clientes</h2>
             <p className="text-muted-foreground">Gestiona la información de tus clientes</p>
           </div>
-          <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-              <Button onClick={() => setEditingCliente(null)}>
-                <UserPlus className="mr-2 h-4 w-4" />
-                Nuevo Cliente
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
+          <div className="flex gap-2">
+            <Dialog open={searchCedulaDialog} onOpenChange={setSearchCedulaDialog}>
+              <DialogTrigger asChild>
+                <Button variant="outline">
+                  <Search className="mr-2 h-4 w-4" />
+                  Buscar Ventas
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-4xl">
+                <DialogHeader>
+                  <DialogTitle>Buscar Ventas por Cliente</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4">
+                  <div className="flex gap-2">
+                    <div className="flex-1">
+                      <Label htmlFor="cedulaSearch">Número de Cédula</Label>
+                      <Input
+                        id="cedulaSearch"
+                        placeholder="Ingrese la cédula del cliente"
+                        value={cedulaSearch}
+                        onChange={(e) => setCedulaSearch(e.target.value)}
+                      />
+                    </div>
+                    <Button onClick={buscarVentasPorCedula} disabled={loading} className="mt-6">
+                      <Search className="mr-2 h-4 w-4" />
+                      {loading ? 'Buscando...' : 'Buscar'}
+                    </Button>
+                  </div>
+
+                  {clienteEncontrado && (
+                    <>
+                      <Card>
+                        <CardHeader>
+                          <div className="flex justify-between items-center">
+                            <CardTitle>Ventas de {clienteEncontrado.nombre}</CardTitle>
+                            <Button onClick={exportarVentasClientePDF} size="sm">
+                              <FileDown className="mr-2 h-4 w-4" />
+                              Exportar PDF
+                            </Button>
+                          </div>
+                        </CardHeader>
+                        <CardContent>
+                          <Table>
+                            <TableHeader>
+                              <TableRow>
+                                <TableHead>Fecha</TableHead>
+                                <TableHead>Hora</TableHead>
+                                <TableHead>Total</TableHead>
+                              </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                              {ventasCliente.length === 0 ? (
+                                <TableRow>
+                                  <TableCell colSpan={3} className="text-center text-muted-foreground">
+                                    No hay ventas registradas para este cliente
+                                  </TableCell>
+                                </TableRow>
+                              ) : (
+                                ventasCliente.map((venta) => (
+                                  <TableRow key={venta.id}>
+                                    <TableCell>
+                                      {format(new Date(venta.fecha), 'dd/MM/yyyy', { locale: es })}
+                                    </TableCell>
+                                    <TableCell>
+                                      {format(new Date(venta.fecha), 'HH:mm', { locale: es })}
+                                    </TableCell>
+                                    <TableCell className="font-medium">
+                                      ${Number(venta.total).toFixed(2)}
+                                    </TableCell>
+                                  </TableRow>
+                                ))
+                              )}
+                            </TableBody>
+                          </Table>
+                          {ventasCliente.length > 0 && (
+                            <div className="mt-4 pt-4 border-t">
+                              <div className="flex justify-between items-center">
+                                <span className="font-medium">Total General:</span>
+                                <span className="text-xl font-bold">
+                                  ${ventasCliente.reduce((sum, v) => sum + Number(v.total), 0).toFixed(2)}
+                                </span>
+                              </div>
+                            </div>
+                          )}
+                        </CardContent>
+                      </Card>
+                    </>
+                  )}
+                </div>
+              </DialogContent>
+            </Dialog>
+
+            <Dialog open={open} onOpenChange={setOpen}>
+              <DialogTrigger asChild>
+                <Button onClick={() => setEditingCliente(null)}>
+                  <UserPlus className="mr-2 h-4 w-4" />
+                  Nuevo Cliente
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
               <DialogHeader>
                 <DialogTitle>{editingCliente ? 'Editar Cliente' : 'Nuevo Cliente'}</DialogTitle>
               </DialogHeader>
@@ -259,7 +456,8 @@ export default function VentasClientes() {
                 </div>
               </form>
             </DialogContent>
-          </Dialog>
+            </Dialog>
+          </div>
         </div>
 
         <Card>

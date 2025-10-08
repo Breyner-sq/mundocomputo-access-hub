@@ -60,10 +60,10 @@ export function AdminSidebar() {
             <SidebarMenu>
               {menuItems.map((item) => 
                 item.subItems ? (
-                  <Collapsible key={item.title} className="group/collapsible">
+                  <Collapsible key={item.title} className="group/collapsible" defaultOpen>
                     <SidebarMenuItem>
                       <CollapsibleTrigger asChild>
-                        <SidebarMenuButton>
+                        <SidebarMenuButton tooltip={item.title}>
                           <item.icon className="h-4 w-4" />
                           {!isCollapsed && <span>{item.title}</span>}
                           {!isCollapsed && <ChevronRight className="ml-auto h-4 w-4 transition-transform group-data-[state=open]/collapsible:rotate-90" />}
@@ -97,7 +97,7 @@ export function AdminSidebar() {
                   </Collapsible>
                 ) : (
                   <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
+                    <SidebarMenuButton asChild tooltip={item.title}>
                       <NavLink
                         to={item.url}
                         end

@@ -97,7 +97,7 @@ export default function VentasRegistro() {
     try {
       const { data, error } = await supabase
         .from('ventas')
-        .select('*')
+        .select('id, cliente_id, vendedor_id, total, fecha, created_at')
         .order('fecha', { ascending: false });
 
       if (error) throw error;

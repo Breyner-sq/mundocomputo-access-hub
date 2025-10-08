@@ -23,7 +23,16 @@ import {
 const menuItems = [
   { title: 'Dashboard', url: '/admin', icon: LayoutDashboard },
   { title: 'Gestionar Usuarios', url: '/admin/usuarios', icon: Users },
-  { title: 'Inventario', url: '/admin/inventario', icon: Package },
+  { 
+    title: 'Inventario', 
+    icon: Package, 
+    subItems: [
+      { title: 'Dashboard Inventario', url: '/admin/inventario', icon: LayoutDashboard },
+      { title: 'Productos', url: '/admin/inventario/productos', icon: Package },
+      { title: 'Categorías', url: '/admin/inventario/categorias', icon: FileText },
+      { title: 'Control de Stock', url: '/admin/inventario/stock', icon: Settings },
+    ]
+  },
   { 
     title: 'Ventas', 
     icon: ShoppingCart, 
@@ -36,13 +45,6 @@ const menuItems = [
   },
   { title: 'Reportes', url: '/admin/reportes', icon: FileText },
   { title: 'Configuración', url: '/configuracion/perfil', icon: Settings },
-];
-
-const inventarioMenuItems = [
-  { title: 'Dashboard Inventario', url: '/admin/inventario', icon: LayoutDashboard },
-  { title: 'Productos', url: '/admin/inventario/productos', icon: Package },
-  { title: 'Categorías', url: '/admin/inventario/categorias', icon: FileText },
-  { title: 'Control de Stock', url: '/admin/inventario/stock', icon: Settings },
 ];
 
 export function AdminSidebar() {

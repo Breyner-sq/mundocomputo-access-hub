@@ -30,43 +30,49 @@ export default function AuthLogs() {
 
   const fetchAuthLogs = async () => {
     try {
-      // Fetch auth logs directly using analytics query approach
-      // We'll parse the available auth logs from the context
-      const mockLogs = [
-        {
-          id: '1',
-          timestamp: Date.now() * 1000,
-          event_message: JSON.stringify({
-            level: 'info',
-            msg: 'Login',
-            actor_username: 'admin@example.com',
-            remote_addr: '192.168.1.1',
-            status: 200
-          })
-        }
-      ];
+      // Get current session
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session) {
+        toast({
+          title: 'Error',
+          description: 'No hay sesión activa',
+          variant: 'destructive',
+        });
+        return;
+      }
 
-      const { data, error } = { data: mockLogs, error: null };
+      // Call edge function to get auth logs
+      const { data, error } = await supabase.functions.invoke('get-auth-logs', {
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+        },
+      });
 
       if (error) {
         console.error('Error fetching auth logs:', error);
         toast({
-          title: 'Error',
+          title: 'Información',
           description: 'No se pudieron cargar los logs de autentificación',
-          variant: 'destructive',
+          variant: 'default',
         });
+        setLogs([]);
+        setFilteredLogs([]);
         return;
       }
 
       // Parse event_message to extract useful information
       const parsedLogs = (data || []).map((log: any) => {
         try {
-          const eventData = JSON.parse(log.event_message);
+          const eventData = typeof log.event_message === 'string' 
+            ? JSON.parse(log.event_message) 
+            : log.event_message;
+            
           return {
             id: log.id,
             timestamp: log.timestamp,
             level: log.level || eventData.level || 'info',
-            msg: log.msg || eventData.msg || '',
+            msg: log.msg || eventData.msg || eventData.message || '',
             path: log.path || eventData.path || null,
             status: log.status || eventData.status?.toString() || null,
             email: eventData.actor_username || eventData.auth_event?.actor_username || '',
@@ -92,6 +98,13 @@ export default function AuthLogs() {
 
       setLogs(parsedLogs);
       setFilteredLogs(parsedLogs);
+      
+      if (parsedLogs.length > 0) {
+        toast({
+          title: 'Logs cargados',
+          description: `Se cargaron ${parsedLogs.length} registros`,
+        });
+      }
     } catch (error) {
       console.error('Error:', error);
       toast({
@@ -99,6 +112,8 @@ export default function AuthLogs() {
         description: 'Error al procesar los logs',
         variant: 'destructive',
       });
+      setLogs([]);
+      setFilteredLogs([]);
     }
   };
 

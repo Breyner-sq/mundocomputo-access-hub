@@ -31,6 +31,12 @@ interface Venta {
   fecha: string;
   total: number;
   cliente_id: string;
+  items?: Array<{
+    cantidad: number;
+    producto?: {
+      nombre: string;
+    };
+  }>;
 }
 
 export default function VentasClientes() {
@@ -222,7 +228,7 @@ export default function VentasClientes() {
 
       setClienteEncontrado(cliente);
 
-      const { data: ventas, error: ventasError } = await supabase
+      const { data: ventasData, error: ventasError } = await supabase
         .from('ventas')
         .select('id, fecha, total, cliente_id')
         .eq('cliente_id', cliente.id)
@@ -230,11 +236,29 @@ export default function VentasClientes() {
 
       if (ventasError) throw ventasError;
 
-      setVentasCliente(ventas || []);
+      // Fetch items for each venta
+      const ventasConItems = await Promise.all(
+        (ventasData || []).map(async (venta) => {
+          const { data: itemsData } = await supabase
+            .from('venta_items')
+            .select(`
+              cantidad,
+              producto:productos(nombre)
+            `)
+            .eq('venta_id', venta.id);
+
+          return {
+            ...venta,
+            items: itemsData || []
+          };
+        })
+      );
+
+      setVentasCliente(ventasConItems);
 
       toast({
         title: 'Búsqueda exitosa',
-        description: `Se encontraron ${ventas?.length || 0} ventas para ${cliente.nombre}`,
+        description: `Se encontraron ${ventasConItems?.length || 0} ventas para ${cliente.nombre}`,
       });
     } catch (error: any) {
       toast({
@@ -345,30 +369,40 @@ export default function VentasClientes() {
                               <TableRow>
                                 <TableHead>Fecha</TableHead>
                                 <TableHead>Hora</TableHead>
+                                <TableHead>Productos</TableHead>
                                 <TableHead>Total</TableHead>
                               </TableRow>
                             </TableHeader>
                             <TableBody>
                               {ventasCliente.length === 0 ? (
                                 <TableRow>
-                                  <TableCell colSpan={3} className="text-center text-muted-foreground">
+                                  <TableCell colSpan={4} className="text-center text-muted-foreground">
                                     No hay ventas registradas para este cliente
                                   </TableCell>
                                 </TableRow>
                               ) : (
-                                ventasCliente.map((venta) => (
-                                  <TableRow key={venta.id}>
-                                    <TableCell>
-                                      {format(new Date(venta.fecha), 'dd/MM/yyyy', { locale: es })}
-                                    </TableCell>
-                                    <TableCell>
-                                      {format(new Date(venta.fecha), 'HH:mm', { locale: es })}
-                                    </TableCell>
-                                    <TableCell className="font-medium">
-                                      ${Number(venta.total).toFixed(2)}
-                                    </TableCell>
-                                  </TableRow>
-                                ))
+                                ventasCliente.map((venta) => {
+                                  const productosVendidos = venta.items?.map(item => 
+                                    `${item.producto?.nombre || 'N/A'} (${item.cantidad})`
+                                  ).join(', ') || 'N/A';
+                                  
+                                  return (
+                                    <TableRow key={venta.id}>
+                                      <TableCell>
+                                        {format(new Date(venta.fecha), 'dd/MM/yyyy', { locale: es })}
+                                      </TableCell>
+                                      <TableCell>
+                                        {format(new Date(venta.fecha), 'HH:mm', { locale: es })}
+                                      </TableCell>
+                                      <TableCell className="max-w-xs truncate" title={productosVendidos}>
+                                        {productosVendidos}
+                                      </TableCell>
+                                      <TableCell className="font-medium">
+                                        ${Number(venta.total).toFixed(2)}
+                                      </TableCell>
+                                    </TableRow>
+                                  );
+                                })
                               )}
                             </TableBody>
                           </Table>

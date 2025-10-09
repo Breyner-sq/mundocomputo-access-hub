@@ -39,8 +39,8 @@ const App = () => (
           <AuthProvider>
             <AccessibilityMenu />
             <Routes>
-            <Route path="/" element={<RoleRedirect />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/" element={<RoleRedirect />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
             
             {/* Admin Routes */}

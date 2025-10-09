@@ -3,11 +3,24 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 
 export default function RoleRedirect() {
-  const { role, loading } = useAuth();
+  const { user, role, loading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!loading && role) {
+    if (!loading) {
+      // Si no hay usuario autenticado, redirigir al login
+      if (!user) {
+        navigate('/auth', { replace: true });
+        return;
+      }
+
+      // Si hay usuario pero no hay rol, redirigir al login
+      if (!role) {
+        navigate('/auth', { replace: true });
+        return;
+      }
+
+      // Redirigir según el rol
       switch (role) {
         case 'administrador':
           navigate('/admin', { replace: true });
@@ -25,7 +38,7 @@ export default function RoleRedirect() {
           navigate('/auth', { replace: true });
       }
     }
-  }, [role, loading, navigate]);
+  }, [user, role, loading, navigate]);
 
   return (
     <div className="min-h-screen flex items-center justify-center">

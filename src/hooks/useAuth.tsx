@@ -33,11 +33,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         
         // Fetch role when user logs in
         if (session?.user) {
+          setLoading(true); // Mantener loading mientras se obtiene el rol
           setTimeout(() => {
             fetchUserRole(session.user.id);
           }, 0);
         } else {
           setRole(null);
+          setLoading(false);
         }
       }
     );

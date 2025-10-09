@@ -123,17 +123,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signOut = async () => {
     try {
+      // Intentar cerrar sesión, pero no fallar si no hay sesión activa
       const { error } = await supabase.auth.signOut();
-      if (error) throw error;
       
+      // Limpiar estado local independientemente de si hay error o no
       setRole(null);
+      setUser(null);
+      setSession(null);
       navigate('/auth');
+      
+      // Solo mostrar error si no es por sesión faltante
+      if (error && !error.message.includes('session missing')) {
+        throw error;
+      }
       
       toast({
         title: 'Sesión cerrada',
         description: 'Has cerrado sesión exitosamente',
       });
     } catch (error: any) {
+      // Aún así limpiar el estado y redirigir
+      setRole(null);
+      setUser(null);
+      setSession(null);
+      navigate('/auth');
+      
       toast({
         title: 'Error al cerrar sesión',
         description: error.message,

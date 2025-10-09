@@ -19,11 +19,11 @@ export function ProtectedRoute({ children, allowedRoles }: ProtectedRouteProps) 
     );
   }
 
-  if (!user) {
+  if (!user || !role) {
     return <Navigate to="/auth" replace />;
   }
 
-  if (role && !allowedRoles.includes(role)) {
+  if (!allowedRoles.includes(role)) {
     return <Navigate to="/unauthorized" replace />;
   }
 

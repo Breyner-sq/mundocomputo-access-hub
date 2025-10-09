@@ -39,7 +39,7 @@ const App = () => (
           <AuthProvider>
             <AccessibilityMenu />
             <Routes>
-            <Route path="/" element={<RoleRedirect />} />
+            <Route path="/" element={<Auth />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
             

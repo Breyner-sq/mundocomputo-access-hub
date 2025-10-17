@@ -1,0 +1,172 @@
+name: Tests Automatizados
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  unit-integration-tests:
+    name: Pruebas Unitarias e Integración
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Ejecutar pruebas unitarias e integración
+        run: npm run test:coverage
+
+      - name: Subir reporte de cobertura
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 30
+
+      - name: Comentar cobertura en PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            if (fs.existsSync('coverage/coverage-summary.json')) {
+              const coverage = JSON.parse(fs.readFileSync('coverage/coverage-summary.json', 'utf8'));
+              const total = coverage.total;
+              const comment = `## 📊 Reporte de Cobertura
+              
+              | Métrica | Porcentaje |
+              |---------|-----------|
+              | Líneas | ${total.lines.pct}% |
+              | Funciones | ${total.functions.pct}% |
+              | Ramas | ${total.branches.pct}% |
+              | Statements | ${total.statements.pct}% |`;
+              
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: comment
+              });
+            }
+
+  e2e-tests:
+    name: Pruebas End-to-End
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Instalar navegadores Playwright
+        run: npx playwright install --with-deps chromium firefox
+
+      - name: Ejecutar pruebas E2E
+        run: npm run test:e2e
+        env:
+          CI: true
+
+      - name: Subir reporte de Playwright
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+      - name: Subir screenshots de fallos
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: test-screenshots
+          path: test-results/
+          retention-days: 30
+
+  lint:
+    name: Linting
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Ejecutar ESLint
+        run: npm run lint
+        continue-on-error: true
+
+  build:
+    name: Build del Proyecto
+    runs-on: ubuntu-latest
+    needs: [unit-integration-tests, e2e-tests]
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Build del proyecto
+        run: npm run build
+
+      - name: Verificar tamaño del bundle
+        run: |
+          if [ -d "dist" ]; then
+            echo "📦 Tamaño del build:"
+            du -sh dist/
+            echo "📄 Archivos principales:"
+            du -sh dist/assets/*.js | head -5
+          fi
+
+  summary:
+    name: Resumen de Tests
+    runs-on: ubuntu-latest
+    needs: [unit-integration-tests, e2e-tests, lint, build]
+    if: always()
+
+    steps:
+      - name: Generar resumen
+        run: |
+          echo "## ✅ Resumen de Ejecución de Tests" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Pruebas Unitarias e Integración**: ${{ needs.unit-integration-tests.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Pruebas E2E**: ${{ needs.e2e-tests.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Linting**: ${{ needs.lint.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Build**: ${{ needs.build.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "🔗 [Ver reportes completos](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY

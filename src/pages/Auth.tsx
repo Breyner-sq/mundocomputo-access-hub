@@ -68,12 +68,17 @@ export default function Auth() {
                   size="icon"
                   className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
                   onClick={() => setShowPassword(!showPassword)}
+                  aria-label="Mostrar contraseña"
+                  data-testid="toggle-password"
                 >
                   {showPassword ? (
                     <EyeOff className="h-4 w-4" />
                   ) : (
                     <Eye className="h-4 w-4" />
                   )}
+                  <span className="sr-only">
+                    {showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                  </span>
                 </Button>
               </div>
             </div>

@@ -94,7 +94,7 @@
           "specs": [
             {
               "title": "debe mostrar la página de login",
-              "ok": false,
+              "ok": true,
               "tags": [],
               "tests": [
                 {
@@ -105,55 +105,26 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 0,
+                      "workerIndex": 27,
                       "parallelIndex": 0,
-                      "status": "failed",
-                      "duration": 6442,
-                      "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/\\/$/\u001b[39m\nReceived string:  \u001b[31m\"https://mundocomputo.vercel.app/auth\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    9 × unexpected value \"https://mundocomputo.vercel.app/auth\"\u001b[22m\n",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/\\/$/\u001b[39m\nReceived string:  \u001b[31m\"https://mundocomputo.vercel.app/auth\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    9 × unexpected value \"https://mundocomputo.vercel.app/auth\"\u001b[22m\n\n    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts:11:24",
-                        "location": {
-                          "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                          "column": 24,
-                          "line": 11
-                        },
-                        "snippet": "\u001b[0m \u001b[90m  9 |\u001b[39m   test(\u001b[32m'debe mostrar la página de login'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 10 |\u001b[39m     \u001b[90m// Verificar que estamos en la página principal\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 11 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveURL(\u001b[35m/\\/$/\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 12 |\u001b[39m     \u001b[90m// Verificar que hay algún input en la página\u001b[39m\n \u001b[90m 13 |\u001b[39m     \u001b[36mconst\u001b[39m hasInputs \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'input'\u001b[39m)\u001b[33m.\u001b[39mcount() \u001b[33m>\u001b[39m \u001b[35m0\u001b[39m\u001b[33m;\u001b[39m\n \u001b[90m 14 |\u001b[39m     expect(hasInputs)\u001b[33m.\u001b[39mtoBe(\u001b[36mtrue\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                            "column": 24,
-                            "line": 11
-                          },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/\\/$/\u001b[39m\nReceived string:  \u001b[31m\"https://mundocomputo.vercel.app/auth\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    9 × unexpected value \"https://mundocomputo.vercel.app/auth\"\u001b[22m\n\n\n\u001b[0m \u001b[90m  9 |\u001b[39m   test(\u001b[32m'debe mostrar la página de login'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 10 |\u001b[39m     \u001b[90m// Verificar que estamos en la página principal\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 11 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveURL(\u001b[35m/\\/$/\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 12 |\u001b[39m     \u001b[90m// Verificar que hay algún input en la página\u001b[39m\n \u001b[90m 13 |\u001b[39m     \u001b[36mconst\u001b[39m hasInputs \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'input'\u001b[39m)\u001b[33m.\u001b[39mcount() \u001b[33m>\u001b[39m \u001b[35m0\u001b[39m\u001b[33m;\u001b[39m\n \u001b[90m 14 |\u001b[39m     expect(hasInputs)\u001b[33m.\u001b[39mtoBe(\u001b[36mtrue\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts:11:24\u001b[22m"
-                        }
-                      ],
+                      "status": "passed",
+                      "duration": 1689,
+                      "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:42.728Z",
+                      "startTime": "2025-10-18T18:26:21.584Z",
                       "annotations": [],
                       "attachments": [
                         {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Autenticación-E2E-debe-mostrar-la-página-de-login-chromium/test-failed-1.png"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Autenticación-E2E-debe-mostrar-la-página-de-login-chromium/error-context.md"
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Autenticación-E2E-debe-mostrar-la-página-de-login-chromium/trace.zip"
                         }
-                      ],
-                      "errorLocation": {
-                        "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                        "column": 24,
-                        "line": 11
-                      }
+                      ]
                     }
                   ],
-                  "status": "unexpected"
+                  "status": "expected"
                 }
               ],
               "id": "d748ac400d08b85935ef-d6087e49747b55f8a92a",
@@ -174,17 +145,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 28,
                       "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 1457,
+                      "duration": 1412,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:42.717Z",
+                      "startTime": "2025-10-18T18:26:21.580Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Autenticación-E2E-deb-58003--con-credenciales-inválidas-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -192,7 +169,7 @@
               ],
               "id": "d748ac400d08b85935ef-2aa1f4a7a3671b3133f0",
               "file": "auth.spec.ts",
-              "line": 17,
+              "line": 26,
               "column": 3
             },
             {
@@ -208,17 +185,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 2,
+                      "workerIndex": 29,
                       "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 1420,
+                      "duration": 1425,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:42.725Z",
+                      "startTime": "2025-10-18T18:26:21.579Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Autenticación-E2E-deb-7cde2--mostrar-ocultar-contraseña-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -226,7 +209,7 @@
               ],
               "id": "d748ac400d08b85935ef-00d969c5e21b6b36c629",
               "file": "auth.spec.ts",
-              "line": 22,
+              "line": 31,
               "column": 3
             },
             {
@@ -242,17 +225,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
+                      "workerIndex": 30,
                       "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 1378,
+                      "duration": 1459,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:42.726Z",
+                      "startTime": "2025-10-18T18:26:21.586Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Autenticación-E2E-debe-validar-campos-requeridos-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -260,7 +249,7 @@
               ],
               "id": "d748ac400d08b85935ef-a77ac95ad782c0f66afa",
               "file": "auth.spec.ts",
-              "line": 27,
+              "line": 36,
               "column": 3
             },
             {
@@ -276,17 +265,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 4,
+                      "workerIndex": 31,
                       "parallelIndex": 4,
                       "status": "passed",
-                      "duration": 1441,
+                      "duration": 1524,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:42.716Z",
+                      "startTime": "2025-10-18T18:26:21.584Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Autenticación-E2E-deb-a44d6-ilitar-botón-mientras-carga-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -294,212 +289,7 @@
               ],
               "id": "d748ac400d08b85935ef-608cbc17f63a54a0559b",
               "file": "auth.spec.ts",
-              "line": 32,
-              "column": 3
-            },
-            {
-              "title": "debe mostrar la página de login",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 10,
-                      "parallelIndex": 3,
-                      "status": "failed",
-                      "duration": 6734,
-                      "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/\\/$/\u001b[39m\nReceived string:  \u001b[31m\"https://mundocomputo.vercel.app/auth\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    9 × unexpected value \"https://mundocomputo.vercel.app/auth\"\u001b[22m\n",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/\\/$/\u001b[39m\nReceived string:  \u001b[31m\"https://mundocomputo.vercel.app/auth\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    9 × unexpected value \"https://mundocomputo.vercel.app/auth\"\u001b[22m\n\n    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts:11:24",
-                        "location": {
-                          "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                          "column": 24,
-                          "line": 11
-                        },
-                        "snippet": "\u001b[0m \u001b[90m  9 |\u001b[39m   test(\u001b[32m'debe mostrar la página de login'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 10 |\u001b[39m     \u001b[90m// Verificar que estamos en la página principal\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 11 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveURL(\u001b[35m/\\/$/\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 12 |\u001b[39m     \u001b[90m// Verificar que hay algún input en la página\u001b[39m\n \u001b[90m 13 |\u001b[39m     \u001b[36mconst\u001b[39m hasInputs \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'input'\u001b[39m)\u001b[33m.\u001b[39mcount() \u001b[33m>\u001b[39m \u001b[35m0\u001b[39m\u001b[33m;\u001b[39m\n \u001b[90m 14 |\u001b[39m     expect(hasInputs)\u001b[33m.\u001b[39mtoBe(\u001b[36mtrue\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                            "column": 24,
-                            "line": 11
-                          },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/\\/$/\u001b[39m\nReceived string:  \u001b[31m\"https://mundocomputo.vercel.app/auth\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    9 × unexpected value \"https://mundocomputo.vercel.app/auth\"\u001b[22m\n\n\n\u001b[0m \u001b[90m  9 |\u001b[39m   test(\u001b[32m'debe mostrar la página de login'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n \u001b[90m 10 |\u001b[39m     \u001b[90m// Verificar que estamos en la página principal\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 11 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveURL(\u001b[35m/\\/$/\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 12 |\u001b[39m     \u001b[90m// Verificar que hay algún input en la página\u001b[39m\n \u001b[90m 13 |\u001b[39m     \u001b[36mconst\u001b[39m hasInputs \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[32m'input'\u001b[39m)\u001b[33m.\u001b[39mcount() \u001b[33m>\u001b[39m \u001b[35m0\u001b[39m\u001b[33m;\u001b[39m\n \u001b[90m 14 |\u001b[39m     expect(hasInputs)\u001b[33m.\u001b[39mtoBe(\u001b[36mtrue\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts:11:24\u001b[22m"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:01.685Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Autenticación-E2E-debe-mostrar-la-página-de-login-firefox/test-failed-1.png"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Autenticación-E2E-debe-mostrar-la-página-de-login-firefox/error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                        "column": 24,
-                        "line": 11
-                      }
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "d748ac400d08b85935ef-9900ce91b71a6ecd5a3c",
-              "file": "auth.spec.ts",
-              "line": 9,
-              "column": 3
-            },
-            {
-              "title": "debe mostrar error con credenciales inválidas",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 11,
-                      "parallelIndex": 4,
-                      "status": "passed",
-                      "duration": 1742,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:01.807Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "d748ac400d08b85935ef-cf305d980e37dfb63f2e",
-              "file": "auth.spec.ts",
-              "line": 17,
-              "column": 3
-            },
-            {
-              "title": "debe permitir mostrar/ocultar contraseña",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 12,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1735,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:02.161Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "d748ac400d08b85935ef-9bf726fbf0278de330af",
-              "file": "auth.spec.ts",
-              "line": 22,
-              "column": 3
-            },
-            {
-              "title": "debe validar campos requeridos",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 13,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 1708,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:02.462Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "d748ac400d08b85935ef-afded8757a5ea241e681",
-              "file": "auth.spec.ts",
-              "line": 27,
-              "column": 3
-            },
-            {
-              "title": "debe deshabilitar botón mientras carga",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 14,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 1713,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:02.901Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "d748ac400d08b85935ef-a9750ea4d33ae2018000",
-              "file": "auth.spec.ts",
-              "line": 32,
+              "line": 41,
               "column": 3
             }
           ]
@@ -507,12 +297,12 @@
         {
           "title": "Navegación después de login",
           "file": "auth.spec.ts",
-          "line": 38,
+          "line": 47,
           "column": 6,
           "specs": [
             {
               "title": "debe redirigir a dashboard después de login exitoso",
-              "ok": false,
+              "ok": true,
               "tags": [],
               "tests": [
                 {
@@ -523,65 +313,36 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 28,
                       "parallelIndex": 1,
-                      "status": "failed",
-                      "duration": 5935,
-                      "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).not.\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: not \u001b[32m/auth|login/\u001b[39m\nReceived string: \u001b[31m\"https://mundocomputo.vercel.app/\u001b[7mauth\u001b[27m\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"not toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    9 × unexpected value \"https://mundocomputo.vercel.app/auth\"\u001b[22m\n",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).not.\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: not \u001b[32m/auth|login/\u001b[39m\nReceived string: \u001b[31m\"https://mundocomputo.vercel.app/\u001b[7mauth\u001b[27m\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"not toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    9 × unexpected value \"https://mundocomputo.vercel.app/auth\"\u001b[22m\n\n    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts:43:28",
-                        "location": {
-                          "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                          "column": 28,
-                          "line": 43
-                        },
-                        "snippet": "\u001b[0m \u001b[90m 41 |\u001b[39m     \u001b[90m// Solo navegar a una página y verificar que no es la de login\u001b[39m\n \u001b[90m 42 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/admin'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 43 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mnot\u001b[33m.\u001b[39mtoHaveURL(\u001b[35m/auth|login/\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 44 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 45 |\u001b[39m\n \u001b[90m 46 |\u001b[39m   test(\u001b[32m'debe mantener sesión después de refrescar'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                            "column": 28,
-                            "line": 43
-                          },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).not.\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: not \u001b[32m/auth|login/\u001b[39m\nReceived string: \u001b[31m\"https://mundocomputo.vercel.app/\u001b[7mauth\u001b[27m\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"not toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    9 × unexpected value \"https://mundocomputo.vercel.app/auth\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 41 |\u001b[39m     \u001b[90m// Solo navegar a una página y verificar que no es la de login\u001b[39m\n \u001b[90m 42 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/admin'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 43 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mnot\u001b[33m.\u001b[39mtoHaveURL(\u001b[35m/auth|login/\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 44 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 45 |\u001b[39m\n \u001b[90m 46 |\u001b[39m   test(\u001b[32m'debe mantener sesión después de refrescar'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[2m    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts:43:28\u001b[22m"
-                        }
-                      ],
+                      "status": "passed",
+                      "duration": 2742,
+                      "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:44.473Z",
+                      "startTime": "2025-10-18T18:26:23.268Z",
                       "annotations": [],
                       "attachments": [
                         {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Navegación-después-de-addeb-rd-después-de-login-exitoso-chromium/test-failed-1.png"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Navegación-después-de-addeb-rd-después-de-login-exitoso-chromium/error-context.md"
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Navegación-después-de-addeb-rd-después-de-login-exitoso-chromium/trace.zip"
                         }
-                      ],
-                      "errorLocation": {
-                        "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                        "column": 28,
-                        "line": 43
-                      }
+                      ]
                     }
                   ],
-                  "status": "unexpected"
+                  "status": "expected"
                 }
               ],
               "id": "d748ac400d08b85935ef-401653f7492ede45403d",
               "file": "auth.spec.ts",
-              "line": 39,
+              "line": 48,
               "column": 3
             },
             {
               "title": "debe mantener sesión después de refrescar",
-              "ok": false,
+              "ok": true,
               "tags": [],
               "tests": [
                 {
@@ -592,65 +353,36 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 4,
-                      "parallelIndex": 4,
-                      "status": "failed",
-                      "duration": 1444,
-                      "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"https://mundocomputo.vercel.app/a\u001b[7mdmin\u001b[27m\"\u001b[39m\nReceived: \u001b[31m\"https://mundocomputo.vercel.app/a\u001b[7muth\u001b[27m\"\u001b[39m",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"https://mundocomputo.vercel.app/a\u001b[7mdmin\u001b[27m\"\u001b[39m\nReceived: \u001b[31m\"https://mundocomputo.vercel.app/a\u001b[7muth\u001b[27m\"\u001b[39m\n    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts:51:24",
-                        "location": {
-                          "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                          "column": 24,
-                          "line": 51
-                        },
-                        "snippet": "\u001b[0m \u001b[90m 49 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mreload()\u001b[33m;\u001b[39m\n \u001b[90m 50 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForLoadState(\u001b[32m'networkidle'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 51 |\u001b[39m     expect(page\u001b[33m.\u001b[39murl())\u001b[33m.\u001b[39mtoBe(currentUrl)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 52 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 53 |\u001b[39m\n \u001b[90m 54 |\u001b[39m   test(\u001b[32m'debe cerrar sesión correctamente'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                            "column": 24,
-                            "line": 51
-                          },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"https://mundocomputo.vercel.app/a\u001b[7mdmin\u001b[27m\"\u001b[39m\nReceived: \u001b[31m\"https://mundocomputo.vercel.app/a\u001b[7muth\u001b[27m\"\u001b[39m\n\n\u001b[0m \u001b[90m 49 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mreload()\u001b[33m;\u001b[39m\n \u001b[90m 50 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForLoadState(\u001b[32m'networkidle'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 51 |\u001b[39m     expect(page\u001b[33m.\u001b[39murl())\u001b[33m.\u001b[39mtoBe(currentUrl)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 52 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 53 |\u001b[39m\n \u001b[90m 54 |\u001b[39m   test(\u001b[32m'debe cerrar sesión correctamente'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[2m    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts:51:24\u001b[22m"
-                        }
-                      ],
+                      "workerIndex": 29,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 1558,
+                      "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:44.496Z",
+                      "startTime": "2025-10-18T18:26:23.279Z",
                       "annotations": [],
                       "attachments": [
                         {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Navegación-después-de-62491-sesión-después-de-refrescar-chromium/test-failed-1.png"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Navegación-después-de-62491-sesión-después-de-refrescar-chromium/error-context.md"
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Navegación-después-de-62491-sesión-después-de-refrescar-chromium/trace.zip"
                         }
-                      ],
-                      "errorLocation": {
-                        "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                        "column": 24,
-                        "line": 51
-                      }
+                      ]
                     }
                   ],
-                  "status": "unexpected"
+                  "status": "expected"
                 }
               ],
               "id": "d748ac400d08b85935ef-be9b58023aed51f2e0b9",
               "file": "auth.spec.ts",
-              "line": 46,
+              "line": 66,
               "column": 3
             },
             {
               "title": "debe cerrar sesión correctamente",
-              "ok": false,
+              "ok": true,
               "tags": [],
               "tests": [
                 {
@@ -661,267 +393,31 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "failed",
-                      "duration": 5719,
-                      "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/\\/$/\u001b[39m\nReceived string:  \u001b[31m\"https://mundocomputo.vercel.app/auth\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    9 × unexpected value \"https://mundocomputo.vercel.app/auth\"\u001b[22m\n",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/\\/$/\u001b[39m\nReceived string:  \u001b[31m\"https://mundocomputo.vercel.app/auth\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    9 × unexpected value \"https://mundocomputo.vercel.app/auth\"\u001b[22m\n\n    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts:57:24",
-                        "location": {
-                          "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                          "column": 24,
-                          "line": 57
-                        },
-                        "snippet": "\u001b[0m \u001b[90m 55 |\u001b[39m     \u001b[90m// Solo navegar a la página principal\u001b[39m\n \u001b[90m 56 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 57 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveURL(\u001b[35m/\\/$/\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 58 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 59 |\u001b[39m })\u001b[33m;\u001b[39m\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                            "column": 24,
-                            "line": 57
-                          },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/\\/$/\u001b[39m\nReceived string:  \u001b[31m\"https://mundocomputo.vercel.app/auth\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    9 × unexpected value \"https://mundocomputo.vercel.app/auth\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 55 |\u001b[39m     \u001b[90m// Solo navegar a la página principal\u001b[39m\n \u001b[90m 56 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 57 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveURL(\u001b[35m/\\/$/\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 58 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 59 |\u001b[39m })\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts:57:24\u001b[22m"
-                        }
-                      ],
+                      "workerIndex": 30,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 803,
+                      "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:44.496Z",
+                      "startTime": "2025-10-18T18:26:23.319Z",
                       "annotations": [],
                       "attachments": [
                         {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Navegación-después-de-be38e-cerrar-sesión-correctamente-chromium/test-failed-1.png"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Navegación-después-de-be38e-cerrar-sesión-correctamente-chromium/error-context.md"
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Navegación-después-de-be38e-cerrar-sesión-correctamente-chromium/trace.zip"
                         }
-                      ],
-                      "errorLocation": {
-                        "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                        "column": 24,
-                        "line": 57
-                      }
+                      ]
                     }
                   ],
-                  "status": "unexpected"
+                  "status": "expected"
                 }
               ],
               "id": "d748ac400d08b85935ef-058345b4908a16147bcb",
               "file": "auth.spec.ts",
-              "line": 54,
-              "column": 3
-            },
-            {
-              "title": "debe redirigir a dashboard después de login exitoso",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 12,
-                      "parallelIndex": 0,
-                      "status": "failed",
-                      "duration": 6108,
-                      "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).not.\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: not \u001b[32m/auth|login/\u001b[39m\nReceived string: \u001b[31m\"https://mundocomputo.vercel.app/\u001b[7mauth\u001b[27m\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"not toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    9 × unexpected value \"https://mundocomputo.vercel.app/auth\"\u001b[22m\n",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).not.\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: not \u001b[32m/auth|login/\u001b[39m\nReceived string: \u001b[31m\"https://mundocomputo.vercel.app/\u001b[7mauth\u001b[27m\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"not toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    9 × unexpected value \"https://mundocomputo.vercel.app/auth\"\u001b[22m\n\n    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts:43:28",
-                        "location": {
-                          "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                          "column": 28,
-                          "line": 43
-                        },
-                        "snippet": "\u001b[0m \u001b[90m 41 |\u001b[39m     \u001b[90m// Solo navegar a una página y verificar que no es la de login\u001b[39m\n \u001b[90m 42 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/admin'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 43 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mnot\u001b[33m.\u001b[39mtoHaveURL(\u001b[35m/auth|login/\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 44 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 45 |\u001b[39m\n \u001b[90m 46 |\u001b[39m   test(\u001b[32m'debe mantener sesión después de refrescar'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                            "column": 28,
-                            "line": 43
-                          },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).not.\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: not \u001b[32m/auth|login/\u001b[39m\nReceived string: \u001b[31m\"https://mundocomputo.vercel.app/\u001b[7mauth\u001b[27m\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"not toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    9 × unexpected value \"https://mundocomputo.vercel.app/auth\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 41 |\u001b[39m     \u001b[90m// Solo navegar a una página y verificar que no es la de login\u001b[39m\n \u001b[90m 42 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/admin'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 43 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mnot\u001b[33m.\u001b[39mtoHaveURL(\u001b[35m/auth|login/\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 44 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 45 |\u001b[39m\n \u001b[90m 46 |\u001b[39m   test(\u001b[32m'debe mantener sesión después de refrescar'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[2m    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts:43:28\u001b[22m"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:04.442Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Navegación-después-de-addeb-rd-después-de-login-exitoso-firefox/test-failed-1.png"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Navegación-después-de-addeb-rd-después-de-login-exitoso-firefox/error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                        "column": 28,
-                        "line": 43
-                      }
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "d748ac400d08b85935ef-e1bd467f1a8611114f19",
-              "file": "auth.spec.ts",
-              "line": 39,
-              "column": 3
-            },
-            {
-              "title": "debe mantener sesión después de refrescar",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 11,
-                      "parallelIndex": 4,
-                      "status": "failed",
-                      "duration": 1664,
-                      "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"https://mundocomputo.vercel.app/a\u001b[7mdmin\u001b[27m\"\u001b[39m\nReceived: \u001b[31m\"https://mundocomputo.vercel.app/a\u001b[7muth\u001b[27m\"\u001b[39m",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"https://mundocomputo.vercel.app/a\u001b[7mdmin\u001b[27m\"\u001b[39m\nReceived: \u001b[31m\"https://mundocomputo.vercel.app/a\u001b[7muth\u001b[27m\"\u001b[39m\n    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts:51:24",
-                        "location": {
-                          "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                          "column": 24,
-                          "line": 51
-                        },
-                        "snippet": "\u001b[0m \u001b[90m 49 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mreload()\u001b[33m;\u001b[39m\n \u001b[90m 50 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForLoadState(\u001b[32m'networkidle'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 51 |\u001b[39m     expect(page\u001b[33m.\u001b[39murl())\u001b[33m.\u001b[39mtoBe(currentUrl)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 52 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 53 |\u001b[39m\n \u001b[90m 54 |\u001b[39m   test(\u001b[32m'debe cerrar sesión correctamente'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                            "column": 24,
-                            "line": 51
-                          },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m\"https://mundocomputo.vercel.app/a\u001b[7mdmin\u001b[27m\"\u001b[39m\nReceived: \u001b[31m\"https://mundocomputo.vercel.app/a\u001b[7muth\u001b[27m\"\u001b[39m\n\n\u001b[0m \u001b[90m 49 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mreload()\u001b[33m;\u001b[39m\n \u001b[90m 50 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForLoadState(\u001b[32m'networkidle'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 51 |\u001b[39m     expect(page\u001b[33m.\u001b[39murl())\u001b[33m.\u001b[39mtoBe(currentUrl)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 52 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 53 |\u001b[39m\n \u001b[90m 54 |\u001b[39m   test(\u001b[32m'debe cerrar sesión correctamente'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[2m    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts:51:24\u001b[22m"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:04.869Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Navegación-después-de-62491-sesión-después-de-refrescar-firefox/test-failed-1.png"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Navegación-después-de-62491-sesión-después-de-refrescar-firefox/error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                        "column": 24,
-                        "line": 51
-                      }
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "d748ac400d08b85935ef-2124390d4ccdcc3a0157",
-              "file": "auth.spec.ts",
-              "line": 46,
-              "column": 3
-            },
-            {
-              "title": "debe cerrar sesión correctamente",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 14,
-                      "parallelIndex": 1,
-                      "status": "failed",
-                      "duration": 5787,
-                      "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/\\/$/\u001b[39m\nReceived string:  \u001b[31m\"https://mundocomputo.vercel.app/auth\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    9 × unexpected value \"https://mundocomputo.vercel.app/auth\"\u001b[22m\n",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/\\/$/\u001b[39m\nReceived string:  \u001b[31m\"https://mundocomputo.vercel.app/auth\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    9 × unexpected value \"https://mundocomputo.vercel.app/auth\"\u001b[22m\n\n    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts:57:24",
-                        "location": {
-                          "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                          "column": 24,
-                          "line": 57
-                        },
-                        "snippet": "\u001b[0m \u001b[90m 55 |\u001b[39m     \u001b[90m// Solo navegar a la página principal\u001b[39m\n \u001b[90m 56 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 57 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveURL(\u001b[35m/\\/$/\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 58 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 59 |\u001b[39m })\u001b[33m;\u001b[39m\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                            "column": 24,
-                            "line": 57
-                          },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/\\/$/\u001b[39m\nReceived string:  \u001b[31m\"https://mundocomputo.vercel.app/auth\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    9 × unexpected value \"https://mundocomputo.vercel.app/auth\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 55 |\u001b[39m     \u001b[90m// Solo navegar a la página principal\u001b[39m\n \u001b[90m 56 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 57 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveURL(\u001b[35m/\\/$/\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 58 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 59 |\u001b[39m })\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts:57:24\u001b[22m"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:05.215Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Navegación-después-de-be38e-cerrar-sesión-correctamente-firefox/test-failed-1.png"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Navegación-después-de-be38e-cerrar-sesión-correctamente-firefox/error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                        "column": 24,
-                        "line": 57
-                      }
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "d748ac400d08b85935ef-681a1dfa01aef2758f5e",
-              "file": "auth.spec.ts",
-              "line": 54,
+              "line": 74,
               "column": 3
             }
           ]
@@ -954,10 +450,10 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
+                      "workerIndex": 31,
+                      "parallelIndex": 4,
                       "status": "failed",
-                      "duration": 6168,
+                      "duration": 6212,
                       "error": {
                         "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/inventario/\u001b[39m\nReceived string:  \u001b[31m\"https://mundocomputo.vercel.app/auth\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    9 × unexpected value \"https://mundocomputo.vercel.app/auth\"\u001b[22m\n",
                         "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/inventario/\u001b[39m\nReceived string:  \u001b[31m\"https://mundocomputo.vercel.app/auth\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    9 × unexpected value \"https://mundocomputo.vercel.app/auth\"\u001b[22m\n\n    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/inventory.spec.ts:10:24",
@@ -981,7 +477,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:44.515Z",
+                      "startTime": "2025-10-18T18:26:23.383Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -993,6 +489,11 @@
                           "name": "error-context",
                           "contentType": "text/markdown",
                           "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/inventory-Gestión-de-Inven-6007c-E-debe-navegar-a-inventario-chromium/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/inventory-Gestión-de-Inven-6007c-E-debe-navegar-a-inventario-chromium/trace.zip"
                         }
                       ],
                       "errorLocation": {
@@ -1023,17 +524,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
-                      "parallelIndex": 4,
+                      "workerIndex": 27,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1245,
+                      "duration": 1326,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:46.225Z",
+                      "startTime": "2025-10-18T18:26:23.516Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/inventory-Gestión-de-Inven-b9ede--mostrar-stock-de-productos-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -1057,17 +564,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
-                      "parallelIndex": 4,
+                      "workerIndex": 30,
+                      "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 1200,
+                      "duration": 1209,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:47.546Z",
+                      "startTime": "2025-10-18T18:26:24.172Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/inventory-Gestión-de-Inven-3200a-ar-nuevo-lote-de-inventario-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -1091,17 +604,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
-                      "parallelIndex": 4,
+                      "workerIndex": 29,
+                      "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 1149,
+                      "duration": 1207,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:48.753Z",
+                      "startTime": "2025-10-18T18:26:24.894Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/inventory-Gestión-de-Inven-a3af4-debe-validar-datos-del-lote-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -1125,17 +644,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 6,
+                      "workerIndex": 27,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1178,
+                      "duration": 1268,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:49.720Z",
+                      "startTime": "2025-10-18T18:26:24.890Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/inventory-Gestión-de-Inven-d6780-tal-después-de-agregar-lote-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -1159,17 +684,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
-                      "parallelIndex": 4,
+                      "workerIndex": 30,
+                      "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 1183,
+                      "duration": 1207,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:49.907Z",
+                      "startTime": "2025-10-18T18:26:25.422Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/inventory-Gestión-de-Inven-bbff3-ar-productos-con-stock-bajo-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -1193,17 +724,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 7,
-                      "parallelIndex": 2,
+                      "workerIndex": 28,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 1188,
+                      "duration": 1237,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:50.553Z",
+                      "startTime": "2025-10-18T18:26:26.085Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/inventory-Gestión-de-Inven-961ff-E-debe-filtrar-por-producto-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -1227,330 +764,29 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 8,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 1253,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:41:50.759Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "491382254a121adeeb47-a70872c6f3441fee0e9e",
-              "file": "inventory.spec.ts",
-              "line": 43,
-              "column": 3
-            },
-            {
-              "title": "debe navegar a inventario",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 13,
+                      "workerIndex": 29,
                       "parallelIndex": 2,
-                      "status": "failed",
-                      "duration": 6225,
-                      "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/inventario/\u001b[39m\nReceived string:  \u001b[31m\"https://mundocomputo.vercel.app/auth\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    9 × unexpected value \"https://mundocomputo.vercel.app/auth\"\u001b[22m\n",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/inventario/\u001b[39m\nReceived string:  \u001b[31m\"https://mundocomputo.vercel.app/auth\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    9 × unexpected value \"https://mundocomputo.vercel.app/auth\"\u001b[22m\n\n    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/inventory.spec.ts:10:24",
-                        "location": {
-                          "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/inventory.spec.ts",
-                          "column": 24,
-                          "line": 10
-                        },
-                        "snippet": "\u001b[0m \u001b[90m  8 |\u001b[39m\n \u001b[90m  9 |\u001b[39m   test(\u001b[32m'debe navegar a inventario'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 10 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveURL(\u001b[35m/inventario/\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 11 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 12 |\u001b[39m\n \u001b[90m 13 |\u001b[39m   test(\u001b[32m'debe mostrar stock de productos'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/inventory.spec.ts",
-                            "column": 24,
-                            "line": 10
-                          },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/inventario/\u001b[39m\nReceived string:  \u001b[31m\"https://mundocomputo.vercel.app/auth\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    9 × unexpected value \"https://mundocomputo.vercel.app/auth\"\u001b[22m\n\n\n\u001b[0m \u001b[90m  8 |\u001b[39m\n \u001b[90m  9 |\u001b[39m   test(\u001b[32m'debe navegar a inventario'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 10 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveURL(\u001b[35m/inventario/\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 11 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 12 |\u001b[39m\n \u001b[90m 13 |\u001b[39m   test(\u001b[32m'debe mostrar stock de productos'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[2m    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/inventory.spec.ts:10:24\u001b[22m"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:05.572Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/inventory-Gestión-de-Inven-6007c-E-debe-navegar-a-inventario-firefox/test-failed-1.png"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/inventory-Gestión-de-Inven-6007c-E-debe-navegar-a-inventario-firefox/error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/inventory.spec.ts",
-                        "column": 24,
-                        "line": 10
-                      }
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "491382254a121adeeb47-fd7ae9676c006b6f9c2c",
-              "file": "inventory.spec.ts",
-              "line": 9,
-              "column": 3
-            },
-            {
-              "title": "debe mostrar stock de productos",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 15,
-                      "parallelIndex": 4,
-                      "status": "passed",
-                      "duration": 1538,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:07.087Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "491382254a121adeeb47-6d3ac06ae0c7887e83a6",
-              "file": "inventory.spec.ts",
-              "line": 13,
-              "column": 3
-            },
-            {
-              "title": "debe crear nuevo lote de inventario",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 15,
-                      "parallelIndex": 4,
-                      "status": "passed",
-                      "duration": 1218,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:09.045Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "491382254a121adeeb47-40e518a85116d3492a37",
-              "file": "inventory.spec.ts",
-              "line": 18,
-              "column": 3
-            },
-            {
-              "title": "debe validar datos del lote",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 16,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1548,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:09.644Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "491382254a121adeeb47-87940d87ba7f0282265c",
-              "file": "inventory.spec.ts",
-              "line": 23,
-              "column": 3
-            },
-            {
-              "title": "debe actualizar stock total después de agregar lote",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 15,
-                      "parallelIndex": 4,
                       "status": "passed",
                       "duration": 1223,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:42:10.269Z",
+                      "startTime": "2025-10-18T18:26:26.146Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/inventory-Gestión-de-Inven-eb279--mostrar-historial-de-lotes-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
                 }
               ],
-              "id": "491382254a121adeeb47-0c651836edab179aa368",
-              "file": "inventory.spec.ts",
-              "line": 28,
-              "column": 3
-            },
-            {
-              "title": "debe mostrar productos con stock bajo",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 17,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1677,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:11.140Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "491382254a121adeeb47-79122a5aabb41860fb44",
-              "file": "inventory.spec.ts",
-              "line": 33,
-              "column": 3
-            },
-            {
-              "title": "debe filtrar por producto",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 18,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 1606,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:11.633Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "491382254a121adeeb47-99a08295ac685f4591d0",
-              "file": "inventory.spec.ts",
-              "line": 38,
-              "column": 3
-            },
-            {
-              "title": "debe mostrar historial de lotes",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 15,
-                      "parallelIndex": 4,
-                      "status": "passed",
-                      "duration": 1256,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:11.501Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "491382254a121adeeb47-5483e6cd522add1730c3",
+              "id": "491382254a121adeeb47-a70872c6f3441fee0e9e",
               "file": "inventory.spec.ts",
               "line": 43,
               "column": 3
@@ -1576,17 +812,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 9,
-                      "parallelIndex": 3,
+                      "workerIndex": 27,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1203,
+                      "duration": 1461,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:51.026Z",
+                      "startTime": "2025-10-18T18:26:26.205Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/inventory-Alertas-de-Stock-8cda3-productos-bajo-stock-mínimo-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -1610,17 +852,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 6,
-                      "parallelIndex": 0,
+                      "workerIndex": 30,
+                      "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 1362,
+                      "duration": 1244,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:50.976Z",
+                      "startTime": "2025-10-18T18:26:26.674Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/inventory-Alertas-de-Stock-a446e-dor-visual-de-stock-crítico-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -1644,125 +892,29 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
-                      "parallelIndex": 4,
+                      "workerIndex": 28,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 1204,
+                      "duration": 1201,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:51.099Z",
+                      "startTime": "2025-10-18T18:26:27.385Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/inventory-Alertas-de-Stock-3fd80-r-stock-total-correctamente-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
                 }
               ],
               "id": "491382254a121adeeb47-706b181443e18ddf38f2",
-              "file": "inventory.spec.ts",
-              "line": 65,
-              "column": 3
-            },
-            {
-              "title": "debe identificar productos bajo stock mínimo",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 16,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1259,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:11.647Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "491382254a121adeeb47-ae471c81ec8a8870a10e",
-              "file": "inventory.spec.ts",
-              "line": 55,
-              "column": 3
-            },
-            {
-              "title": "debe mostrar indicador visual de stock crítico",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 19,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 1601,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:12.506Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "491382254a121adeeb47-7cdf580abfee22a23ff3",
-              "file": "inventory.spec.ts",
-              "line": 60,
-              "column": 3
-            },
-            {
-              "title": "debe calcular stock total correctamente",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 15,
-                      "parallelIndex": 4,
-                      "status": "passed",
-                      "duration": 1268,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:12.764Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "491382254a121adeeb47-8ba129b3057af642e1f6",
               "file": "inventory.spec.ts",
               "line": 65,
               "column": 3
@@ -1788,17 +940,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 7,
+                      "workerIndex": 29,
                       "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 1157,
+                      "duration": 1165,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:51.828Z",
+                      "startTime": "2025-10-18T18:26:27.419Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/inventory-Integridad-de-In-8bf4f-ntar-stock-después-de-venta-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -1822,17 +980,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 8,
-                      "parallelIndex": 1,
+                      "workerIndex": 27,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1163,
+                      "duration": 1268,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:52.093Z",
+                      "startTime": "2025-10-18T18:26:27.718Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/inventory-Integridad-de-In-91d0e--prevenir-valores-negativos-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -1856,125 +1020,29 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
-                      "parallelIndex": 4,
+                      "workerIndex": 30,
+                      "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 1160,
+                      "duration": 1206,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:52.311Z",
+                      "startTime": "2025-10-18T18:26:27.961Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/inventory-Integridad-de-In-4dde0-trazabilidad-de-movimientos-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
                 }
               ],
               "id": "491382254a121adeeb47-8c6f38f947b44223c1a4",
-              "file": "inventory.spec.ts",
-              "line": 87,
-              "column": 3
-            },
-            {
-              "title": "debe descontar stock después de venta",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 16,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1234,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:12.913Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "491382254a121adeeb47-2a485925c61adfe954d8",
-              "file": "inventory.spec.ts",
-              "line": 77,
-              "column": 3
-            },
-            {
-              "title": "debe prevenir valores negativos",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 17,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1230,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:13.294Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "491382254a121adeeb47-bc98b6dedf314c952c39",
-              "file": "inventory.spec.ts",
-              "line": 82,
-              "column": 3
-            },
-            {
-              "title": "debe mantener trazabilidad de movimientos",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 18,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 1277,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:13.753Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "491382254a121adeeb47-51a4e3c0fcf995c71a0c",
               "file": "inventory.spec.ts",
               "line": 87,
               "column": 3
@@ -2009,17 +1077,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 9,
-                      "parallelIndex": 3,
+                      "workerIndex": 29,
+                      "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 1095,
+                      "duration": 1166,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:52.317Z",
+                      "startTime": "2025-10-18T18:26:28.637Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/products-Gestión-de-Produc-3b276-ar-a-la-página-de-productos-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -2043,17 +1117,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 6,
-                      "parallelIndex": 0,
+                      "workerIndex": 28,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 1113,
+                      "duration": 1141,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:52.351Z",
+                      "startTime": "2025-10-18T18:26:28.638Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/products-Gestión-de-Produc-52583-ostrar-listado-de-productos-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -2077,17 +1157,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 7,
-                      "parallelIndex": 2,
+                      "workerIndex": 27,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1101,
+                      "duration": 1146,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:52.995Z",
+                      "startTime": "2025-10-18T18:26:29.030Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/products-Gestión-de-Produc-966e8-e-permitir-buscar-productos-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -2111,17 +1197,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 8,
-                      "parallelIndex": 1,
+                      "workerIndex": 30,
+                      "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 1101,
+                      "duration": 1128,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:53.266Z",
+                      "startTime": "2025-10-18T18:26:29.213Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/products-Gestión-de-Produc-6c3d6-rir-modal-de-crear-producto-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -2145,17 +1237,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 9,
-                      "parallelIndex": 3,
+                      "workerIndex": 32,
+                      "parallelIndex": 4,
                       "status": "passed",
-                      "duration": 1093,
+                      "duration": 1210,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:53.421Z",
+                      "startTime": "2025-10-18T18:26:30.019Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/products-Gestión-de-Produc-5c039--producto-con-datos-válidos-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -2179,17 +1277,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 6,
-                      "parallelIndex": 0,
+                      "workerIndex": 28,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 1094,
+                      "duration": 1125,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:53.469Z",
+                      "startTime": "2025-10-18T18:26:29.837Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/products-Gestión-de-Produc-c7401-equeridos-al-crear-producto-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -2213,17 +1317,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
-                      "parallelIndex": 4,
+                      "workerIndex": 29,
+                      "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 1090,
+                      "duration": 1152,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:53.490Z",
+                      "startTime": "2025-10-18T18:26:29.858Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/products-Gestión-de-Produc-f2c6f-ditar-un-producto-existente-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -2247,17 +1357,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 7,
-                      "parallelIndex": 2,
+                      "workerIndex": 27,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1079,
+                      "duration": 1224,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:54.102Z",
+                      "startTime": "2025-10-18T18:26:30.218Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/products-Gestión-de-Productos-E2E-debe-eliminar-un-producto-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -2281,17 +1397,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 8,
-                      "parallelIndex": 1,
+                      "workerIndex": 30,
+                      "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 1109,
+                      "duration": 1138,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:54.374Z",
+                      "startTime": "2025-10-18T18:26:30.387Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/products-Gestión-de-Produc-20ec8--de-producto-con-inventario-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -2315,17 +1437,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 9,
-                      "parallelIndex": 3,
+                      "workerIndex": 28,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 1095,
+                      "duration": 1241,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:54.519Z",
+                      "startTime": "2025-10-18T18:26:31.017Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/products-Gestión-de-Produc-e1898-be-exportar-productos-a-PDF-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -2349,17 +1477,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 6,
-                      "parallelIndex": 0,
+                      "workerIndex": 29,
+                      "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 1096,
+                      "duration": 1190,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:54.568Z",
+                      "startTime": "2025-10-18T18:26:31.066Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/products-Gestión-de-Produc-12924-rar-productos-por-categoría-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -2383,431 +1517,29 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
+                      "workerIndex": 32,
                       "parallelIndex": 4,
                       "status": "passed",
-                      "duration": 1077,
+                      "duration": 1246,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:54.586Z",
+                      "startTime": "2025-10-18T18:26:31.368Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/products-Gestión-de-Produc-d06b9-aje-cuando-no-hay-productos-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
                 }
               ],
               "id": "000c94276132c4f97581-fb1cd8c46e36dfa89ad3",
-              "file": "products.spec.ts",
-              "line": 63,
-              "column": 3
-            },
-            {
-              "title": "debe navegar a la página de productos",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 15,
-                      "parallelIndex": 4,
-                      "status": "passed",
-                      "duration": 1209,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:14.041Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "000c94276132c4f97581-0f298edaa5b225204485",
-              "file": "products.spec.ts",
-              "line": 9,
-              "column": 3
-            },
-            {
-              "title": "debe mostrar listado de productos",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 16,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1348,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:14.160Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "000c94276132c4f97581-6fd141a714c07b480419",
-              "file": "products.spec.ts",
-              "line": 13,
-              "column": 3
-            },
-            {
-              "title": "debe permitir buscar productos",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 17,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1224,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:14.538Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "000c94276132c4f97581-8a97b6ed1129be2cbcb5",
-              "file": "products.spec.ts",
-              "line": 18,
-              "column": 3
-            },
-            {
-              "title": "debe abrir modal de crear producto",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 19,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 1234,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:14.590Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "000c94276132c4f97581-4448226bd74f98d68c9d",
-              "file": "products.spec.ts",
-              "line": 23,
-              "column": 3
-            },
-            {
-              "title": "debe crear un producto con datos válidos",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 18,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 1223,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:15.042Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "000c94276132c4f97581-424deb082819ce7b09c1",
-              "file": "products.spec.ts",
-              "line": 28,
-              "column": 3
-            },
-            {
-              "title": "debe validar campos requeridos al crear producto",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 15,
-                      "parallelIndex": 4,
-                      "status": "passed",
-                      "duration": 1196,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:15.259Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "000c94276132c4f97581-cce6a91bae1916e80de6",
-              "file": "products.spec.ts",
-              "line": 33,
-              "column": 3
-            },
-            {
-              "title": "debe editar un producto existente",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 16,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1195,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:15.513Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "000c94276132c4f97581-fda8fe303068c143492c",
-              "file": "products.spec.ts",
-              "line": 38,
-              "column": 3
-            },
-            {
-              "title": "debe eliminar un producto",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 17,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1278,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:15.768Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "000c94276132c4f97581-07a1ef4a3d32e554d510",
-              "file": "products.spec.ts",
-              "line": 43,
-              "column": 3
-            },
-            {
-              "title": "debe prevenir eliminación de producto con inventario",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 19,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 1238,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:15.831Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "000c94276132c4f97581-7cf19fefdddca951d450",
-              "file": "products.spec.ts",
-              "line": 48,
-              "column": 3
-            },
-            {
-              "title": "debe exportar productos a PDF",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 18,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 1239,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:16.272Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "000c94276132c4f97581-ec7636f1c35b12ea8c0e",
-              "file": "products.spec.ts",
-              "line": 53,
-              "column": 3
-            },
-            {
-              "title": "debe filtrar productos por categoría",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 15,
-                      "parallelIndex": 4,
-                      "status": "passed",
-                      "duration": 1266,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:16.461Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "000c94276132c4f97581-22f283ee94717d24a112",
-              "file": "products.spec.ts",
-              "line": 58,
-              "column": 3
-            },
-            {
-              "title": "debe mostrar mensaje cuando no hay productos",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 16,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 1196,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:16.714Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "000c94276132c4f97581-f5161032f761d822b75e",
               "file": "products.spec.ts",
               "line": 63,
               "column": 3
@@ -2833,17 +1565,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 7,
-                      "parallelIndex": 2,
+                      "workerIndex": 27,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1112,
+                      "duration": 1240,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:55.185Z",
+                      "startTime": "2025-10-18T18:26:31.487Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/products-Validaciones-de-P-09bb3-ebe-validar-precio-positivo-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -2867,17 +1605,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 8,
-                      "parallelIndex": 1,
+                      "workerIndex": 30,
+                      "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 1130,
+                      "duration": 1390,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:55.489Z",
+                      "startTime": "2025-10-18T18:26:31.573Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/products-Validaciones-de-P-22197-ar-stock-mínimo-no-negativo-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -2901,17 +1645,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 9,
-                      "parallelIndex": 3,
+                      "workerIndex": 29,
+                      "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 1111,
+                      "duration": 1157,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:55.618Z",
+                      "startTime": "2025-10-18T18:26:32.303Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/products-Validaciones-de-P-b2d39-ebe-validar-nombre-no-vacío-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -2935,159 +1685,29 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
-                      "parallelIndex": 4,
+                      "workerIndex": 28,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 1111,
+                      "duration": 1146,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:55.669Z",
+                      "startTime": "2025-10-18T18:26:32.304Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/products-Validaciones-de-P-a581f-idar-selección-de-categoría-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
                 }
               ],
               "id": "000c94276132c4f97581-e69763327f34790255f3",
-              "file": "products.spec.ts",
-              "line": 90,
-              "column": 3
-            },
-            {
-              "title": "debe validar precio positivo",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 17,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1231,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:17.052Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "000c94276132c4f97581-c97b917340782f7c9bf8",
-              "file": "products.spec.ts",
-              "line": 75,
-              "column": 3
-            },
-            {
-              "title": "debe validar stock mínimo no negativo",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 19,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 1270,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:17.076Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "000c94276132c4f97581-7f90bd307b1536964549",
-              "file": "products.spec.ts",
-              "line": 80,
-              "column": 3
-            },
-            {
-              "title": "debe validar nombre no vacío",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 18,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 1189,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:17.517Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "000c94276132c4f97581-27ed73b42e709a762882",
-              "file": "products.spec.ts",
-              "line": 85,
-              "column": 3
-            },
-            {
-              "title": "debe validar selección de categoría",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 15,
-                      "parallelIndex": 4,
-                      "status": "passed",
-                      "duration": 1327,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:17.732Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "000c94276132c4f97581-38e46c9f2a206d237f51",
               "file": "products.spec.ts",
               "line": 90,
               "column": 3
@@ -3122,10 +1742,10 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 6,
-                      "parallelIndex": 0,
+                      "workerIndex": 32,
+                      "parallelIndex": 4,
                       "status": "failed",
-                      "duration": 6152,
+                      "duration": 6210,
                       "error": {
                         "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/ventas/\u001b[39m\nReceived string:  \u001b[31m\"https://mundocomputo.vercel.app/auth\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    9 × unexpected value \"https://mundocomputo.vercel.app/auth\"\u001b[22m\n",
                         "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/ventas/\u001b[39m\nReceived string:  \u001b[31m\"https://mundocomputo.vercel.app/auth\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    9 × unexpected value \"https://mundocomputo.vercel.app/auth\"\u001b[22m\n\n    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/sales.spec.ts:10:24",
@@ -3149,7 +1769,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:55.671Z",
+                      "startTime": "2025-10-18T18:26:32.693Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -3161,6 +1781,11 @@
                           "name": "error-context",
                           "contentType": "text/markdown",
                           "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/sales-Proceso-de-Ventas-E2-00fad-avegar-a-registro-de-ventas-chromium/error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/sales-Proceso-de-Ventas-E2-00fad-avegar-a-registro-de-ventas-chromium/trace.zip"
                         }
                       ],
                       "errorLocation": {
@@ -3191,17 +1816,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 7,
-                      "parallelIndex": 2,
+                      "workerIndex": 27,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1146,
+                      "duration": 1185,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:56.306Z",
+                      "startTime": "2025-10-18T18:26:32.779Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/sales-Proceso-de-Ventas-E2-2b546-eccionar-cliente-para-venta-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -3225,17 +1856,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 8,
-                      "parallelIndex": 1,
+                      "workerIndex": 30,
+                      "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 1146,
+                      "duration": 1356,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:56.631Z",
+                      "startTime": "2025-10-18T18:26:33.011Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/sales-Proceso-de-Ventas-E2-5b28c-gregar-productos-a-la-venta-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -3259,17 +1896,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 9,
-                      "parallelIndex": 3,
+                      "workerIndex": 28,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 1161,
+                      "duration": 1305,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:56.738Z",
+                      "startTime": "2025-10-18T18:26:33.498Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/sales-Proceso-de-Ventas-E2-97a4f-cular-total-automáticamente-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -3293,17 +1936,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
-                      "parallelIndex": 4,
+                      "workerIndex": 29,
+                      "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 1146,
+                      "duration": 1293,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:56.789Z",
+                      "startTime": "2025-10-18T18:26:33.505Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/sales-Proceso-de-Ventas-E2-1ebf0-k-antes-de-agregar-producto-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -3327,17 +1976,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 7,
-                      "parallelIndex": 2,
+                      "workerIndex": 27,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1141,
+                      "duration": 1264,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:57.458Z",
+                      "startTime": "2025-10-18T18:26:34.007Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/sales-Proceso-de-Ventas-E2-4c523--si-no-hay-suficiente-stock-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -3361,17 +2016,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 8,
-                      "parallelIndex": 1,
+                      "workerIndex": 30,
+                      "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 1174,
+                      "duration": 1204,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:57.788Z",
+                      "startTime": "2025-10-18T18:26:34.410Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/sales-Proceso-de-Ventas-E2-34ba0-egistrar-venta-exitosamente-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -3395,17 +2056,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 9,
-                      "parallelIndex": 3,
+                      "workerIndex": 29,
+                      "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 1160,
+                      "duration": 1228,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:57.906Z",
+                      "startTime": "2025-10-18T18:26:34.852Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/sales-Proceso-de-Ventas-E2-71e6f-inventario-después-de-venta-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -3429,17 +2096,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
-                      "parallelIndex": 4,
+                      "workerIndex": 28,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 1179,
+                      "duration": 1260,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:57.940Z",
+                      "startTime": "2025-10-18T18:26:34.853Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/sales-Proceso-de-Ventas-E2-869ec-enerar-comprobante-de-venta-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -3463,398 +2136,29 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 7,
-                      "parallelIndex": 2,
+                      "workerIndex": 27,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1160,
+                      "duration": 1200,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:58.607Z",
+                      "startTime": "2025-10-18T18:26:35.315Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/sales-Proceso-de-Ventas-E2E-debe-mostrar-resumen-de-venta-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
                 }
               ],
               "id": "9732fc60f5589579a1d1-2eabccfbb267e5e557ae",
-              "file": "sales.spec.ts",
-              "line": 53,
-              "column": 3
-            },
-            {
-              "title": "debe navegar a registro de ventas",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 16,
-                      "parallelIndex": 3,
-                      "status": "failed",
-                      "duration": 6223,
-                      "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/ventas/\u001b[39m\nReceived string:  \u001b[31m\"https://mundocomputo.vercel.app/auth\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    9 × unexpected value \"https://mundocomputo.vercel.app/auth\"\u001b[22m\n",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/ventas/\u001b[39m\nReceived string:  \u001b[31m\"https://mundocomputo.vercel.app/auth\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    9 × unexpected value \"https://mundocomputo.vercel.app/auth\"\u001b[22m\n\n    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/sales.spec.ts:10:24",
-                        "location": {
-                          "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/sales.spec.ts",
-                          "column": 24,
-                          "line": 10
-                        },
-                        "snippet": "\u001b[0m \u001b[90m  8 |\u001b[39m\n \u001b[90m  9 |\u001b[39m   test(\u001b[32m'debe navegar a registro de ventas'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 10 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveURL(\u001b[35m/ventas/\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 11 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 12 |\u001b[39m\n \u001b[90m 13 |\u001b[39m   test(\u001b[32m'debe seleccionar cliente para venta'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/sales.spec.ts",
-                            "column": 24,
-                            "line": 10
-                          },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/ventas/\u001b[39m\nReceived string:  \u001b[31m\"https://mundocomputo.vercel.app/auth\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    9 × unexpected value \"https://mundocomputo.vercel.app/auth\"\u001b[22m\n\n\n\u001b[0m \u001b[90m  8 |\u001b[39m\n \u001b[90m  9 |\u001b[39m   test(\u001b[32m'debe navegar a registro de ventas'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 10 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveURL(\u001b[35m/ventas/\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 11 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 12 |\u001b[39m\n \u001b[90m 13 |\u001b[39m   test(\u001b[32m'debe seleccionar cliente para venta'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[2m    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/sales.spec.ts:10:24\u001b[22m"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:17.920Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/sales-Proceso-de-Ventas-E2-00fad-avegar-a-registro-de-ventas-firefox/test-failed-1.png"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/sales-Proceso-de-Ventas-E2-00fad-avegar-a-registro-de-ventas-firefox/error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/sales.spec.ts",
-                        "column": 24,
-                        "line": 10
-                      }
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "9732fc60f5589579a1d1-c5427db50918f3e88205",
-              "file": "sales.spec.ts",
-              "line": 9,
-              "column": 3
-            },
-            {
-              "title": "debe seleccionar cliente para venta",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 17,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1224,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:18.295Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "9732fc60f5589579a1d1-f4ba4c9dd4c229ae5489",
-              "file": "sales.spec.ts",
-              "line": 13,
-              "column": 3
-            },
-            {
-              "title": "debe agregar productos a la venta",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 19,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 1232,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:18.366Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "9732fc60f5589579a1d1-361a2ad124662f128343",
-              "file": "sales.spec.ts",
-              "line": 18,
-              "column": 3
-            },
-            {
-              "title": "debe calcular total automáticamente",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 18,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 1214,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:18.716Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "9732fc60f5589579a1d1-4a252c6ebffd12e57a00",
-              "file": "sales.spec.ts",
-              "line": 23,
-              "column": 3
-            },
-            {
-              "title": "debe validar stock antes de agregar producto",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 15,
-                      "parallelIndex": 4,
-                      "status": "passed",
-                      "duration": 1284,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:19.070Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "9732fc60f5589579a1d1-a5d10f12ba7295564f6a",
-              "file": "sales.spec.ts",
-              "line": 28,
-              "column": 3
-            },
-            {
-              "title": "debe mostrar error si no hay suficiente stock",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 17,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1235,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:19.524Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "9732fc60f5589579a1d1-ecb2fdb883ebb4ee02cf",
-              "file": "sales.spec.ts",
-              "line": 33,
-              "column": 3
-            },
-            {
-              "title": "debe registrar venta exitosamente",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 19,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 1199,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:19.606Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "9732fc60f5589579a1d1-19d75af78faca167e3ba",
-              "file": "sales.spec.ts",
-              "line": 38,
-              "column": 3
-            },
-            {
-              "title": "debe actualizar inventario después de venta",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 18,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 1222,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:19.936Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "9732fc60f5589579a1d1-73164dd121c41bbbb01e",
-              "file": "sales.spec.ts",
-              "line": 43,
-              "column": 3
-            },
-            {
-              "title": "debe generar comprobante de venta",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 15,
-                      "parallelIndex": 4,
-                      "status": "passed",
-                      "duration": 1221,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:20.361Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "9732fc60f5589579a1d1-c43789d440a47701b040",
-              "file": "sales.spec.ts",
-              "line": 48,
-              "column": 3
-            },
-            {
-              "title": "debe mostrar resumen de venta",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 17,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1271,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:20.764Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "9732fc60f5589579a1d1-4afe690a7d222b960c87",
               "file": "sales.spec.ts",
               "line": 53,
               "column": 3
@@ -3880,17 +2184,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 8,
-                      "parallelIndex": 1,
+                      "workerIndex": 30,
+                      "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 1162,
+                      "duration": 1272,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:58.968Z",
+                      "startTime": "2025-10-18T18:26:35.661Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/sales-Validaciones-de-Venta-debe-requerir-cliente-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -3914,17 +2224,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 9,
-                      "parallelIndex": 3,
+                      "workerIndex": 29,
+                      "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 1146,
+                      "duration": 1215,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:59.072Z",
+                      "startTime": "2025-10-18T18:26:36.123Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/sales-Validaciones-de-Vent-7dbf3-querir-al-menos-un-producto-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -3948,17 +2264,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
-                      "parallelIndex": 4,
+                      "workerIndex": 28,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 1146,
+                      "duration": 1209,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:59.123Z",
+                      "startTime": "2025-10-18T18:26:36.158Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/sales-Validaciones-de-Venta-debe-validar-cantidad-positiva-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -3982,17 +2304,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 7,
-                      "parallelIndex": 2,
+                      "workerIndex": 27,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1145,
+                      "duration": 1244,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:41:59.772Z",
+                      "startTime": "2025-10-18T18:26:36.555Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/sales-Validaciones-de-Venta-debe-prevenir-venta-sin-stock-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -4016,193 +2344,29 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 8,
-                      "parallelIndex": 1,
+                      "workerIndex": 30,
+                      "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 1178,
+                      "duration": 1190,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:42:00.134Z",
+                      "startTime": "2025-10-18T18:26:36.977Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/sales-Validaciones-de-Vent-3dd94-ar-subtotales-correctamente-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
                 }
               ],
               "id": "9732fc60f5589579a1d1-5c37d373bc4896d320c2",
-              "file": "sales.spec.ts",
-              "line": 85,
-              "column": 3
-            },
-            {
-              "title": "debe requerir cliente",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 19,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 1284,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:20.812Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "9732fc60f5589579a1d1-d776ef371d56e20acb47",
-              "file": "sales.spec.ts",
-              "line": 65,
-              "column": 3
-            },
-            {
-              "title": "debe requerir al menos un producto",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 18,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 1223,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:21.164Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "9732fc60f5589579a1d1-f32a1e8ae9303e854096",
-              "file": "sales.spec.ts",
-              "line": 70,
-              "column": 3
-            },
-            {
-              "title": "debe validar cantidad positiva",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 15,
-                      "parallelIndex": 4,
-                      "status": "passed",
-                      "duration": 1205,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:21.588Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "9732fc60f5589579a1d1-7b28e6eed55325429e49",
-              "file": "sales.spec.ts",
-              "line": 75,
-              "column": 3
-            },
-            {
-              "title": "debe prevenir venta sin stock",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 17,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1214,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:22.041Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "9732fc60f5589579a1d1-8db7c8187b8125d73467",
-              "file": "sales.spec.ts",
-              "line": 80,
-              "column": 3
-            },
-            {
-              "title": "debe calcular subtotales correctamente",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 19,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 1203,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:22.101Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "9732fc60f5589579a1d1-00b61eb4c8ed7dab81f0",
               "file": "sales.spec.ts",
               "line": 85,
               "column": 3
@@ -4228,17 +2392,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 9,
-                      "parallelIndex": 3,
+                      "workerIndex": 29,
+                      "parallelIndex": 2,
                       "status": "passed",
-                      "duration": 1144,
+                      "duration": 1197,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:42:00.224Z",
+                      "startTime": "2025-10-18T18:26:37.385Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/sales-Historial-de-Ventas-debe-mostrar-listado-de-ventas-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -4262,17 +2432,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
-                      "parallelIndex": 4,
+                      "workerIndex": 28,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 1212,
+                      "duration": 1200,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:42:00.274Z",
+                      "startTime": "2025-10-18T18:26:37.414Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/sales-Historial-de-Ventas-debe-filtrar-ventas-por-fecha-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -4296,17 +2472,23 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 7,
-                      "parallelIndex": 2,
+                      "workerIndex": 27,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 1198,
+                      "duration": 1192,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:42:00.922Z",
+                      "startTime": "2025-10-18T18:26:37.842Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/sales-Historial-de-Ventas-debe-buscar-ventas-por-cliente-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
@@ -4330,159 +2512,29 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 8,
-                      "parallelIndex": 1,
+                      "workerIndex": 30,
+                      "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 1153,
+                      "duration": 1193,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-18T16:42:01.319Z",
+                      "startTime": "2025-10-18T18:26:38.210Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/sales-Historial-de-Ventas-debe-mostrar-detalles-de-venta-chromium/trace.zip"
+                        }
+                      ]
                     }
                   ],
                   "status": "expected"
                 }
               ],
               "id": "9732fc60f5589579a1d1-92e4538313552b773d55",
-              "file": "sales.spec.ts",
-              "line": 112,
-              "column": 3
-            },
-            {
-              "title": "debe mostrar listado de ventas",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 18,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 1198,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:22.393Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "9732fc60f5589579a1d1-7851c671f561253d96df",
-              "file": "sales.spec.ts",
-              "line": 97,
-              "column": 3
-            },
-            {
-              "title": "debe filtrar ventas por fecha",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 15,
-                      "parallelIndex": 4,
-                      "status": "passed",
-                      "duration": 1217,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:22.797Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "9732fc60f5589579a1d1-1c8b1beee02e4db7ef1d",
-              "file": "sales.spec.ts",
-              "line": 102,
-              "column": 3
-            },
-            {
-              "title": "debe buscar ventas por cliente",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 17,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 1199,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:23.260Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "9732fc60f5589579a1d1-edacdd9eaf3459759c39",
-              "file": "sales.spec.ts",
-              "line": 107,
-              "column": 3
-            },
-            {
-              "title": "debe mostrar detalles de venta",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 19,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 1218,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-18T16:42:23.311Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "9732fc60f5589579a1d1-2e491446e158de0efbcb",
               "file": "sales.spec.ts",
               "line": 112,
               "column": 3
@@ -4494,11 +2546,11 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2025-10-18T16:41:42.318Z",
-    "duration": 42492.923,
-    "expected": 102,
+    "startTime": "2025-10-18T18:26:20.934Z",
+    "duration": 18543.157000000007,
+    "expected": 55,
     "skipped": 0,
-    "unexpected": 12,
+    "unexpected": 2,
     "flaky": 0
   }
 }

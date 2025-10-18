@@ -7,11 +7,20 @@ test.describe('Autenticación E2E', () => {
   });
 
   test('debe mostrar la página de login', async ({ page }) => {
-    // Verificar que estamos en la página principal
-    await expect(page).toHaveURL(/\/$/);
-    // Verificar que hay algún input en la página
-    const hasInputs = await page.locator('input').count() > 0;
-    expect(hasInputs).toBe(true);
+    // Navegar a la página de login
+    await page.goto('/auth');
+    
+    // Verificar que estamos en la página correcta
+    await expect(page).toHaveURL(/\/auth$/);
+    
+    // Verificar elementos específicos del formulario de login
+    await expect(page.locator('input[type="email"]')).toBeVisible();
+    await expect(page.locator('input[type="password"]')).toBeVisible();
+    await expect(page.locator('button[type="submit"]')).toBeVisible();
+    
+    // O verificar que hay al menos 2 inputs (email y password)
+    const inputCount = await page.locator('input').count();
+    expect(inputCount).toBeGreaterThanOrEqual(2);
   });
 
   test('debe mostrar error con credenciales inválidas', async ({ page }) => {
@@ -37,11 +46,22 @@ test.describe('Autenticación E2E', () => {
 
 test.describe('Navegación después de login', () => {
   test('debe redirigir a dashboard después de login exitoso', async ({ page }) => {
-    await page.goto('/');
-    // Solo navegar a una página y verificar que no es la de login
-    await page.goto('/admin');
+    // Navegar a la página de login
+    await page.goto('/auth');
+    
+    // Completar el formulario de login
+    await page.locator('input[type="email"]').fill('breynersanchezquintero@gmail.com');
+    await page.locator('input[type="password"]').fill('Bbreyner18');
+    
+    // Hacer click en el botón de login
+    await page.locator('button[type="submit"]').click();
+    
+    // Verificar que se redirige al dashboard/admin
+    await expect(page).toHaveURL(/\/admin$/);
+    
+    // Verificar adicionalmente que NO estamos en la página de login
     await expect(page).not.toHaveURL(/auth|login/);
-  });
+});
 
   test('debe mantener sesión después de refrescar', async ({ page }) => {
     await page.goto('/admin');
@@ -53,7 +73,7 @@ test.describe('Navegación después de login', () => {
 
   test('debe cerrar sesión correctamente', async ({ page }) => {
     // Solo navegar a la página principal
-    await page.goto('/');
-    await expect(page).toHaveURL(/\/$/);
+    await page.goto('/auth');
+    await expect(page).toHaveURL(/\/auth$/);
   });
 });

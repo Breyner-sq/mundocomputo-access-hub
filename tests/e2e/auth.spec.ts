@@ -66,14 +66,53 @@ test.describe('Autenticación E2E', () => {
 
 test.describe('Navegación después de login', () => {
   test('debe redirigir a dashboard después de login exitoso', async ({ page }) => {
-    test.skip();
+    await page.getByLabel(/correo electrónico/i).fill('admin@test.com');
+    await page.locator('input[type="password"], #password').fill('Admin123!');
+    await page.getByRole('button', { name: /iniciar sesión/i }).click();
+    
+    // Esperar redirección al dashboard
+    await page.waitForURL(/\/(admin|ventas|inventario|tecnico)/, { timeout: 10000 });
+    
+    // Verificar que no estamos en la página de auth
+    expect(page.url()).not.toContain('/auth');
   });
 
   test('debe mantener sesión después de refrescar', async ({ page }) => {
-    test.skip();
+    // Primero hacer login
+    await page.getByLabel(/correo electrónico/i).fill('admin@test.com');
+    await page.locator('input[type="password"], #password').fill('Admin123!');
+    await page.getByRole('button', { name: /iniciar sesión/i }).click();
+    
+    await page.waitForURL(/\/(admin|ventas|inventario|tecnico)/, { timeout: 10000 });
+    
+    // Guardar la URL actual
+    const currentUrl = page.url();
+    
+    // Refrescar la página
+    await page.reload();
+    
+    // Verificar que no redirige a login
+    await page.waitForTimeout(2000);
+    expect(page.url()).not.toContain('/auth');
+    expect(page.url()).toContain('admin');
   });
 
   test('debe cerrar sesión correctamente', async ({ page }) => {
-    test.skip();
+    // Primero hacer login
+    await page.getByLabel(/correo electrónico/i).fill('ventas@test.com');
+    await page.locator('input[type="password"], #password').fill('Ventas123!');
+    await page.getByRole('button', { name: /iniciar sesión/i }).click();
+    
+    await page.waitForURL(/\/(admin|ventas|inventario|tecnico)/, { timeout: 10000 });
+    
+    // Buscar y hacer click en el botón de cerrar sesión
+    const logoutButton = page.getByRole('button', { name: /cerrar sesión|salir/i });
+    await logoutButton.click();
+    
+    // Verificar que redirige a la página principal
+    await page.waitForURL('/', { timeout: 5000 });
+    
+    // Verificar que muestra el formulario de login
+    await expect(page.getByText(/iniciar sesión/i)).toBeVisible();
   });
 });

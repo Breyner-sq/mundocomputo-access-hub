@@ -34,7 +34,7 @@ describe('Auth - Login', () => {
     );
 
     expect(screen.getByLabelText(/correo electrónico/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/contraseña/i)).toBeInTheDocument();
+    expect(screen.getByLabelText('Contraseña', { selector: 'input' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /iniciar sesión/i })).toBeInTheDocument();
   });
 
@@ -48,7 +48,7 @@ describe('Auth - Login', () => {
     );
 
     const emailInput = screen.getByLabelText(/correo electrónico/i);
-    const passwordInput = screen.getByLabelText(/contraseña/i);
+    const passwordInput = screen.getByLabelText('Contraseña', { selector: 'input' });
 
     await user.type(emailInput, 'admin@test.com');
     await user.type(passwordInput, 'Admin123!');
@@ -68,7 +68,7 @@ describe('Auth - Login', () => {
     );
 
     const emailInput = screen.getByLabelText(/correo electrónico/i);
-    const passwordInput = screen.getByLabelText(/contraseña/i);
+    const passwordInput = screen.getByLabelText('Contraseña', { selector: 'input' });
     const submitButton = screen.getByRole('button', { name: /iniciar sesión/i });
 
     await user.type(emailInput, 'invalid@test.com');
@@ -91,7 +91,7 @@ describe('Auth - Login', () => {
     );
 
     const emailInput = screen.getByLabelText(/correo electrónico/i);
-    const passwordInput = screen.getByLabelText(/contraseña/i);
+    const passwordInput = screen.getByLabelText('Contraseña', { selector: 'input' });
     const submitButton = screen.getByRole('button', { name: /iniciar sesión/i });
 
     await user.type(emailInput, 'admin@test.com');
@@ -116,7 +116,7 @@ describe('Auth - Login', () => {
 
     const submitButton = screen.getByRole('button', { name: /iniciar sesión/i });
     const emailInput = screen.getByLabelText(/correo electrónico/i);
-    const passwordInput = screen.getByLabelText(/contraseña/i);
+    const passwordInput = screen.getByLabelText('Contraseña', { selector: 'input' });
 
     await user.type(emailInput, 'admin@test.com');
     await user.type(passwordInput, 'Admin123!');
@@ -134,7 +134,7 @@ describe('Auth - Login', () => {
       </BrowserRouter>
     );
 
-    const passwordInput = screen.getByLabelText(/contraseña/i) as HTMLInputElement;
+    const passwordInput = screen.getByLabelText('Contraseña', { selector: 'input' }) as HTMLInputElement;
     const toggleButton = screen.getByRole('button', { name: /mostrar contraseña/i });
 
     expect(passwordInput.type).toBe('password');

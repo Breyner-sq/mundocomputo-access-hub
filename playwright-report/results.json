@@ -98,7 +98,7 @@
           "specs": [
             {
               "title": "debe mostrar la página de login",
-              "ok": false,
+              "ok": true,
               "tags": [],
               "tests": [
                 {
@@ -111,53 +111,18 @@
                     {
                       "workerIndex": 0,
                       "parallelIndex": 0,
-                      "status": "failed",
-                      "duration": 6467,
-                      "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: /iniciar sesión/i })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /iniciar sesión/i })\u001b[22m\n",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: /iniciar sesión/i })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /iniciar sesión/i })\u001b[22m\n\n    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts:9:74",
-                        "location": {
-                          "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                          "column": 74,
-                          "line": 9
-                        },
-                        "snippet": "\u001b[0m \u001b[90m  7 |\u001b[39m\n \u001b[90m  8 |\u001b[39m   test(\u001b[32m'debe mostrar la página de login'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m  9 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/iniciar sesión/i\u001b[39m }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 10 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByLabel(\u001b[35m/correo electrónico/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 11 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByLabel(\u001b[35m/contraseña/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 12 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                            "column": 74,
-                            "line": 9
-                          },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: /iniciar sesión/i })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /iniciar sesión/i })\u001b[22m\n\n\n\u001b[0m \u001b[90m  7 |\u001b[39m\n \u001b[90m  8 |\u001b[39m   test(\u001b[32m'debe mostrar la página de login'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m  9 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/iniciar sesión/i\u001b[39m }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 10 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByLabel(\u001b[35m/correo electrónico/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 11 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByLabel(\u001b[35m/contraseña/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 12 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts:9:74\u001b[22m"
-                        }
-                      ],
+                      "status": "passed",
+                      "duration": 875,
+                      "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:38.773Z",
+                      "startTime": "2025-10-18T02:06:05.870Z",
                       "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Autenticación-E2E-debe-mostrar-la-página-de-login-chromium/test-failed-1.png"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Autenticación-E2E-debe-mostrar-la-página-de-login-chromium/error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                        "column": 74,
-                        "line": 9
-                      }
+                      "attachments": []
                     }
                   ],
-                  "status": "unexpected"
+                  "status": "expected"
                 }
               ],
               "id": "d748ac400d08b85935ef-d6087e49747b55f8a92a",
@@ -167,7 +132,7 @@
             },
             {
               "title": "debe mostrar error con credenciales inválidas",
-              "ok": false,
+              "ok": true,
               "tags": [],
               "tests": [
                 {
@@ -180,63 +145,28 @@
                     {
                       "workerIndex": 1,
                       "parallelIndex": 1,
-                      "status": "failed",
-                      "duration": 2494,
-                      "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/error/i)\nExpected: visible\nError: strict mode violation: getByText(/error/i) resolved to 2 elements:\n    1) <div data-component-line=\"13\" data-lov-name=\"ToastTitle\" class=\"text-sm font-semibold\" data-component-content=\"%7B%7D\" data-component-name=\"ToastTitle\" data-component-file=\"toaster.tsx\" data-lov-id=\"src/components/ui/toaster.tsx:13:24\" data-component-path=\"src/components/ui/toaster.tsx\">Error al iniciar sesión</div> aka getByText('Error al iniciar sesión', { exact: true })\n    2) <span role=\"status\" aria-atomic=\"true\" aria-live=\"assertive\">Notification Error al iniciar sesiónInvalid login…</span> aka getByText('Notification Error al iniciar')\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/error/i)\u001b[22m\n",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/error/i)\nExpected: visible\nError: strict mode violation: getByText(/error/i) resolved to 2 elements:\n    1) <div data-component-line=\"13\" data-lov-name=\"ToastTitle\" class=\"text-sm font-semibold\" data-component-content=\"%7B%7D\" data-component-name=\"ToastTitle\" data-component-file=\"toaster.tsx\" data-lov-id=\"src/components/ui/toaster.tsx:13:24\" data-component-path=\"src/components/ui/toaster.tsx\">Error al iniciar sesión</div> aka getByText('Error al iniciar sesión', { exact: true })\n    2) <span role=\"status\" aria-atomic=\"true\" aria-live=\"assertive\">Notification Error al iniciar sesiónInvalid login…</span> aka getByText('Notification Error al iniciar')\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/error/i)\u001b[22m\n\n    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts:20:44",
-                        "location": {
-                          "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                          "column": 44,
-                          "line": 20
-                        },
-                        "snippet": "\u001b[0m \u001b[90m 18 |\u001b[39m     \n \u001b[90m 19 |\u001b[39m     \u001b[90m// Esperar mensaje de error\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 20 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/error/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m5000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 21 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 22 |\u001b[39m\n \u001b[90m 23 |\u001b[39m   test(\u001b[32m'debe permitir mostrar/ocultar contraseña'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                            "column": 44,
-                            "line": 20
-                          },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/error/i)\nExpected: visible\nError: strict mode violation: getByText(/error/i) resolved to 2 elements:\n    1) <div data-component-line=\"13\" data-lov-name=\"ToastTitle\" class=\"text-sm font-semibold\" data-component-content=\"%7B%7D\" data-component-name=\"ToastTitle\" data-component-file=\"toaster.tsx\" data-lov-id=\"src/components/ui/toaster.tsx:13:24\" data-component-path=\"src/components/ui/toaster.tsx\">Error al iniciar sesión</div> aka getByText('Error al iniciar sesión', { exact: true })\n    2) <span role=\"status\" aria-atomic=\"true\" aria-live=\"assertive\">Notification Error al iniciar sesiónInvalid login…</span> aka getByText('Notification Error al iniciar')\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/error/i)\u001b[22m\n\n\n\u001b[0m \u001b[90m 18 |\u001b[39m     \n \u001b[90m 19 |\u001b[39m     \u001b[90m// Esperar mensaje de error\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 20 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/error/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m5000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 21 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 22 |\u001b[39m\n \u001b[90m 23 |\u001b[39m   test(\u001b[32m'debe permitir mostrar/ocultar contraseña'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[2m    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts:20:44\u001b[22m"
-                        }
-                      ],
+                      "status": "passed",
+                      "duration": 1810,
+                      "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:38.731Z",
+                      "startTime": "2025-10-18T02:06:05.902Z",
                       "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Autenticación-E2E-deb-58003--con-credenciales-inválidas-chromium/test-failed-1.png"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Autenticación-E2E-deb-58003--con-credenciales-inválidas-chromium/error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                        "column": 44,
-                        "line": 20
-                      }
+                      "attachments": []
                     }
                   ],
-                  "status": "unexpected"
+                  "status": "expected"
                 }
               ],
               "id": "d748ac400d08b85935ef-2aa1f4a7a3671b3133f0",
               "file": "auth.spec.ts",
-              "line": 14,
+              "line": 20,
               "column": 3
             },
             {
               "title": "debe permitir mostrar/ocultar contraseña",
-              "ok": false,
+              "ok": true,
               "tags": [],
               "tests": [
                 {
@@ -249,50 +179,23 @@
                     {
                       "workerIndex": 2,
                       "parallelIndex": 2,
-                      "status": "timedOut",
-                      "duration": 30114,
-                      "error": {
-                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                      },
-                      "errors": [
-                        {
-                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                        },
-                        {
-                          "location": {
-                            "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                            "column": 24,
-                            "line": 28
-                          },
-                          "message": "Error: locator.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: /mostrar contraseña/i })\u001b[22m\n\n\n\u001b[0m \u001b[90m 26 |\u001b[39m     \n \u001b[90m 27 |\u001b[39m     \u001b[36mawait\u001b[39m expect(passwordInput)\u001b[33m.\u001b[39mtoHaveAttribute(\u001b[32m'type'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'password'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 28 |\u001b[39m     \u001b[36mawait\u001b[39m toggleButton\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 29 |\u001b[39m     \u001b[36mawait\u001b[39m expect(passwordInput)\u001b[33m.\u001b[39mtoHaveAttribute(\u001b[32m'type'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'text'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 30 |\u001b[39m     \u001b[36mawait\u001b[39m toggleButton\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 31 |\u001b[39m     \u001b[36mawait\u001b[39m expect(passwordInput)\u001b[33m.\u001b[39mtoHaveAttribute(\u001b[32m'type'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'password'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts:28:24\u001b[22m"
-                        }
-                      ],
+                      "status": "passed",
+                      "duration": 970,
+                      "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:38.724Z",
+                      "startTime": "2025-10-18T02:06:05.861Z",
                       "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Autenticación-E2E-deb-7cde2--mostrar-ocultar-contraseña-chromium/test-failed-1.png"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Autenticación-E2E-deb-7cde2--mostrar-ocultar-contraseña-chromium/error-context.md"
-                        }
-                      ]
+                      "attachments": []
                     }
                   ],
-                  "status": "unexpected"
+                  "status": "expected"
                 }
               ],
               "id": "d748ac400d08b85935ef-00d969c5e21b6b36c629",
               "file": "auth.spec.ts",
-              "line": 23,
+              "line": 29,
               "column": 3
             },
             {
@@ -311,12 +214,12 @@
                       "workerIndex": 3,
                       "parallelIndex": 3,
                       "status": "passed",
-                      "duration": 1482,
+                      "duration": 892,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:38.731Z",
+                      "startTime": "2025-10-18T02:06:05.869Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -326,12 +229,12 @@
               ],
               "id": "d748ac400d08b85935ef-a77ac95ad782c0f66afa",
               "file": "auth.spec.ts",
-              "line": 34,
+              "line": 40,
               "column": 3
             },
             {
               "title": "debe deshabilitar botón mientras carga",
-              "ok": false,
+              "ok": true,
               "tags": [],
               "tests": [
                 {
@@ -344,63 +247,28 @@
                     {
                       "workerIndex": 4,
                       "parallelIndex": 4,
-                      "status": "failed",
-                      "duration": 6574,
-                      "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeDisabled\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('button', { name: /iniciar sesión/i })\nExpected: disabled\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeDisabled\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: /iniciar sesión/i })\u001b[22m\n\u001b[2m    5 × locator resolved to <button type=\"submit\" data-lov-name=\"Button\" data-component-line=\"80\" data-component-name=\"Button\" data-component-file=\"Auth.tsx\" data-lov-id=\"src/pages/Auth.tsx:80:12\" data-component-path=\"src/pages/Auth.tsx\" data-component-content=\"%7B%22className%22%3A%22w-full%22%7D\" class=\"inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-…>Iniciar sesión</button>\u001b[22m\n\u001b[2m      - unexpected value \"enabled\"\u001b[22m\n",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeDisabled\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('button', { name: /iniciar sesión/i })\nExpected: disabled\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeDisabled\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: /iniciar sesión/i })\u001b[22m\n\u001b[2m    5 × locator resolved to <button type=\"submit\" data-lov-name=\"Button\" data-component-line=\"80\" data-component-name=\"Button\" data-component-file=\"Auth.tsx\" data-lov-id=\"src/pages/Auth.tsx:80:12\" data-component-path=\"src/pages/Auth.tsx\" data-component-content=\"%7B%22className%22%3A%22w-full%22%7D\" class=\"inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-…>Iniciar sesión</button>\u001b[22m\n\u001b[2m      - unexpected value \"enabled\"\u001b[22m\n\n    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts:51:32",
-                        "location": {
-                          "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                          "column": 32,
-                          "line": 51
-                        },
-                        "snippet": "\u001b[0m \u001b[90m 49 |\u001b[39m     \n \u001b[90m 50 |\u001b[39m     \u001b[90m// El botón debe estar deshabilitado inmediatamente después del click\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 51 |\u001b[39m     \u001b[36mawait\u001b[39m expect(submitButton)\u001b[33m.\u001b[39mtoBeDisabled()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 52 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 53 |\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 54 |\u001b[39m\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                            "column": 32,
-                            "line": 51
-                          },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeDisabled\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('button', { name: /iniciar sesión/i })\nExpected: disabled\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeDisabled\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: /iniciar sesión/i })\u001b[22m\n\u001b[2m    5 × locator resolved to <button type=\"submit\" data-lov-name=\"Button\" data-component-line=\"80\" data-component-name=\"Button\" data-component-file=\"Auth.tsx\" data-lov-id=\"src/pages/Auth.tsx:80:12\" data-component-path=\"src/pages/Auth.tsx\" data-component-content=\"%7B%22className%22%3A%22w-full%22%7D\" class=\"inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-…>Iniciar sesión</button>\u001b[22m\n\u001b[2m      - unexpected value \"enabled\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 49 |\u001b[39m     \n \u001b[90m 50 |\u001b[39m     \u001b[90m// El botón debe estar deshabilitado inmediatamente después del click\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 51 |\u001b[39m     \u001b[36mawait\u001b[39m expect(submitButton)\u001b[33m.\u001b[39mtoBeDisabled()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 52 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 53 |\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 54 |\u001b[39m\u001b[0m\n\u001b[2m    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts:51:32\u001b[22m"
-                        }
-                      ],
+                      "status": "passed",
+                      "duration": 1833,
+                      "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:38.752Z",
+                      "startTime": "2025-10-18T02:06:05.860Z",
                       "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Autenticación-E2E-deb-a44d6-ilitar-botón-mientras-carga-chromium/test-failed-1.png"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Autenticación-E2E-deb-a44d6-ilitar-botón-mientras-carga-chromium/error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                        "column": 32,
-                        "line": 51
-                      }
+                      "attachments": []
                     }
                   ],
-                  "status": "unexpected"
+                  "status": "expected"
                 }
               ],
               "id": "d748ac400d08b85935ef-608cbc17f63a54a0559b",
               "file": "auth.spec.ts",
-              "line": 43,
+              "line": 50,
               "column": 3
             },
             {
               "title": "debe mostrar la página de login",
-              "ok": false,
+              "ok": true,
               "tags": [],
               "tests": [
                 {
@@ -411,55 +279,20 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 8,
-                      "parallelIndex": 1,
-                      "status": "failed",
-                      "duration": 6318,
-                      "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: /iniciar sesión/i })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /iniciar sesión/i })\u001b[22m\n",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: /iniciar sesión/i })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /iniciar sesión/i })\u001b[22m\n\n    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts:9:74",
-                        "location": {
-                          "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                          "column": 74,
-                          "line": 9
-                        },
-                        "snippet": "\u001b[0m \u001b[90m  7 |\u001b[39m\n \u001b[90m  8 |\u001b[39m   test(\u001b[32m'debe mostrar la página de login'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m  9 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/iniciar sesión/i\u001b[39m }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 10 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByLabel(\u001b[35m/correo electrónico/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 11 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByLabel(\u001b[35m/contraseña/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 12 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                            "column": 74,
-                            "line": 9
-                          },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('heading', { name: /iniciar sesión/i })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('heading', { name: /iniciar sesión/i })\u001b[22m\n\n\n\u001b[0m \u001b[90m  7 |\u001b[39m\n \u001b[90m  8 |\u001b[39m   test(\u001b[32m'debe mostrar la página de login'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m  9 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'heading'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/iniciar sesión/i\u001b[39m }))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 10 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByLabel(\u001b[35m/correo electrónico/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 11 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByLabel(\u001b[35m/contraseña/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 12 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts:9:74\u001b[22m"
-                        }
-                      ],
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1233,
+                      "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:48.635Z",
+                      "startTime": "2025-10-18T02:06:11.194Z",
                       "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Autenticación-E2E-debe-mostrar-la-página-de-login-firefox/test-failed-1.png"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Autenticación-E2E-debe-mostrar-la-página-de-login-firefox/error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                        "column": 74,
-                        "line": 9
-                      }
+                      "attachments": []
                     }
                   ],
-                  "status": "unexpected"
+                  "status": "expected"
                 }
               ],
               "id": "d748ac400d08b85935ef-9900ce91b71a6ecd5a3c",
@@ -469,7 +302,7 @@
             },
             {
               "title": "debe mostrar error con credenciales inválidas",
-              "ok": false,
+              "ok": true,
               "tags": [],
               "tests": [
                 {
@@ -480,65 +313,30 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 9,
-                      "parallelIndex": 3,
-                      "status": "failed",
-                      "duration": 2417,
-                      "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/error/i)\nExpected: visible\nError: strict mode violation: getByText(/error/i) resolved to 2 elements:\n    1) <div data-component-line=\"13\" data-lov-name=\"ToastTitle\" class=\"text-sm font-semibold\" data-component-content=\"%7B%7D\" data-component-name=\"ToastTitle\" data-component-file=\"toaster.tsx\" data-lov-id=\"src/components/ui/toaster.tsx:13:24\" data-component-path=\"src/components/ui/toaster.tsx\">Error al iniciar sesión</div> aka getByText('Error al iniciar sesión', { exact: true })\n    2) <span role=\"status\" aria-atomic=\"true\" aria-live=\"assertive\">Notification Error al iniciar sesiónInvalid login…</span> aka getByText('Notification Error al iniciar')\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/error/i)\u001b[22m\n",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/error/i)\nExpected: visible\nError: strict mode violation: getByText(/error/i) resolved to 2 elements:\n    1) <div data-component-line=\"13\" data-lov-name=\"ToastTitle\" class=\"text-sm font-semibold\" data-component-content=\"%7B%7D\" data-component-name=\"ToastTitle\" data-component-file=\"toaster.tsx\" data-lov-id=\"src/components/ui/toaster.tsx:13:24\" data-component-path=\"src/components/ui/toaster.tsx\">Error al iniciar sesión</div> aka getByText('Error al iniciar sesión', { exact: true })\n    2) <span role=\"status\" aria-atomic=\"true\" aria-live=\"assertive\">Notification Error al iniciar sesiónInvalid login…</span> aka getByText('Notification Error al iniciar')\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/error/i)\u001b[22m\n\n    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts:20:44",
-                        "location": {
-                          "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                          "column": 44,
-                          "line": 20
-                        },
-                        "snippet": "\u001b[0m \u001b[90m 18 |\u001b[39m     \n \u001b[90m 19 |\u001b[39m     \u001b[90m// Esperar mensaje de error\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 20 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/error/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m5000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 21 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 22 |\u001b[39m\n \u001b[90m 23 |\u001b[39m   test(\u001b[32m'debe permitir mostrar/ocultar contraseña'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                            "column": 44,
-                            "line": 20
-                          },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/error/i)\nExpected: visible\nError: strict mode violation: getByText(/error/i) resolved to 2 elements:\n    1) <div data-component-line=\"13\" data-lov-name=\"ToastTitle\" class=\"text-sm font-semibold\" data-component-content=\"%7B%7D\" data-component-name=\"ToastTitle\" data-component-file=\"toaster.tsx\" data-lov-id=\"src/components/ui/toaster.tsx:13:24\" data-component-path=\"src/components/ui/toaster.tsx\">Error al iniciar sesión</div> aka getByText('Error al iniciar sesión', { exact: true })\n    2) <span role=\"status\" aria-atomic=\"true\" aria-live=\"assertive\">Notification Error al iniciar sesiónInvalid login…</span> aka getByText('Notification Error al iniciar')\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/error/i)\u001b[22m\n\n\n\u001b[0m \u001b[90m 18 |\u001b[39m     \n \u001b[90m 19 |\u001b[39m     \u001b[90m// Esperar mensaje de error\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 20 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByText(\u001b[35m/error/i\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m5000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 21 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 22 |\u001b[39m\n \u001b[90m 23 |\u001b[39m   test(\u001b[32m'debe permitir mostrar/ocultar contraseña'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\u001b[0m\n\u001b[2m    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts:20:44\u001b[22m"
-                        }
-                      ],
+                      "workerIndex": 6,
+                      "parallelIndex": 4,
+                      "status": "passed",
+                      "duration": 2817,
+                      "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:48.652Z",
+                      "startTime": "2025-10-18T02:06:11.206Z",
                       "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Autenticación-E2E-deb-58003--con-credenciales-inválidas-firefox/test-failed-1.png"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Autenticación-E2E-deb-58003--con-credenciales-inválidas-firefox/error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                        "column": 44,
-                        "line": 20
-                      }
+                      "attachments": []
                     }
                   ],
-                  "status": "unexpected"
+                  "status": "expected"
                 }
               ],
               "id": "d748ac400d08b85935ef-cf305d980e37dfb63f2e",
               "file": "auth.spec.ts",
-              "line": 14,
+              "line": 20,
               "column": 3
             },
             {
               "title": "debe permitir mostrar/ocultar contraseña",
-              "ok": false,
+              "ok": true,
               "tags": [],
               "tests": [
                 {
@@ -549,52 +347,25 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 10,
-                      "parallelIndex": 0,
-                      "status": "timedOut",
-                      "duration": 30080,
-                      "error": {
-                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                      },
-                      "errors": [
-                        {
-                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                        },
-                        {
-                          "location": {
-                            "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                            "column": 24,
-                            "line": 28
-                          },
-                          "message": "Error: locator.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: /mostrar contraseña/i })\u001b[22m\n\n\n\u001b[0m \u001b[90m 26 |\u001b[39m     \n \u001b[90m 27 |\u001b[39m     \u001b[36mawait\u001b[39m expect(passwordInput)\u001b[33m.\u001b[39mtoHaveAttribute(\u001b[32m'type'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'password'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 28 |\u001b[39m     \u001b[36mawait\u001b[39m toggleButton\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 29 |\u001b[39m     \u001b[36mawait\u001b[39m expect(passwordInput)\u001b[33m.\u001b[39mtoHaveAttribute(\u001b[32m'type'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'text'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 30 |\u001b[39m     \u001b[36mawait\u001b[39m toggleButton\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 31 |\u001b[39m     \u001b[36mawait\u001b[39m expect(passwordInput)\u001b[33m.\u001b[39mtoHaveAttribute(\u001b[32m'type'\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'password'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts:28:24\u001b[22m"
-                        }
-                      ],
+                      "workerIndex": 7,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 1462,
+                      "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:48.758Z",
+                      "startTime": "2025-10-18T02:06:11.228Z",
                       "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Autenticación-E2E-deb-7cde2--mostrar-ocultar-contraseña-firefox/test-failed-1.png"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Autenticación-E2E-deb-7cde2--mostrar-ocultar-contraseña-firefox/error-context.md"
-                        }
-                      ]
+                      "attachments": []
                     }
                   ],
-                  "status": "unexpected"
+                  "status": "expected"
                 }
               ],
               "id": "d748ac400d08b85935ef-9bf726fbf0278de330af",
               "file": "auth.spec.ts",
-              "line": 23,
+              "line": 29,
               "column": 3
             },
             {
@@ -610,15 +381,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 11,
-                      "parallelIndex": 4,
+                      "workerIndex": 8,
+                      "parallelIndex": 1,
                       "status": "passed",
-                      "duration": 1195,
+                      "duration": 1690,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:48.846Z",
+                      "startTime": "2025-10-18T02:06:11.239Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -628,12 +399,12 @@
               ],
               "id": "d748ac400d08b85935ef-afded8757a5ea241e681",
               "file": "auth.spec.ts",
-              "line": 34,
+              "line": 40,
               "column": 3
             },
             {
               "title": "debe deshabilitar botón mientras carga",
-              "ok": false,
+              "ok": true,
               "tags": [],
               "tests": [
                 {
@@ -644,60 +415,25 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 11,
-                      "parallelIndex": 4,
-                      "status": "failed",
-                      "duration": 5789,
-                      "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeDisabled\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('button', { name: /iniciar sesión/i })\nExpected: disabled\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeDisabled\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: /iniciar sesión/i })\u001b[22m\n\u001b[2m    5 × locator resolved to <button type=\"submit\" data-lov-name=\"Button\" data-component-line=\"80\" data-component-name=\"Button\" data-component-file=\"Auth.tsx\" data-lov-id=\"src/pages/Auth.tsx:80:12\" data-component-path=\"src/pages/Auth.tsx\" data-component-content=\"%7B%22className%22%3A%22w-full%22%7D\" class=\"inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-…>Iniciar sesión</button>\u001b[22m\n\u001b[2m      - unexpected value \"enabled\"\u001b[22m\n",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeDisabled\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('button', { name: /iniciar sesión/i })\nExpected: disabled\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeDisabled\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: /iniciar sesión/i })\u001b[22m\n\u001b[2m    5 × locator resolved to <button type=\"submit\" data-lov-name=\"Button\" data-component-line=\"80\" data-component-name=\"Button\" data-component-file=\"Auth.tsx\" data-lov-id=\"src/pages/Auth.tsx:80:12\" data-component-path=\"src/pages/Auth.tsx\" data-component-content=\"%7B%22className%22%3A%22w-full%22%7D\" class=\"inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-…>Iniciar sesión</button>\u001b[22m\n\u001b[2m      - unexpected value \"enabled\"\u001b[22m\n\n    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts:51:32",
-                        "location": {
-                          "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                          "column": 32,
-                          "line": 51
-                        },
-                        "snippet": "\u001b[0m \u001b[90m 49 |\u001b[39m     \n \u001b[90m 50 |\u001b[39m     \u001b[90m// El botón debe estar deshabilitado inmediatamente después del click\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 51 |\u001b[39m     \u001b[36mawait\u001b[39m expect(submitButton)\u001b[33m.\u001b[39mtoBeDisabled()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 52 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 53 |\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 54 |\u001b[39m\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                            "column": 32,
-                            "line": 51
-                          },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeDisabled\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('button', { name: /iniciar sesión/i })\nExpected: disabled\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeDisabled\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: /iniciar sesión/i })\u001b[22m\n\u001b[2m    5 × locator resolved to <button type=\"submit\" data-lov-name=\"Button\" data-component-line=\"80\" data-component-name=\"Button\" data-component-file=\"Auth.tsx\" data-lov-id=\"src/pages/Auth.tsx:80:12\" data-component-path=\"src/pages/Auth.tsx\" data-component-content=\"%7B%22className%22%3A%22w-full%22%7D\" class=\"inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-…>Iniciar sesión</button>\u001b[22m\n\u001b[2m      - unexpected value \"enabled\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 49 |\u001b[39m     \n \u001b[90m 50 |\u001b[39m     \u001b[90m// El botón debe estar deshabilitado inmediatamente después del click\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 51 |\u001b[39m     \u001b[36mawait\u001b[39m expect(submitButton)\u001b[33m.\u001b[39mtoBeDisabled()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 52 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 53 |\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 54 |\u001b[39m\u001b[0m\n\u001b[2m    at /Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts:51:32\u001b[22m"
-                        }
-                      ],
+                      "workerIndex": 9,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 2123,
+                      "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:51.691Z",
+                      "startTime": "2025-10-18T02:06:11.263Z",
                       "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Autenticación-E2E-deb-a44d6-ilitar-botón-mientras-carga-firefox/test-failed-1.png"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/test-results/auth-Autenticación-E2E-deb-a44d6-ilitar-botón-mientras-carga-firefox/error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                        "column": 32,
-                        "line": 51
-                      }
+                      "attachments": []
                     }
                   ],
-                  "status": "unexpected"
+                  "status": "expected"
                 }
               ],
               "id": "d748ac400d08b85935ef-a9750ea4d33ae2018000",
               "file": "auth.spec.ts",
-              "line": 43,
+              "line": 50,
               "column": 3
             }
           ]
@@ -705,7 +441,7 @@
         {
           "title": "Navegación después de login",
           "file": "auth.spec.ts",
-          "line": 55,
+          "line": 67,
           "column": 6,
           "specs": [
             {
@@ -720,110 +456,6 @@
                       "type": "skip",
                       "location": {
                         "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                        "line": 59,
-                        "column": 10
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "skipped",
-                      "duration": 79,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-17T23:36:42.513Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                            "line": 59,
-                            "column": 10
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "d748ac400d08b85935ef-401653f7492ede45403d",
-              "file": "auth.spec.ts",
-              "line": 56,
-              "column": 3
-            },
-            {
-              "title": "debe mantener sesión después de refrescar",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                        "line": 64,
-                        "column": 10
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "skipped",
-                      "duration": 60,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-17T23:36:42.599Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                            "line": 64,
-                            "column": 10
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "d748ac400d08b85935ef-be9b58023aed51f2e0b9",
-              "file": "auth.spec.ts",
-              "line": 62,
-              "column": 3
-            },
-            {
-              "title": "debe cerrar sesión correctamente",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
                         "line": 69,
                         "column": 10
                       }
@@ -834,15 +466,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "skipped",
-                      "duration": 61,
+                      "duration": 91,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:42.665Z",
+                      "startTime": "2025-10-18T02:06:06.996Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -859,9 +491,113 @@
                   "status": "skipped"
                 }
               ],
+              "id": "d748ac400d08b85935ef-401653f7492ede45403d",
+              "file": "auth.spec.ts",
+              "line": 68,
+              "column": 3
+            },
+            {
+              "title": "debe mantener sesión después de refrescar",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
+                        "line": 73,
+                        "column": 10
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "skipped",
+                      "duration": 87,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-18T02:06:07.015Z",
+                      "annotations": [
+                        {
+                          "type": "skip",
+                          "location": {
+                            "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
+                            "line": 73,
+                            "column": 10
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-be9b58023aed51f2e0b9",
+              "file": "auth.spec.ts",
+              "line": 72,
+              "column": 3
+            },
+            {
+              "title": "debe cerrar sesión correctamente",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
+                        "line": 77,
+                        "column": 10
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "skipped",
+                      "duration": 117,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-18T02:06:07.096Z",
+                      "annotations": [
+                        {
+                          "type": "skip",
+                          "location": {
+                            "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
+                            "line": 77,
+                            "column": 10
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
               "id": "d748ac400d08b85935ef-058345b4908a16147bcb",
               "file": "auth.spec.ts",
-              "line": 67,
+              "line": 76,
               "column": 3
             },
             {
@@ -876,110 +612,6 @@
                       "type": "skip",
                       "location": {
                         "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                        "line": 59,
-                        "column": 10
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 12,
-                      "parallelIndex": 3,
-                      "status": "skipped",
-                      "duration": 481,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-17T23:36:53.831Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                            "line": 59,
-                            "column": 10
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "d748ac400d08b85935ef-e1bd467f1a8611114f19",
-              "file": "auth.spec.ts",
-              "line": 56,
-              "column": 3
-            },
-            {
-              "title": "debe mantener sesión después de refrescar",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                        "line": 64,
-                        "column": 10
-                      }
-                    }
-                  ],
-                  "expectedStatus": "skipped",
-                  "projectId": "firefox",
-                  "projectName": "firefox",
-                  "results": [
-                    {
-                      "workerIndex": 12,
-                      "parallelIndex": 3,
-                      "status": "skipped",
-                      "duration": 171,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-10-17T23:36:54.734Z",
-                      "annotations": [
-                        {
-                          "type": "skip",
-                          "location": {
-                            "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
-                            "line": 64,
-                            "column": 10
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "skipped"
-                }
-              ],
-              "id": "d748ac400d08b85935ef-2124390d4ccdcc3a0157",
-              "file": "auth.spec.ts",
-              "line": 62,
-              "column": 3
-            },
-            {
-              "title": "debe cerrar sesión correctamente",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [
-                    {
-                      "type": "skip",
-                      "location": {
-                        "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
                         "line": 69,
                         "column": 10
                       }
@@ -990,15 +622,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 12,
-                      "parallelIndex": 3,
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
                       "status": "skipped",
-                      "duration": 163,
+                      "duration": 338,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:54.912Z",
+                      "startTime": "2025-10-18T02:06:13.388Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -1015,9 +647,113 @@
                   "status": "skipped"
                 }
               ],
+              "id": "d748ac400d08b85935ef-e1bd467f1a8611114f19",
+              "file": "auth.spec.ts",
+              "line": 68,
+              "column": 3
+            },
+            {
+              "title": "debe mantener sesión después de refrescar",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
+                        "line": 73,
+                        "column": 10
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "skipped",
+                      "duration": 303,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-18T02:06:13.737Z",
+                      "annotations": [
+                        {
+                          "type": "skip",
+                          "location": {
+                            "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
+                            "line": 73,
+                            "column": 10
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-2124390d4ccdcc3a0157",
+              "file": "auth.spec.ts",
+              "line": 72,
+              "column": 3
+            },
+            {
+              "title": "debe cerrar sesión correctamente",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
+                        "line": 77,
+                        "column": 10
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [
+                    {
+                      "workerIndex": 9,
+                      "parallelIndex": 3,
+                      "status": "skipped",
+                      "duration": 317,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-18T02:06:13.909Z",
+                      "annotations": [
+                        {
+                          "type": "skip",
+                          "location": {
+                            "file": "/Users/breyner/Documents/GitHub/mundocomputo-access-hub/tests/e2e/auth.spec.ts",
+                            "line": 77,
+                            "column": 10
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
               "id": "d748ac400d08b85935ef-681a1dfa01aef2758f5e",
               "file": "auth.spec.ts",
-              "line": 67,
+              "line": 76,
               "column": 3
             }
           ]
@@ -1059,15 +795,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "skipped",
-                      "duration": 253,
+                      "duration": 400,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:42.737Z",
+                      "startTime": "2025-10-18T02:06:07.105Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -1114,12 +850,12 @@
                       "workerIndex": 3,
                       "parallelIndex": 3,
                       "status": "skipped",
-                      "duration": 246,
+                      "duration": 476,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:42.996Z",
+                      "startTime": "2025-10-18T02:06:07.120Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -1163,15 +899,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
                       "status": "skipped",
-                      "duration": 244,
+                      "duration": 447,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:43.248Z",
+                      "startTime": "2025-10-18T02:06:07.234Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -1215,15 +951,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
-                      "parallelIndex": 1,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "skipped",
-                      "duration": 280,
+                      "duration": 344,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:43.884Z",
+                      "startTime": "2025-10-18T02:06:07.515Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -1270,12 +1006,12 @@
                       "workerIndex": 3,
                       "parallelIndex": 3,
                       "status": "skipped",
-                      "duration": 261,
+                      "duration": 392,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:43.499Z",
+                      "startTime": "2025-10-18T02:06:07.611Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -1319,15 +1055,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
                       "status": "skipped",
-                      "duration": 262,
+                      "duration": 410,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:43.768Z",
+                      "startTime": "2025-10-18T02:06:07.704Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -1371,15 +1107,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "skipped",
-                      "duration": 297,
+                      "duration": 392,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:44.043Z",
+                      "startTime": "2025-10-18T02:06:07.879Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -1423,15 +1159,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
+                      "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "skipped",
-                      "duration": 291,
+                      "duration": 398,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:44.255Z",
+                      "startTime": "2025-10-18T02:06:07.950Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -1475,15 +1211,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 12,
-                      "parallelIndex": 3,
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
                       "status": "skipped",
-                      "duration": 369,
+                      "duration": 848,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:55.085Z",
+                      "startTime": "2025-10-18T02:06:14.065Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -1527,15 +1263,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 12,
-                      "parallelIndex": 3,
+                      "workerIndex": 7,
+                      "parallelIndex": 2,
                       "status": "skipped",
-                      "duration": 372,
+                      "duration": 855,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:55.463Z",
+                      "startTime": "2025-10-18T02:06:14.153Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -1579,15 +1315,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 12,
+                      "workerIndex": 9,
                       "parallelIndex": 3,
                       "status": "skipped",
-                      "duration": 333,
+                      "duration": 793,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:55.844Z",
+                      "startTime": "2025-10-18T02:06:14.258Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -1631,15 +1367,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 12,
-                      "parallelIndex": 3,
+                      "workerIndex": 8,
+                      "parallelIndex": 1,
                       "status": "skipped",
-                      "duration": 337,
+                      "duration": 812,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:56.185Z",
+                      "startTime": "2025-10-18T02:06:14.919Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -1683,15 +1419,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 12,
-                      "parallelIndex": 3,
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
                       "status": "skipped",
-                      "duration": 359,
+                      "duration": 709,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:56.527Z",
+                      "startTime": "2025-10-18T02:06:14.927Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -1735,15 +1471,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 12,
-                      "parallelIndex": 3,
+                      "workerIndex": 7,
+                      "parallelIndex": 2,
                       "status": "skipped",
-                      "duration": 341,
+                      "duration": 744,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:56.893Z",
+                      "startTime": "2025-10-18T02:06:15.019Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -1787,15 +1523,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 12,
+                      "workerIndex": 9,
                       "parallelIndex": 3,
                       "status": "skipped",
-                      "duration": 377,
+                      "duration": 755,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:57.244Z",
+                      "startTime": "2025-10-18T02:06:15.064Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -1839,15 +1575,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 12,
-                      "parallelIndex": 3,
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
                       "status": "skipped",
-                      "duration": 373,
+                      "duration": 524,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:57.626Z",
+                      "startTime": "2025-10-18T02:06:15.652Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -1899,15 +1635,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
+                      "workerIndex": 4,
+                      "parallelIndex": 4,
                       "status": "skipped",
-                      "duration": 89,
+                      "duration": 117,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:44.350Z",
+                      "startTime": "2025-10-18T02:06:07.969Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -1954,12 +1690,12 @@
                       "workerIndex": 3,
                       "parallelIndex": 3,
                       "status": "skipped",
-                      "duration": 77,
+                      "duration": 129,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:44.450Z",
+                      "startTime": "2025-10-18T02:06:08.025Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2003,15 +1739,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
+                      "workerIndex": 4,
+                      "parallelIndex": 4,
                       "status": "skipped",
-                      "duration": 63,
+                      "duration": 120,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:44.532Z",
+                      "startTime": "2025-10-18T02:06:08.111Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2055,15 +1791,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 13,
-                      "parallelIndex": 4,
+                      "workerIndex": 8,
+                      "parallelIndex": 1,
                       "status": "skipped",
-                      "duration": 636,
+                      "duration": 254,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:58.129Z",
+                      "startTime": "2025-10-18T02:06:15.746Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2107,15 +1843,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 14,
-                      "parallelIndex": 1,
+                      "workerIndex": 7,
+                      "parallelIndex": 2,
                       "status": "skipped",
-                      "duration": 718,
+                      "duration": 236,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:58.178Z",
+                      "startTime": "2025-10-18T02:06:15.779Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2159,15 +1895,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 12,
+                      "workerIndex": 9,
                       "parallelIndex": 3,
                       "status": "skipped",
-                      "duration": 175,
+                      "duration": 233,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:58.006Z",
+                      "startTime": "2025-10-18T02:06:15.825Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2219,15 +1955,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
-                      "parallelIndex": 1,
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
                       "status": "skipped",
-                      "duration": 91,
+                      "duration": 112,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:44.553Z",
+                      "startTime": "2025-10-18T02:06:08.138Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2274,12 +2010,12 @@
                       "workerIndex": 3,
                       "parallelIndex": 3,
                       "status": "skipped",
-                      "duration": 76,
+                      "duration": 89,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:44.602Z",
+                      "startTime": "2025-10-18T02:06:08.176Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2323,15 +2059,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
-                      "parallelIndex": 1,
+                      "workerIndex": 4,
+                      "parallelIndex": 4,
                       "status": "skipped",
-                      "duration": 78,
+                      "duration": 98,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:44.651Z",
+                      "startTime": "2025-10-18T02:06:08.244Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2375,15 +2111,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 12,
-                      "parallelIndex": 3,
+                      "workerIndex": 8,
+                      "parallelIndex": 1,
                       "status": "skipped",
-                      "duration": 167,
+                      "duration": 211,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:58.188Z",
+                      "startTime": "2025-10-18T02:06:16.009Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2427,15 +2163,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 12,
-                      "parallelIndex": 3,
+                      "workerIndex": 7,
+                      "parallelIndex": 2,
                       "status": "skipped",
-                      "duration": 156,
+                      "duration": 235,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:58.362Z",
+                      "startTime": "2025-10-18T02:06:16.025Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2479,15 +2215,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 12,
+                      "workerIndex": 9,
                       "parallelIndex": 3,
                       "status": "skipped",
-                      "duration": 166,
+                      "duration": 256,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:58.524Z",
+                      "startTime": "2025-10-18T02:06:16.064Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2548,15 +2284,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
                       "status": "skipped",
-                      "duration": 278,
+                      "duration": 374,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:44.688Z",
+                      "startTime": "2025-10-18T02:06:08.268Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2600,15 +2336,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
-                      "parallelIndex": 1,
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
                       "status": "skipped",
-                      "duration": 306,
+                      "duration": 454,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:44.739Z",
+                      "startTime": "2025-10-18T02:06:08.285Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2652,15 +2388,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "skipped",
-                      "duration": 280,
+                      "duration": 498,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:44.973Z",
+                      "startTime": "2025-10-18T02:06:08.295Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2704,15 +2440,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
-                      "parallelIndex": 1,
+                      "workerIndex": 4,
+                      "parallelIndex": 4,
                       "status": "skipped",
-                      "duration": 297,
+                      "duration": 551,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:45.059Z",
+                      "startTime": "2025-10-18T02:06:08.364Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2756,15 +2492,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
                       "status": "skipped",
-                      "duration": 287,
+                      "duration": 563,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:45.262Z",
+                      "startTime": "2025-10-18T02:06:08.373Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2808,15 +2544,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
-                      "parallelIndex": 1,
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
                       "status": "skipped",
-                      "duration": 278,
+                      "duration": 407,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:45.368Z",
+                      "startTime": "2025-10-18T02:06:08.663Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2863,12 +2599,12 @@
                       "workerIndex": 3,
                       "parallelIndex": 3,
                       "status": "skipped",
-                      "duration": 274,
+                      "duration": 413,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:45.556Z",
+                      "startTime": "2025-10-18T02:06:08.754Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2912,15 +2648,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
-                      "parallelIndex": 1,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "skipped",
-                      "duration": 275,
+                      "duration": 437,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:45.664Z",
+                      "startTime": "2025-10-18T02:06:08.809Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -2964,15 +2700,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
+                      "workerIndex": 4,
+                      "parallelIndex": 4,
                       "status": "skipped",
-                      "duration": 264,
+                      "duration": 485,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:45.838Z",
+                      "startTime": "2025-10-18T02:06:08.934Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -3016,15 +2752,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
+                      "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "skipped",
-                      "duration": 287,
+                      "duration": 462,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:45.946Z",
+                      "startTime": "2025-10-18T02:06:08.955Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -3068,15 +2804,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
                       "status": "skipped",
-                      "duration": 279,
+                      "duration": 432,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:46.109Z",
+                      "startTime": "2025-10-18T02:06:09.103Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -3120,15 +2856,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
-                      "parallelIndex": 1,
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
                       "status": "skipped",
-                      "duration": 289,
+                      "duration": 427,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:46.242Z",
+                      "startTime": "2025-10-18T02:06:09.188Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -3172,15 +2908,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 12,
-                      "parallelIndex": 3,
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
                       "status": "skipped",
-                      "duration": 434,
+                      "duration": 643,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:58.700Z",
+                      "startTime": "2025-10-18T02:06:16.192Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -3224,15 +2960,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 12,
-                      "parallelIndex": 3,
+                      "workerIndex": 8,
+                      "parallelIndex": 1,
                       "status": "skipped",
-                      "duration": 485,
+                      "duration": 675,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:59.141Z",
+                      "startTime": "2025-10-18T02:06:16.233Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -3276,15 +3012,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 13,
-                      "parallelIndex": 4,
+                      "workerIndex": 7,
+                      "parallelIndex": 2,
                       "status": "skipped",
-                      "duration": 542,
+                      "duration": 665,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:59.243Z",
+                      "startTime": "2025-10-18T02:06:16.272Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -3328,15 +3064,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 12,
+                      "workerIndex": 9,
                       "parallelIndex": 3,
                       "status": "skipped",
-                      "duration": 521,
+                      "duration": 749,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:59.634Z",
+                      "startTime": "2025-10-18T02:06:16.335Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -3380,15 +3116,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 14,
-                      "parallelIndex": 1,
+                      "workerIndex": 6,
+                      "parallelIndex": 4,
                       "status": "skipped",
-                      "duration": 619,
+                      "duration": 675,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:59.768Z",
+                      "startTime": "2025-10-18T02:06:16.586Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -3432,15 +3168,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 13,
-                      "parallelIndex": 4,
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
                       "status": "skipped",
-                      "duration": 560,
+                      "duration": 798,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:59.796Z",
+                      "startTime": "2025-10-18T02:06:16.849Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -3484,15 +3220,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 12,
-                      "parallelIndex": 3,
+                      "workerIndex": 8,
+                      "parallelIndex": 1,
                       "status": "skipped",
-                      "duration": 499,
+                      "duration": 920,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:37:00.165Z",
+                      "startTime": "2025-10-18T02:06:16.920Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -3536,15 +3272,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 13,
-                      "parallelIndex": 4,
+                      "workerIndex": 7,
+                      "parallelIndex": 2,
                       "status": "skipped",
-                      "duration": 456,
+                      "duration": 881,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:37:00.364Z",
+                      "startTime": "2025-10-18T02:06:16.950Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -3588,15 +3324,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 14,
-                      "parallelIndex": 1,
+                      "workerIndex": 9,
+                      "parallelIndex": 3,
                       "status": "skipped",
-                      "duration": 493,
+                      "duration": 802,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:37:00.400Z",
+                      "startTime": "2025-10-18T02:06:17.095Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -3640,15 +3376,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 12,
-                      "parallelIndex": 3,
+                      "workerIndex": 6,
+                      "parallelIndex": 4,
                       "status": "skipped",
-                      "duration": 494,
+                      "duration": 922,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:37:00.675Z",
+                      "startTime": "2025-10-18T02:06:17.273Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -3692,15 +3428,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 13,
-                      "parallelIndex": 4,
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
                       "status": "skipped",
-                      "duration": 461,
+                      "duration": 787,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:37:00.828Z",
+                      "startTime": "2025-10-18T02:06:17.659Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -3744,15 +3480,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 14,
+                      "workerIndex": 8,
                       "parallelIndex": 1,
                       "status": "skipped",
-                      "duration": 457,
+                      "duration": 944,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:37:00.910Z",
+                      "startTime": "2025-10-18T02:06:17.851Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -3804,15 +3540,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "skipped",
-                      "duration": 81,
+                      "duration": 128,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:46.395Z",
+                      "startTime": "2025-10-18T02:06:09.272Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -3856,15 +3592,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "skipped",
-                      "duration": 79,
+                      "duration": 102,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:46.482Z",
+                      "startTime": "2025-10-18T02:06:09.424Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -3908,15 +3644,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
-                      "parallelIndex": 1,
+                      "workerIndex": 4,
+                      "parallelIndex": 4,
                       "status": "skipped",
-                      "duration": 73,
+                      "duration": 109,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:46.538Z",
+                      "startTime": "2025-10-18T02:06:09.443Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -3960,15 +3696,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
                       "status": "skipped",
-                      "duration": 77,
+                      "duration": 90,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:46.567Z",
+                      "startTime": "2025-10-18T02:06:09.444Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -4012,15 +3748,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 12,
-                      "parallelIndex": 3,
+                      "workerIndex": 7,
+                      "parallelIndex": 2,
                       "status": "skipped",
-                      "duration": 222,
+                      "duration": 373,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:37:01.178Z",
+                      "startTime": "2025-10-18T02:06:17.854Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -4064,15 +3800,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 13,
-                      "parallelIndex": 4,
+                      "workerIndex": 9,
+                      "parallelIndex": 3,
                       "status": "skipped",
-                      "duration": 216,
+                      "duration": 269,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:37:01.297Z",
+                      "startTime": "2025-10-18T02:06:17.908Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -4116,15 +3852,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 14,
-                      "parallelIndex": 1,
+                      "workerIndex": 9,
+                      "parallelIndex": 3,
                       "status": "skipped",
-                      "duration": 195,
+                      "duration": 331,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:37:01.380Z",
+                      "startTime": "2025-10-18T02:06:18.194Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -4168,15 +3904,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 12,
-                      "parallelIndex": 3,
+                      "workerIndex": 6,
+                      "parallelIndex": 4,
                       "status": "skipped",
-                      "duration": 234,
+                      "duration": 326,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:37:01.408Z",
+                      "startTime": "2025-10-18T02:06:18.207Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -4237,15 +3973,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
+                      "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "skipped",
-                      "duration": 273,
+                      "duration": 485,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:46.620Z",
+                      "startTime": "2025-10-18T02:06:09.550Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -4289,15 +4025,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "skipped",
-                      "duration": 299,
+                      "duration": 359,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:46.654Z",
+                      "startTime": "2025-10-18T02:06:09.556Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -4341,15 +4077,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
-                      "parallelIndex": 1,
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
                       "status": "skipped",
-                      "duration": 261,
+                      "duration": 567,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:46.900Z",
+                      "startTime": "2025-10-18T02:06:09.562Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -4393,15 +4129,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
+                      "workerIndex": 4,
+                      "parallelIndex": 4,
                       "status": "skipped",
-                      "duration": 294,
+                      "duration": 558,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:46.963Z",
+                      "startTime": "2025-10-18T02:06:09.567Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -4445,15 +4181,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
-                      "parallelIndex": 1,
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
                       "status": "skipped",
-                      "duration": 300,
+                      "duration": 548,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:47.168Z",
+                      "startTime": "2025-10-18T02:06:09.643Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -4497,15 +4233,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "skipped",
-                      "duration": 297,
+                      "duration": 400,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:47.267Z",
+                      "startTime": "2025-10-18T02:06:09.930Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -4549,15 +4285,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
+                      "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "skipped",
-                      "duration": 292,
+                      "duration": 371,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:47.477Z",
+                      "startTime": "2025-10-18T02:06:10.060Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -4601,15 +4337,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 6,
-                      "parallelIndex": 0,
+                      "workerIndex": 4,
+                      "parallelIndex": 4,
                       "status": "skipped",
-                      "duration": 332,
+                      "duration": 464,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:47.999Z",
+                      "startTime": "2025-10-18T02:06:10.144Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -4653,15 +4389,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
                       "status": "skipped",
-                      "duration": 299,
+                      "duration": 490,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:47.578Z",
+                      "startTime": "2025-10-18T02:06:10.151Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -4705,15 +4441,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 7,
-                      "parallelIndex": 4,
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
                       "status": "skipped",
-                      "duration": 317,
+                      "duration": 481,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:48.083Z",
+                      "startTime": "2025-10-18T02:06:10.207Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -4757,15 +4493,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 13,
-                      "parallelIndex": 4,
+                      "workerIndex": 7,
+                      "parallelIndex": 2,
                       "status": "skipped",
-                      "duration": 464,
+                      "duration": 1053,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:37:01.526Z",
+                      "startTime": "2025-10-18T02:06:18.241Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -4809,15 +4545,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 14,
-                      "parallelIndex": 1,
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
                       "status": "skipped",
-                      "duration": 464,
+                      "duration": 1116,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:37:01.594Z",
+                      "startTime": "2025-10-18T02:06:18.463Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -4861,15 +4597,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 12,
+                      "workerIndex": 9,
                       "parallelIndex": 3,
                       "status": "skipped",
-                      "duration": 462,
+                      "duration": 1039,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:37:01.651Z",
+                      "startTime": "2025-10-18T02:06:18.541Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -4913,15 +4649,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 13,
+                      "workerIndex": 6,
                       "parallelIndex": 4,
                       "status": "skipped",
-                      "duration": 480,
+                      "duration": 1021,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:37:01.999Z",
+                      "startTime": "2025-10-18T02:06:18.545Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -4965,15 +4701,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 14,
+                      "workerIndex": 8,
                       "parallelIndex": 1,
                       "status": "skipped",
-                      "duration": 497,
+                      "duration": 1094,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:37:02.067Z",
+                      "startTime": "2025-10-18T02:06:18.813Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -5017,15 +4753,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 12,
-                      "parallelIndex": 3,
+                      "workerIndex": 7,
+                      "parallelIndex": 2,
                       "status": "skipped",
-                      "duration": 699,
+                      "duration": 890,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:37:02.120Z",
+                      "startTime": "2025-10-18T02:06:19.314Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -5069,15 +4805,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 13,
+                      "workerIndex": 6,
                       "parallelIndex": 4,
                       "status": "skipped",
-                      "duration": 431,
+                      "duration": 962,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:37:02.486Z",
+                      "startTime": "2025-10-18T02:06:19.581Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -5121,15 +4857,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 14,
-                      "parallelIndex": 1,
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
                       "status": "skipped",
-                      "duration": 432,
+                      "duration": 1005,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:37:02.574Z",
+                      "startTime": "2025-10-18T02:06:19.589Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -5173,15 +4909,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 12,
+                      "workerIndex": 9,
                       "parallelIndex": 3,
                       "status": "skipped",
-                      "duration": 460,
+                      "duration": 1199,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:37:02.828Z",
+                      "startTime": "2025-10-18T02:06:19.589Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -5225,15 +4961,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 13,
-                      "parallelIndex": 4,
+                      "workerIndex": 8,
+                      "parallelIndex": 1,
                       "status": "skipped",
-                      "duration": 438,
+                      "duration": 880,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:37:02.924Z",
+                      "startTime": "2025-10-18T02:06:19.924Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -5285,15 +5021,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
-                      "parallelIndex": 1,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "skipped",
-                      "duration": 82,
+                      "duration": 116,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:47.778Z",
+                      "startTime": "2025-10-18T02:06:10.347Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -5337,15 +5073,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
+                      "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "skipped",
-                      "duration": 79,
+                      "duration": 115,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:47.865Z",
+                      "startTime": "2025-10-18T02:06:10.450Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -5389,15 +5125,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "skipped",
-                      "duration": 90,
+                      "duration": 114,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:47.887Z",
+                      "startTime": "2025-10-18T02:06:10.486Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -5441,15 +5177,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
+                      "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "skipped",
-                      "duration": 62,
+                      "duration": 90,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:47.950Z",
+                      "startTime": "2025-10-18T02:06:10.579Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -5493,15 +5229,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
                       "status": "skipped",
-                      "duration": 78,
+                      "duration": 94,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:47.983Z",
+                      "startTime": "2025-10-18T02:06:10.609Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -5545,15 +5281,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 14,
-                      "parallelIndex": 1,
+                      "workerIndex": 7,
+                      "parallelIndex": 2,
                       "status": "skipped",
-                      "duration": 218,
+                      "duration": 444,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:37:03.014Z",
+                      "startTime": "2025-10-18T02:06:20.220Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -5597,15 +5333,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 14,
-                      "parallelIndex": 1,
+                      "workerIndex": 6,
+                      "parallelIndex": 4,
                       "status": "skipped",
-                      "duration": 184,
+                      "duration": 614,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:37:03.238Z",
+                      "startTime": "2025-10-18T02:06:20.553Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -5649,15 +5385,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 12,
-                      "parallelIndex": 3,
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
                       "status": "skipped",
-                      "duration": 187,
+                      "duration": 690,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:37:03.295Z",
+                      "startTime": "2025-10-18T02:06:20.604Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -5701,15 +5437,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 13,
-                      "parallelIndex": 4,
+                      "workerIndex": 7,
+                      "parallelIndex": 2,
                       "status": "skipped",
-                      "duration": 188,
+                      "duration": 541,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:37:03.369Z",
+                      "startTime": "2025-10-18T02:06:20.674Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -5753,15 +5489,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 14,
-                      "parallelIndex": 1,
+                      "workerIndex": 9,
+                      "parallelIndex": 3,
                       "status": "skipped",
-                      "duration": 193,
+                      "duration": 455,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:37:03.427Z",
+                      "startTime": "2025-10-18T02:06:20.798Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -5813,15 +5549,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
-                      "parallelIndex": 1,
+                      "workerIndex": 4,
+                      "parallelIndex": 4,
                       "status": "skipped",
-                      "duration": 83,
+                      "duration": 97,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:48.017Z",
+                      "startTime": "2025-10-18T02:06:10.626Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -5865,15 +5601,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
                       "status": "skipped",
-                      "duration": 77,
+                      "duration": 93,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:48.068Z",
+                      "startTime": "2025-10-18T02:06:10.658Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -5917,15 +5653,15 @@
                   "projectName": "chromium",
                   "results": [
                     {
-                      "workerIndex": 5,
+                      "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "skipped",
-                      "duration": 76,
+                      "duration": 90,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:48.107Z",
+                      "startTime": "2025-10-18T02:06:10.680Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -5972,12 +5708,12 @@
                       "workerIndex": 3,
                       "parallelIndex": 3,
                       "status": "skipped",
-                      "duration": 85,
+                      "duration": 98,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:36:48.152Z",
+                      "startTime": "2025-10-18T02:06:10.701Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -6021,15 +5757,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 12,
-                      "parallelIndex": 3,
+                      "workerIndex": 8,
+                      "parallelIndex": 1,
                       "status": "skipped",
-                      "duration": 193,
+                      "duration": 398,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:37:03.490Z",
+                      "startTime": "2025-10-18T02:06:20.815Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -6073,15 +5809,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 13,
+                      "workerIndex": 6,
                       "parallelIndex": 4,
                       "status": "skipped",
-                      "duration": 199,
+                      "duration": 354,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:37:03.565Z",
+                      "startTime": "2025-10-18T02:06:21.178Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -6125,15 +5861,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 14,
-                      "parallelIndex": 1,
+                      "workerIndex": 7,
+                      "parallelIndex": 2,
                       "status": "skipped",
-                      "duration": 197,
+                      "duration": 560,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:37:03.626Z",
+                      "startTime": "2025-10-18T02:06:21.226Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -6177,15 +5913,15 @@
                   "projectName": "firefox",
                   "results": [
                     {
-                      "workerIndex": 12,
-                      "parallelIndex": 3,
+                      "workerIndex": 8,
+                      "parallelIndex": 1,
                       "status": "skipped",
-                      "duration": 189,
+                      "duration": 359,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-10-17T23:37:03.688Z",
+                      "startTime": "2025-10-18T02:06:21.236Z",
                       "annotations": [
                         {
                           "type": "skip",
@@ -6214,11 +5950,11 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2025-10-17T23:36:37.016Z",
-    "duration": 44747.723000000005,
-    "expected": 2,
+    "startTime": "2025-10-18T02:06:04.426Z",
+    "duration": 17756.454,
+    "expected": 10,
     "skipped": 104,
-    "unexpected": 8,
+    "unexpected": 0,
     "flaky": 0
   }
 }

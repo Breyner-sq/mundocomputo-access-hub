@@ -2,7 +2,16 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Proceso de Ventas E2E', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/ventas');
+    // Login con usuario de ventas
+    await page.goto('/auth');
+    await page.waitForLoadState('networkidle');
+    
+    await page.locator('input[type="email"]').fill('loaizac114@gmail.com');
+    await page.locator('input[type="password"]').fill('Bbreyner18');
+    await page.locator('button[type="submit"]').click();
+    
+    // Esperar redirección y navegar a ventas
+    await page.waitForURL(/\/ventas/, { timeout: 10000 });
     await page.waitForLoadState('networkidle');
   });
 
@@ -78,7 +87,16 @@ test.describe('Proceso de Ventas E2E', () => {
 
 test.describe('Validaciones de Venta', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/ventas');
+    // Login con usuario de ventas
+    await page.goto('/auth');
+    await page.waitForLoadState('networkidle');
+    
+    await page.locator('input[type="email"]').fill('loaizac114@gmail.com');
+    await page.locator('input[type="password"]').fill('Bbreyner18');
+    await page.locator('button[type="submit"]').click();
+    
+    // Esperar redirección y navegar a ventas
+    await page.waitForURL(/\/ventas/, { timeout: 10000 });
     await page.waitForLoadState('networkidle');
   });
 
@@ -125,7 +143,16 @@ test.describe('Validaciones de Venta', () => {
 
 test.describe('Historial de Ventas', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/ventas');
+    // Login con usuario de ventas
+    await page.goto('/auth');
+    await page.waitForLoadState('networkidle');
+    
+    await page.locator('input[type="email"]').fill('loaizac114@gmail.com');
+    await page.locator('input[type="password"]').fill('Bbreyner18');
+    await page.locator('button[type="submit"]').click();
+    
+    // Esperar redirección y navegar a ventas
+    await page.waitForURL(/\/ventas/, { timeout: 10000 });
     await page.waitForLoadState('networkidle');
   });
 

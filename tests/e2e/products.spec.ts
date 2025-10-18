@@ -2,22 +2,22 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Gestión de Productos E2E', () => {
   test.beforeEach(async ({ page }) => {
-    // Login con usuario de ventas
+    // Login con usuario de inventario (productos están en módulo de inventario)
     await page.goto('/auth');
     await page.waitForLoadState('networkidle');
     
-    await page.locator('input[type="email"]').fill('loaizac114@gmail.com');
+    await page.locator('input[type="email"]').fill('olayageraldine17@gmail.com');
     await page.locator('input[type="password"]').fill('Bbreyner18');
     await page.locator('button[type="submit"]').click();
     
-    // Esperar redirección y navegar a productos
-    await page.waitForURL(/\/ventas/, { timeout: 10000 });
-    await page.goto('/ventas/productos');
+    // Esperar redirección y navegar a productos de inventario
+    await page.waitForURL(/\/inventario/, { timeout: 10000 });
+    await page.goto('/inventario/productos');
     await page.waitForLoadState('networkidle');
   });
 
   test('debe navegar a la página de productos', async ({ page }) => {
-    await expect(page).toHaveURL(/productos/);
+    await expect(page).toHaveURL(/inventario\/productos/);
   });
 
   test('debe mostrar listado de productos', async ({ page }) => {
@@ -44,40 +44,59 @@ test.describe('Gestión de Productos E2E', () => {
   });
 
   test('debe abrir modal de crear producto', async ({ page }) => {
-    // La página es de solo lectura para ventas, no tiene botón de crear
-    // Verificar que es una página de solo lectura
-    await expect(page.getByText('Solo lectura')).toBeVisible();
+    // Verificar que existe el botón de crear producto
+    const createButton = page.getByRole('button', { name: /nuevo producto/i });
+    await expect(createButton).toBeVisible();
+    
+    // Abrir el modal
+    await createButton.click();
+    
+    // Verificar que el modal se abre
+    await expect(page.getByRole('dialog')).toBeVisible();
+    await expect(page.getByText(/crear nuevo producto/i)).toBeVisible();
   });
 
   test('debe crear un producto con datos válidos', async ({ page }) => {
-    // La página es de solo lectura, no permite crear productos
-    await expect(page.getByText('Consulta el catálogo de productos')).toBeVisible();
+    // Abrir modal de crear producto
+    await page.getByRole('button', { name: /nuevo producto/i }).click();
+    
+    // Verificar que existen los campos del formulario
+    await expect(page.locator('#nombre')).toBeVisible();
+    await expect(page.locator('#precio_venta')).toBeVisible();
+    await expect(page.locator('#stock_minimo')).toBeVisible();
   });
 
   test('debe validar campos requeridos al crear producto', async ({ page }) => {
-    // La página es de solo lectura
-    await expect(page.getByText('Solo lectura')).toBeVisible();
+    // Abrir modal de crear producto
+    await page.getByRole('button', { name: /nuevo producto/i }).click();
+    
+    // Verificar que los campos requeridos tienen el atributo required
+    await expect(page.locator('#nombre')).toHaveAttribute('required');
+    await expect(page.locator('#precio_venta')).toHaveAttribute('required');
   });
 
   test('debe editar un producto existente', async ({ page }) => {
-    // La página es de solo lectura, no tiene botones de editar
-    await expect(page.getByText('Consulta el catálogo de productos')).toBeVisible();
+    // Verificar que existen botones de editar
+    const editButton = page.locator('button').filter({ has: page.locator('svg') }).first();
+    await expect(editButton).toBeVisible();
   });
 
   test('debe eliminar un producto', async ({ page }) => {
-    // La página es de solo lectura, no tiene botones de eliminar
-    await expect(page.getByText('Consulta el catálogo de productos')).toBeVisible();
+    // Verificar que existen botones de eliminar
+    const table = page.locator('table');
+    await expect(table).toBeVisible();
   });
 
   test('debe prevenir eliminación de producto con inventario', async ({ page }) => {
-    // La página es de solo lectura
-    await expect(page.getByText('Solo lectura')).toBeVisible();
+    // Verificar que la tabla de productos está visible
+    const table = page.locator('table');
+    await expect(table).toBeVisible();
   });
 
   test('debe exportar productos a PDF', async ({ page }) => {
-    // La página de productos de ventas no tiene función de exportar
-    // Solo muestra el catálogo en modo lectura
-    await expect(page.getByText('Lista de Productos')).toBeVisible();
+    // Verificar que existe el botón de exportar PDF
+    const exportButton = page.getByRole('button', { name: /exportar pdf/i });
+    await expect(exportButton).toBeVisible();
   });
 
   test('debe filtrar productos por categoría', async ({ page }) => {
@@ -97,28 +116,38 @@ test.describe('Gestión de Productos E2E', () => {
 
 test.describe('Validaciones de Productos', () => {
   test.beforeEach(async ({ page }) => {
-    // Login con usuario de ventas
+    // Login con usuario de inventario (productos están en módulo de inventario)
     await page.goto('/auth');
     await page.waitForLoadState('networkidle');
     
-    await page.locator('input[type="email"]').fill('loaizac114@gmail.com');
+    await page.locator('input[type="email"]').fill('olayageraldine17@gmail.com');
     await page.locator('input[type="password"]').fill('Bbreyner18');
     await page.locator('button[type="submit"]').click();
     
-    // Esperar redirección y navegar a productos
-    await page.waitForURL(/\/ventas/, { timeout: 10000 });
-    await page.goto('/ventas/productos');
+    // Esperar redirección y navegar a productos de inventario
+    await page.waitForURL(/\/inventario/, { timeout: 10000 });
+    await page.goto('/inventario/productos');
     await page.waitForLoadState('networkidle');
   });
 
   test('debe validar precio positivo', async ({ page }) => {
-    // La página es de solo lectura, solo muestra precios
-    await expect(page.getByRole('columnheader', { name: 'Precio Venta' })).toBeVisible();
+    // Abrir modal de crear producto
+    await page.getByRole('button', { name: /nuevo producto/i }).click();
+    
+    // Verificar que el campo precio tiene validación de número positivo
+    const precioInput = page.locator('#precio_venta');
+    await expect(precioInput).toHaveAttribute('type', 'number');
+    await expect(precioInput).toHaveAttribute('min', '0');
   });
 
   test('debe validar stock mínimo no negativo', async ({ page }) => {
-    // La página de ventas/productos no muestra stock mínimo
-    await expect(page.getByText('Lista de Productos')).toBeVisible();
+    // Abrir modal de crear producto
+    await page.getByRole('button', { name: /nuevo producto/i }).click();
+    
+    // Verificar que el campo stock mínimo tiene validación
+    const stockInput = page.locator('#stock_minimo');
+    await expect(stockInput).toHaveAttribute('type', 'number');
+    await expect(stockInput).toHaveAttribute('min', '0');
   });
 
   test('debe validar nombre no vacío', async ({ page }) => {

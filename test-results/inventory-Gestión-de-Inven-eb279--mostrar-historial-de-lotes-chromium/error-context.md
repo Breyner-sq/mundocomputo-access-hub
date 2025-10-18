@@ -1,0 +1,121 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - region "Notifications (F8)":
+      - list [ref=e4]:
+        - status [ref=e5]:
+          - generic [ref=e6]:
+            - generic [ref=e7]: Inicio de sesión exitoso
+            - generic [ref=e8]: Bienvenido a MundoComputo
+          - button [ref=e9] [cursor=pointer]:
+            - img [ref=e10]
+    - region "Notifications alt+T"
+    - button "Menú de accesibilidad" [ref=e14] [cursor=pointer]:
+      - img
+    - generic [ref=e16]:
+      - generic [ref=e22]:
+        - generic [ref=e23]: Inventario
+        - list [ref=e25]:
+          - listitem [ref=e26]:
+            - link "Dashboard" [ref=e27] [cursor=pointer]:
+              - /url: /inventario
+              - img [ref=e28]
+              - generic [ref=e33]: Dashboard
+          - listitem [ref=e34]:
+            - link "Productos" [ref=e35] [cursor=pointer]:
+              - /url: /inventario/productos
+              - img [ref=e36]
+              - generic [ref=e40]: Productos
+          - listitem [ref=e41]:
+            - link "Categorías" [ref=e42] [cursor=pointer]:
+              - /url: /inventario/categorias
+              - img [ref=e43]
+              - generic [ref=e48]: Categorías
+          - listitem [ref=e49]:
+            - link "Control de Stock" [ref=e50] [cursor=pointer]:
+              - /url: /inventario/stock
+              - img [ref=e51]
+              - generic [ref=e55]: Control de Stock
+          - listitem [ref=e56]:
+            - link "Configuración" [ref=e57] [cursor=pointer]:
+              - /url: /configuracion/perfil
+              - img [ref=e58]
+              - generic [ref=e61]: Configuración
+      - generic [ref=e62]:
+        - banner [ref=e63]:
+          - generic [ref=e64]:
+            - button "Toggle Sidebar" [ref=e65] [cursor=pointer]:
+              - img
+              - generic [ref=e66]: Toggle Sidebar
+            - heading "MundoComputo" [level=1] [ref=e67]
+          - generic [ref=e68]:
+            - generic [ref=e69]:
+              - generic [ref=e71]: O
+              - generic [ref=e72]: olayageraldine17@gmail.com
+            - button "Cerrar sesión" [ref=e73] [cursor=pointer]:
+              - img
+              - text: Cerrar sesión
+        - main [ref=e74]:
+          - generic [ref=e75]:
+            - generic [ref=e76]:
+              - generic [ref=e77]:
+                - heading "Control de Stock" [level=2] [ref=e78]
+                - paragraph [ref=e79]: Gestiona los lotes de inventario
+              - button "Nuevo Lote" [ref=e81] [cursor=pointer]:
+                - img
+                - text: Nuevo Lote
+            - generic [ref=e82]:
+              - heading "Exportar Reporte" [level=3] [ref=e84]
+              - generic [ref=e86]:
+                - generic [ref=e87]:
+                  - text: Fecha Inicio
+                  - textbox "Fecha Inicio" [ref=e88]
+                - generic [ref=e89]:
+                  - text: Fecha Fin
+                  - textbox "Fecha Fin" [ref=e90]
+                - generic [ref=e91]:
+                  - text: Categoría
+                  - combobox [ref=e92] [cursor=pointer]:
+                    - generic: Todas las categorías
+                    - img [ref=e93]
+                - button "Exportar PDF" [ref=e95] [cursor=pointer]:
+                  - img
+                  - text: Exportar PDF
+            - generic [ref=e96]:
+              - heading "Lotes de Inventario" [level=3] [ref=e98]:
+                - img [ref=e99]
+                - text: Lotes de Inventario
+              - generic [ref=e103]:
+                - textbox "Buscar lote por producto..." [ref=e105]
+                - table [ref=e107]:
+                  - rowgroup [ref=e108]:
+                    - row "Producto Cantidad Precio Compra Fecha Ingreso Notas" [ref=e109]:
+                      - cell "Producto" [ref=e110]
+                      - cell "Cantidad" [ref=e111]
+                      - cell "Precio Compra" [ref=e112]
+                      - cell "Fecha Ingreso" [ref=e113]
+                      - cell "Notas" [ref=e114]
+                  - rowgroup [ref=e115]:
+                    - row "No hay lotes registrados" [ref=e116]:
+                      - cell "No hay lotes registrados" [ref=e117]
+            - generic [ref=e118]:
+              - heading "Productos con Stock Bajo" [level=3] [ref=e120]:
+                - img [ref=e121]
+                - text: Productos con Stock Bajo
+              - generic [ref=e123]:
+                - textbox "Buscar producto con stock bajo..." [ref=e125]
+                - table [ref=e127]:
+                  - rowgroup [ref=e128]:
+                    - row "Producto Categoría Stock Actual Stock Mínimo Estado" [ref=e129]:
+                      - cell "Producto" [ref=e130]
+                      - cell "Categoría" [ref=e131]
+                      - cell "Stock Actual" [ref=e132]
+                      - cell "Stock Mínimo" [ref=e133]
+                      - cell "Estado" [ref=e134]
+                  - rowgroup [ref=e135]:
+                    - row "No hay productos con stock bajo" [ref=e136]:
+                      - cell "No hay productos con stock bajo" [ref=e137]
+  - status [ref=e138]: Notification Inicio de sesión exitosoBienvenido a MundoComputo
+```

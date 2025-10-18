@@ -12,9 +12,16 @@ export default defineConfig({
     ['list']
   ],
   use: {
-    baseURL: 'http://localhost:8080',
+    // 👇 Cambiamos el entorno base
+    baseURL: 'https://mundocomputo.vercel.app',
+
+    // Espera un poco más por si el sitio demora
+    actionTimeout: 30000,
+    navigationTimeout: 30000,
+
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
+    video: 'on-first-retry',
   },
   projects: [
     {
@@ -26,9 +33,4 @@ export default defineConfig({
       use: { ...devices['Desktop Firefox'] },
     },
   ],
-  webServer: {
-    command: 'npm run dev',
-    url: 'http://localhost:8080',
-    reuseExistingServer: !process.env.CI,
-  },
 });

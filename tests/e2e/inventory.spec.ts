@@ -2,7 +2,16 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Gestión de Inventario E2E', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/inventario');
+    // Login con usuario de inventario
+    await page.goto('/auth');
+    await page.waitForLoadState('networkidle');
+    
+    await page.locator('input[type="email"]').fill('olayageraldine17@gmail.com');
+    await page.locator('input[type="password"]').fill('Bbreyner18');
+    await page.locator('button[type="submit"]').click();
+    
+    // Esperar redirección y navegar a inventario
+    await page.waitForURL(/\/inventario/, { timeout: 10000 });
     await page.waitForLoadState('networkidle');
   });
 
@@ -92,7 +101,16 @@ test.describe('Gestión de Inventario E2E', () => {
 
 test.describe('Alertas de Stock', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/inventario');
+    // Login con usuario de inventario
+    await page.goto('/auth');
+    await page.waitForLoadState('networkidle');
+    
+    await page.locator('input[type="email"]').fill('olayageraldine17@gmail.com');
+    await page.locator('input[type="password"]').fill('Bbreyner18');
+    await page.locator('button[type="submit"]').click();
+    
+    // Esperar redirección y navegar a inventario
+    await page.waitForURL(/\/inventario/, { timeout: 10000 });
     await page.waitForLoadState('networkidle');
   });
 
@@ -130,7 +148,16 @@ test.describe('Alertas de Stock', () => {
 
 test.describe('Integridad de Inventario', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/inventario');
+    // Login con usuario de inventario
+    await page.goto('/auth');
+    await page.waitForLoadState('networkidle');
+    
+    await page.locator('input[type="email"]').fill('olayageraldine17@gmail.com');
+    await page.locator('input[type="password"]').fill('Bbreyner18');
+    await page.locator('button[type="submit"]').click();
+    
+    // Esperar redirección y navegar a inventario
+    await page.waitForURL(/\/inventario/, { timeout: 10000 });
     await page.waitForLoadState('networkidle');
   });
 

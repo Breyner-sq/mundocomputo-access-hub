@@ -1,0 +1,246 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - region "Notifications (F8)":
+    - list
+  - region "Notifications alt+T"
+  - button "Menú de accesibilidad" [ref=e3] [cursor=pointer]:
+    - img
+  - generic [ref=e5]:
+    - generic [ref=e11]:
+      - generic [ref=e12]: Inventario
+      - list [ref=e14]:
+        - listitem [ref=e15]:
+          - link "Dashboard" [ref=e16] [cursor=pointer]:
+            - /url: /inventario
+            - img [ref=e17]
+            - generic [ref=e22]: Dashboard
+        - listitem [ref=e23]:
+          - link "Productos" [ref=e24] [cursor=pointer]:
+            - /url: /inventario/productos
+            - img [ref=e25]
+            - generic [ref=e30]: Productos
+        - listitem [ref=e31]:
+          - link "Categorías" [ref=e32] [cursor=pointer]:
+            - /url: /inventario/categorias
+            - img [ref=e33]
+            - generic [ref=e39]: Categorías
+        - listitem [ref=e40]:
+          - link "Control de Stock" [ref=e41] [cursor=pointer]:
+            - /url: /inventario/stock
+            - img [ref=e42]
+            - generic [ref=e46]: Control de Stock
+        - listitem [ref=e47]:
+          - link "Configuración" [ref=e48] [cursor=pointer]:
+            - /url: /configuracion/perfil
+            - img [ref=e49]
+            - generic [ref=e52]: Configuración
+    - generic [ref=e53]:
+      - banner [ref=e54]:
+        - generic [ref=e55]:
+          - button "Toggle Sidebar" [ref=e56] [cursor=pointer]:
+            - img
+            - generic [ref=e57]: Toggle Sidebar
+          - heading "MundoComputo" [level=1] [ref=e58]
+        - generic [ref=e59]:
+          - generic [ref=e60]:
+            - generic [ref=e62]: O
+            - generic [ref=e63]: olayageraldine17@gmail.com
+          - button "Cerrar sesión" [ref=e64] [cursor=pointer]:
+            - img
+            - text: Cerrar sesión
+      - main [ref=e65]:
+        - generic [ref=e66]:
+          - generic [ref=e67]:
+            - generic [ref=e68]:
+              - heading "Control de Stock" [level=2] [ref=e69]
+              - paragraph [ref=e70]: Gestiona los lotes de inventario
+            - button "Nuevo Lote" [ref=e72] [cursor=pointer]:
+              - img
+              - text: Nuevo Lote
+          - generic [ref=e73]:
+            - heading "Exportar Reporte" [level=3] [ref=e75]
+            - generic [ref=e77]:
+              - generic [ref=e78]:
+                - text: Fecha Inicio
+                - textbox "Fecha Inicio" [ref=e79]
+              - generic [ref=e80]:
+                - text: Fecha Fin
+                - textbox "Fecha Fin" [ref=e81]
+              - generic [ref=e82]:
+                - text: Categoría
+                - combobox [ref=e83] [cursor=pointer]:
+                  - generic: Todas las categorías
+                  - img [ref=e84]
+              - button "Exportar PDF" [ref=e86] [cursor=pointer]:
+                - img
+                - text: Exportar PDF
+          - generic [ref=e87]:
+            - heading "Lotes de Inventario" [level=3] [ref=e89]:
+              - img [ref=e90]
+              - text: Lotes de Inventario
+            - generic [ref=e95]:
+              - textbox "Buscar lote por producto..." [ref=e97]
+              - table [ref=e99]:
+                - rowgroup [ref=e100]:
+                  - row "Producto Cantidad Precio Compra Fecha Ingreso Notas" [ref=e101]:
+                    - cell "Producto" [ref=e102]
+                    - cell "Cantidad" [ref=e103]
+                    - cell "Precio Compra" [ref=e104]
+                    - cell "Fecha Ingreso" [ref=e105]
+                    - cell "Notas" [ref=e106]
+                - rowgroup [ref=e107]:
+                  - row "iPhone Air 32 $3800000.00 10/10/2025 -" [ref=e108]:
+                    - cell "iPhone Air" [ref=e109]
+                    - cell "32" [ref=e110]
+                    - cell "$3800000.00" [ref=e111]
+                    - cell "10/10/2025" [ref=e112]
+                    - cell "-" [ref=e113]
+                  - row "MacBook Pro M4 Pro 9 $7800000.00 06/10/2025 Black" [ref=e114]:
+                    - cell "MacBook Pro M4 Pro" [ref=e115]
+                    - cell "9" [ref=e116]
+                    - cell "$7800000.00" [ref=e117]
+                    - cell "06/10/2025" [ref=e118]
+                    - cell "Black" [ref=e119]
+                  - row "iPhone 17 Pro Max 17 $5200000.00 06/10/2025 ESIM" [ref=e120]:
+                    - cell "iPhone 17 Pro Max" [ref=e121]
+                    - cell "17" [ref=e122]
+                    - cell "$5200000.00" [ref=e123]
+                    - cell "06/10/2025" [ref=e124]
+                    - cell "ESIM" [ref=e125]
+          - generic [ref=e126]:
+            - heading "Productos con Stock Bajo" [level=3] [ref=e128]:
+              - img [ref=e129]
+              - text: Productos con Stock Bajo
+            - generic [ref=e133]:
+              - textbox "Buscar producto con stock bajo..." [ref=e135]
+              - table [ref=e137]:
+                - rowgroup [ref=e138]:
+                  - row "Producto Categoría Stock Actual Stock Mínimo Estado" [ref=e139]:
+                    - cell "Producto" [ref=e140]
+                    - cell "Categoría" [ref=e141]
+                    - cell "Stock Actual" [ref=e142]
+                    - cell "Stock Mínimo" [ref=e143]
+                    - cell "Estado" [ref=e144]
+                - rowgroup [ref=e145]:
+                  - row "Producto sin categoría - 0 10 Stock Bajo" [ref=e146]:
+                    - cell "Producto sin categoría" [ref=e147]
+                    - cell "-" [ref=e148]
+                    - cell "0" [ref=e149]
+                    - cell "10" [ref=e150]
+                    - cell "Stock Bajo" [ref=e151]:
+                      - generic [ref=e152]: Stock Bajo
+                  - row "Producto sin categoría - 0 10 Stock Bajo" [ref=e153]:
+                    - cell "Producto sin categoría" [ref=e154]
+                    - cell "-" [ref=e155]
+                    - cell "0" [ref=e156]
+                    - cell "10" [ref=e157]
+                    - cell "Stock Bajo" [ref=e158]:
+                      - generic [ref=e159]: Stock Bajo
+                  - row "Producto sin categoría - 0 10 Stock Bajo" [ref=e160]:
+                    - cell "Producto sin categoría" [ref=e161]
+                    - cell "-" [ref=e162]
+                    - cell "0" [ref=e163]
+                    - cell "10" [ref=e164]
+                    - cell "Stock Bajo" [ref=e165]:
+                      - generic [ref=e166]: Stock Bajo
+                  - row "Producto sin categoría - 0 10 Stock Bajo" [ref=e167]:
+                    - cell "Producto sin categoría" [ref=e168]
+                    - cell "-" [ref=e169]
+                    - cell "0" [ref=e170]
+                    - cell "10" [ref=e171]
+                    - cell "Stock Bajo" [ref=e172]:
+                      - generic [ref=e173]: Stock Bajo
+                  - row "Producto sin categoría - 0 10 Stock Bajo" [ref=e174]:
+                    - cell "Producto sin categoría" [ref=e175]
+                    - cell "-" [ref=e176]
+                    - cell "0" [ref=e177]
+                    - cell "10" [ref=e178]
+                    - cell "Stock Bajo" [ref=e179]:
+                      - generic [ref=e180]: Stock Bajo
+                  - row "Producto sin categoría - 0 10 Stock Bajo" [ref=e181]:
+                    - cell "Producto sin categoría" [ref=e182]
+                    - cell "-" [ref=e183]
+                    - cell "0" [ref=e184]
+                    - cell "10" [ref=e185]
+                    - cell "Stock Bajo" [ref=e186]:
+                      - generic [ref=e187]: Stock Bajo
+                  - row "Producto sin categoría - 0 10 Stock Bajo" [ref=e188]:
+                    - cell "Producto sin categoría" [ref=e189]
+                    - cell "-" [ref=e190]
+                    - cell "0" [ref=e191]
+                    - cell "10" [ref=e192]
+                    - cell "Stock Bajo" [ref=e193]:
+                      - generic [ref=e194]: Stock Bajo
+                  - row "Producto sin categoría - 0 10 Stock Bajo" [ref=e195]:
+                    - cell "Producto sin categoría" [ref=e196]
+                    - cell "-" [ref=e197]
+                    - cell "0" [ref=e198]
+                    - cell "10" [ref=e199]
+                    - cell "Stock Bajo" [ref=e200]:
+                      - generic [ref=e201]: Stock Bajo
+                  - row "Producto sin categoría - 0 10 Stock Bajo" [ref=e202]:
+                    - cell "Producto sin categoría" [ref=e203]
+                    - cell "-" [ref=e204]
+                    - cell "0" [ref=e205]
+                    - cell "10" [ref=e206]
+                    - cell "Stock Bajo" [ref=e207]:
+                      - generic [ref=e208]: Stock Bajo
+                  - row "Producto sin categoría - 0 10 Stock Bajo" [ref=e209]:
+                    - cell "Producto sin categoría" [ref=e210]
+                    - cell "-" [ref=e211]
+                    - cell "0" [ref=e212]
+                    - cell "10" [ref=e213]
+                    - cell "Stock Bajo" [ref=e214]:
+                      - generic [ref=e215]: Stock Bajo
+                  - row "Producto sin categoría - 0 10 Stock Bajo" [ref=e216]:
+                    - cell "Producto sin categoría" [ref=e217]
+                    - cell "-" [ref=e218]
+                    - cell "0" [ref=e219]
+                    - cell "10" [ref=e220]
+                    - cell "Stock Bajo" [ref=e221]:
+                      - generic [ref=e222]: Stock Bajo
+                  - row "Producto sin categoría - 0 10 Stock Bajo" [ref=e223]:
+                    - cell "Producto sin categoría" [ref=e224]
+                    - cell "-" [ref=e225]
+                    - cell "0" [ref=e226]
+                    - cell "10" [ref=e227]
+                    - cell "Stock Bajo" [ref=e228]:
+                      - generic [ref=e229]: Stock Bajo
+                  - row "Producto sin categoría - 0 10 Stock Bajo" [ref=e230]:
+                    - cell "Producto sin categoría" [ref=e231]
+                    - cell "-" [ref=e232]
+                    - cell "0" [ref=e233]
+                    - cell "10" [ref=e234]
+                    - cell "Stock Bajo" [ref=e235]:
+                      - generic [ref=e236]: Stock Bajo
+                  - row "Producto sin categoría - 0 10 Stock Bajo" [ref=e237]:
+                    - cell "Producto sin categoría" [ref=e238]
+                    - cell "-" [ref=e239]
+                    - cell "0" [ref=e240]
+                    - cell "10" [ref=e241]
+                    - cell "Stock Bajo" [ref=e242]:
+                      - generic [ref=e243]: Stock Bajo
+                  - row "Producto sin categoría - 0 10 Stock Bajo" [ref=e244]:
+                    - cell "Producto sin categoría" [ref=e245]
+                    - cell "-" [ref=e246]
+                    - cell "0" [ref=e247]
+                    - cell "10" [ref=e248]
+                    - cell "Stock Bajo" [ref=e249]:
+                      - generic [ref=e250]: Stock Bajo
+                  - row "Producto sin categoría - 0 10 Stock Bajo" [ref=e251]:
+                    - cell "Producto sin categoría" [ref=e252]
+                    - cell "-" [ref=e253]
+                    - cell "0" [ref=e254]
+                    - cell "10" [ref=e255]
+                    - cell "Stock Bajo" [ref=e256]:
+                      - generic [ref=e257]: Stock Bajo
+                  - row "Producto sin categoría - 0 10 Stock Bajo" [ref=e258]:
+                    - cell "Producto sin categoría" [ref=e259]
+                    - cell "-" [ref=e260]
+                    - cell "0" [ref=e261]
+                    - cell "10" [ref=e262]
+                    - cell "Stock Bajo" [ref=e263]:
+                      - generic [ref=e264]: Stock Bajo
+```

@@ -1,0 +1,369 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - region "Notifications (F8)":
+    - list
+  - region "Notifications alt+T"
+  - button "Menú de accesibilidad" [ref=e3] [cursor=pointer]:
+    - img
+  - generic [ref=e5]:
+    - generic [ref=e11]:
+      - generic [ref=e12]: Administrador
+      - list [ref=e14]:
+        - listitem [ref=e15]:
+          - link "Dashboard" [ref=e16] [cursor=pointer]:
+            - /url: /admin
+            - img [ref=e17]
+            - generic [ref=e22]: Dashboard
+        - listitem [ref=e23]:
+          - link "Gestionar Usuarios" [ref=e24] [cursor=pointer]:
+            - /url: /admin/usuarios
+            - img [ref=e25]
+            - generic [ref=e30]: Gestionar Usuarios
+        - listitem [ref=e32]:
+          - button "Inventario" [expanded] [ref=e33] [cursor=pointer]:
+            - img [ref=e34]
+            - generic [ref=e39]: Inventario
+            - img [ref=e40]
+          - list [ref=e43]:
+            - listitem [ref=e44]:
+              - link "Dashboard" [ref=e45] [cursor=pointer]:
+                - /url: /inventario
+                - img [ref=e46]
+                - generic [ref=e51]: Dashboard
+            - listitem [ref=e52]:
+              - link "Productos" [ref=e53] [cursor=pointer]:
+                - /url: /inventario/productos
+                - img [ref=e54]
+                - generic [ref=e59]: Productos
+            - listitem [ref=e60]:
+              - link "Categorías" [ref=e61] [cursor=pointer]:
+                - /url: /inventario/categorias
+                - img [ref=e62]
+                - generic [ref=e68]: Categorías
+            - listitem [ref=e69]:
+              - link "Stock" [ref=e70] [cursor=pointer]:
+                - /url: /inventario/stock
+                - img [ref=e71]
+                - generic [ref=e75]: Stock
+        - listitem [ref=e77]:
+          - button "Ventas" [expanded] [ref=e78] [cursor=pointer]:
+            - img [ref=e79]
+            - generic [ref=e83]: Ventas
+            - img [ref=e84]
+          - list [ref=e87]:
+            - listitem [ref=e88]:
+              - link "Dashboard" [ref=e89] [cursor=pointer]:
+                - /url: /admin/ventas
+                - img [ref=e90]
+                - generic [ref=e95]: Dashboard
+            - listitem [ref=e96]:
+              - link "Registro" [ref=e97] [cursor=pointer]:
+                - /url: /admin/ventas/registro
+                - img [ref=e98]
+                - generic [ref=e102]: Registro
+            - listitem [ref=e103]:
+              - link "Clientes" [ref=e104] [cursor=pointer]:
+                - /url: /admin/ventas/clientes
+                - img [ref=e105]
+                - generic [ref=e110]: Clientes
+            - listitem [ref=e111]:
+              - link "Estadísticas" [ref=e112] [cursor=pointer]:
+                - /url: /admin/ventas/estadisticas
+                - img [ref=e113]
+                - generic [ref=e116]: Estadísticas
+        - listitem [ref=e117]:
+          - link "Registros de Autentificación" [ref=e118] [cursor=pointer]:
+            - /url: /admin/auth-logs
+            - img [ref=e119]
+            - generic [ref=e125]: Registros de Autentificación
+        - listitem [ref=e126]:
+          - link "Configuración" [ref=e127] [cursor=pointer]:
+            - /url: /configuracion/perfil
+            - img [ref=e128]
+            - generic [ref=e131]: Configuración
+    - generic [ref=e132]:
+      - banner [ref=e133]:
+        - generic [ref=e134]:
+          - button "Toggle Sidebar" [ref=e135] [cursor=pointer]:
+            - img
+            - generic [ref=e136]: Toggle Sidebar
+          - heading "MundoComputo" [level=1] [ref=e137]
+        - generic [ref=e138]:
+          - generic [ref=e139]:
+            - img [ref=e141]
+            - generic [ref=e142]: breynersanchezquintero@gmail.com
+          - button "Cerrar sesión" [ref=e143] [cursor=pointer]:
+            - img
+            - text: Cerrar sesión
+      - main [ref=e144]:
+        - generic [ref=e145]:
+          - generic [ref=e146]:
+            - generic [ref=e147]:
+              - heading "Productos" [level=2] [ref=e148]
+              - paragraph [ref=e149]: Gestiona el catálogo de productos
+            - generic [ref=e150]:
+              - button "Exportar PDF" [ref=e151] [cursor=pointer]:
+                - img
+                - text: Exportar PDF
+              - button "Nuevo Producto" [ref=e152] [cursor=pointer]:
+                - img
+                - text: Nuevo Producto
+          - generic [ref=e153]:
+            - heading "Lista de Productos" [level=3] [ref=e155]:
+              - img [ref=e156]
+              - text: Lista de Productos
+            - generic [ref=e161]:
+              - textbox "Buscar producto por nombre..." [ref=e163]
+              - table [ref=e165]:
+                - rowgroup [ref=e166]:
+                  - row "Nombre Descripción Categoría Precio Venta Código Barras Acciones" [ref=e167]:
+                    - cell "Nombre" [ref=e168]
+                    - cell "Descripción" [ref=e169]
+                    - cell "Categoría" [ref=e170]
+                    - cell "Precio Venta" [ref=e171]
+                    - cell "Código Barras" [ref=e172]
+                    - cell "Acciones" [ref=e173]
+                - rowgroup [ref=e174]:
+                  - row "Producto sin categoría - - $25.00 -" [ref=e175]:
+                    - cell "Producto sin categoría" [ref=e176]
+                    - cell "-" [ref=e177]
+                    - cell "-" [ref=e178]
+                    - cell "$25.00" [ref=e179]
+                    - cell "-" [ref=e180]
+                    - cell [ref=e181]:
+                      - generic [ref=e182]:
+                        - button [ref=e183] [cursor=pointer]:
+                          - img
+                        - button [ref=e184] [cursor=pointer]:
+                          - img
+                  - row "Producto sin categoría - - $25.00 -" [ref=e185]:
+                    - cell "Producto sin categoría" [ref=e186]
+                    - cell "-" [ref=e187]
+                    - cell "-" [ref=e188]
+                    - cell "$25.00" [ref=e189]
+                    - cell "-" [ref=e190]
+                    - cell [ref=e191]:
+                      - generic [ref=e192]:
+                        - button [ref=e193] [cursor=pointer]:
+                          - img
+                        - button [ref=e194] [cursor=pointer]:
+                          - img
+                  - row "Producto sin categoría - - $25.00 -" [ref=e195]:
+                    - cell "Producto sin categoría" [ref=e196]
+                    - cell "-" [ref=e197]
+                    - cell "-" [ref=e198]
+                    - cell "$25.00" [ref=e199]
+                    - cell "-" [ref=e200]
+                    - cell [ref=e201]:
+                      - generic [ref=e202]:
+                        - button [ref=e203] [cursor=pointer]:
+                          - img
+                        - button [ref=e204] [cursor=pointer]:
+                          - img
+                  - row "Producto sin categoría - - $25.00 -" [ref=e205]:
+                    - cell "Producto sin categoría" [ref=e206]
+                    - cell "-" [ref=e207]
+                    - cell "-" [ref=e208]
+                    - cell "$25.00" [ref=e209]
+                    - cell "-" [ref=e210]
+                    - cell [ref=e211]:
+                      - generic [ref=e212]:
+                        - button [ref=e213] [cursor=pointer]:
+                          - img
+                        - button [ref=e214] [cursor=pointer]:
+                          - img
+                  - row "Producto sin categoría - - $25.00 -" [ref=e215]:
+                    - cell "Producto sin categoría" [ref=e216]
+                    - cell "-" [ref=e217]
+                    - cell "-" [ref=e218]
+                    - cell "$25.00" [ref=e219]
+                    - cell "-" [ref=e220]
+                    - cell [ref=e221]:
+                      - generic [ref=e222]:
+                        - button [ref=e223] [cursor=pointer]:
+                          - img
+                        - button [ref=e224] [cursor=pointer]:
+                          - img
+                  - row "Producto sin categoría - - $25.00 -" [ref=e225]:
+                    - cell "Producto sin categoría" [ref=e226]
+                    - cell "-" [ref=e227]
+                    - cell "-" [ref=e228]
+                    - cell "$25.00" [ref=e229]
+                    - cell "-" [ref=e230]
+                    - cell [ref=e231]:
+                      - generic [ref=e232]:
+                        - button [ref=e233] [cursor=pointer]:
+                          - img
+                        - button [ref=e234] [cursor=pointer]:
+                          - img
+                  - row "Producto sin categoría - - $25.00 -" [ref=e235]:
+                    - cell "Producto sin categoría" [ref=e236]
+                    - cell "-" [ref=e237]
+                    - cell "-" [ref=e238]
+                    - cell "$25.00" [ref=e239]
+                    - cell "-" [ref=e240]
+                    - cell [ref=e241]:
+                      - generic [ref=e242]:
+                        - button [ref=e243] [cursor=pointer]:
+                          - img
+                        - button [ref=e244] [cursor=pointer]:
+                          - img
+                  - row "Producto sin categoría - - $25.00 -" [ref=e245]:
+                    - cell "Producto sin categoría" [ref=e246]
+                    - cell "-" [ref=e247]
+                    - cell "-" [ref=e248]
+                    - cell "$25.00" [ref=e249]
+                    - cell "-" [ref=e250]
+                    - cell [ref=e251]:
+                      - generic [ref=e252]:
+                        - button [ref=e253] [cursor=pointer]:
+                          - img
+                        - button [ref=e254] [cursor=pointer]:
+                          - img
+                  - row "Producto sin categoría - - $25.00 -" [ref=e255]:
+                    - cell "Producto sin categoría" [ref=e256]
+                    - cell "-" [ref=e257]
+                    - cell "-" [ref=e258]
+                    - cell "$25.00" [ref=e259]
+                    - cell "-" [ref=e260]
+                    - cell [ref=e261]:
+                      - generic [ref=e262]:
+                        - button [ref=e263] [cursor=pointer]:
+                          - img
+                        - button [ref=e264] [cursor=pointer]:
+                          - img
+                  - row "Producto sin categoría - - $25.00 -" [ref=e265]:
+                    - cell "Producto sin categoría" [ref=e266]
+                    - cell "-" [ref=e267]
+                    - cell "-" [ref=e268]
+                    - cell "$25.00" [ref=e269]
+                    - cell "-" [ref=e270]
+                    - cell [ref=e271]:
+                      - generic [ref=e272]:
+                        - button [ref=e273] [cursor=pointer]:
+                          - img
+                        - button [ref=e274] [cursor=pointer]:
+                          - img
+                  - row "Producto sin categoría - - $25.00 -" [ref=e275]:
+                    - cell "Producto sin categoría" [ref=e276]
+                    - cell "-" [ref=e277]
+                    - cell "-" [ref=e278]
+                    - cell "$25.00" [ref=e279]
+                    - cell "-" [ref=e280]
+                    - cell [ref=e281]:
+                      - generic [ref=e282]:
+                        - button [ref=e283] [cursor=pointer]:
+                          - img
+                        - button [ref=e284] [cursor=pointer]:
+                          - img
+                  - row "Producto sin categoría - - $25.00 -" [ref=e285]:
+                    - cell "Producto sin categoría" [ref=e286]
+                    - cell "-" [ref=e287]
+                    - cell "-" [ref=e288]
+                    - cell "$25.00" [ref=e289]
+                    - cell "-" [ref=e290]
+                    - cell [ref=e291]:
+                      - generic [ref=e292]:
+                        - button [ref=e293] [cursor=pointer]:
+                          - img
+                        - button [ref=e294] [cursor=pointer]:
+                          - img
+                  - row "Producto sin categoría - - $25.00 -" [ref=e295]:
+                    - cell "Producto sin categoría" [ref=e296]
+                    - cell "-" [ref=e297]
+                    - cell "-" [ref=e298]
+                    - cell "$25.00" [ref=e299]
+                    - cell "-" [ref=e300]
+                    - cell [ref=e301]:
+                      - generic [ref=e302]:
+                        - button [ref=e303] [cursor=pointer]:
+                          - img
+                        - button [ref=e304] [cursor=pointer]:
+                          - img
+                  - row "Producto sin categoría - - $25.00 -" [ref=e305]:
+                    - cell "Producto sin categoría" [ref=e306]
+                    - cell "-" [ref=e307]
+                    - cell "-" [ref=e308]
+                    - cell "$25.00" [ref=e309]
+                    - cell "-" [ref=e310]
+                    - cell [ref=e311]:
+                      - generic [ref=e312]:
+                        - button [ref=e313] [cursor=pointer]:
+                          - img
+                        - button [ref=e314] [cursor=pointer]:
+                          - img
+                  - row "Producto sin categoría - - $25.00 -" [ref=e315]:
+                    - cell "Producto sin categoría" [ref=e316]
+                    - cell "-" [ref=e317]
+                    - cell "-" [ref=e318]
+                    - cell "$25.00" [ref=e319]
+                    - cell "-" [ref=e320]
+                    - cell [ref=e321]:
+                      - generic [ref=e322]:
+                        - button [ref=e323] [cursor=pointer]:
+                          - img
+                        - button [ref=e324] [cursor=pointer]:
+                          - img
+                  - row "Producto sin categoría - - $25.00 -" [ref=e325]:
+                    - cell "Producto sin categoría" [ref=e326]
+                    - cell "-" [ref=e327]
+                    - cell "-" [ref=e328]
+                    - cell "$25.00" [ref=e329]
+                    - cell "-" [ref=e330]
+                    - cell [ref=e331]:
+                      - generic [ref=e332]:
+                        - button [ref=e333] [cursor=pointer]:
+                          - img
+                        - button [ref=e334] [cursor=pointer]:
+                          - img
+                  - row "Producto sin categoría - - $25.00 -" [ref=e335]:
+                    - cell "Producto sin categoría" [ref=e336]
+                    - cell "-" [ref=e337]
+                    - cell "-" [ref=e338]
+                    - cell "$25.00" [ref=e339]
+                    - cell "-" [ref=e340]
+                    - cell [ref=e341]:
+                      - generic [ref=e342]:
+                        - button [ref=e343] [cursor=pointer]:
+                          - img
+                        - button [ref=e344] [cursor=pointer]:
+                          - img
+                  - row "iPhone Air Apple Celular $5500000.00 -" [ref=e345]:
+                    - cell "iPhone Air" [ref=e346]
+                    - cell "Apple" [ref=e347]
+                    - cell "Celular" [ref=e348]
+                    - cell "$5500000.00" [ref=e349]
+                    - cell "-" [ref=e350]
+                    - cell [ref=e351]:
+                      - generic [ref=e352]:
+                        - button [ref=e353] [cursor=pointer]:
+                          - img
+                        - button [ref=e354] [cursor=pointer]:
+                          - img
+                  - row "MacBook Pro M4 Pro Macbook de Apple Macbook $9200000.00 -" [ref=e355]:
+                    - cell "MacBook Pro M4 Pro" [ref=e356]
+                    - cell "Macbook de Apple" [ref=e357]
+                    - cell "Macbook" [ref=e358]
+                    - cell "$9200000.00" [ref=e359]
+                    - cell "-" [ref=e360]
+                    - cell [ref=e361]:
+                      - generic [ref=e362]:
+                        - button [ref=e363] [cursor=pointer]:
+                          - img
+                        - button [ref=e364] [cursor=pointer]:
+                          - img
+                  - row "iPhone 17 Pro Max Ultima generación de dispositivos móviles de Apple Celular $6200000.00 -" [ref=e365]:
+                    - cell "iPhone 17 Pro Max" [ref=e366]
+                    - cell "Ultima generación de dispositivos móviles de Apple" [ref=e367]
+                    - cell "Celular" [ref=e368]
+                    - cell "$6200000.00" [ref=e369]
+                    - cell "-" [ref=e370]
+                    - cell [ref=e371]:
+                      - generic [ref=e372]:
+                        - button [ref=e373] [cursor=pointer]:
+                          - img
+                        - button [ref=e374] [cursor=pointer]:
+                          - img
+```

@@ -1,0 +1,139 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - region "Notifications (F8)":
+      - list [ref=e4]:
+        - status [ref=e5]:
+          - generic [ref=e6]:
+            - generic [ref=e7]: Inicio de sesión exitoso
+            - generic [ref=e8]: Bienvenido a MundoComputo
+          - button [ref=e9] [cursor=pointer]:
+            - img [ref=e10]
+    - region "Notifications alt+T"
+    - button "Menú de accesibilidad" [ref=e14] [cursor=pointer]:
+      - img
+    - generic [ref=e16]:
+      - generic [ref=e22]:
+        - generic [ref=e23]: Administrador
+        - list [ref=e25]:
+          - listitem [ref=e26]:
+            - link "Dashboard" [ref=e27] [cursor=pointer]:
+              - /url: /admin
+              - img [ref=e28]
+              - generic [ref=e33]: Dashboard
+          - listitem [ref=e34]:
+            - link "Gestionar Usuarios" [ref=e35] [cursor=pointer]:
+              - /url: /admin/usuarios
+              - img [ref=e36]
+              - generic [ref=e41]: Gestionar Usuarios
+          - listitem [ref=e43]:
+            - button "Inventario" [expanded] [ref=e44] [cursor=pointer]:
+              - img [ref=e45]
+              - generic [ref=e49]: Inventario
+              - img [ref=e50]
+            - list [ref=e53]:
+              - listitem [ref=e54]:
+                - link "Dashboard" [ref=e55] [cursor=pointer]:
+                  - /url: /inventario
+                  - img [ref=e56]
+                  - generic [ref=e61]: Dashboard
+              - listitem [ref=e62]:
+                - link "Productos" [ref=e63] [cursor=pointer]:
+                  - /url: /inventario/productos
+                  - img [ref=e64]
+                  - generic [ref=e68]: Productos
+              - listitem [ref=e69]:
+                - link "Categorías" [ref=e70] [cursor=pointer]:
+                  - /url: /inventario/categorias
+                  - img [ref=e71]
+                  - generic [ref=e74]: Categorías
+              - listitem [ref=e75]:
+                - link "Stock" [ref=e76] [cursor=pointer]:
+                  - /url: /inventario/stock
+                  - img [ref=e77]
+                  - generic [ref=e78]: Stock
+          - listitem [ref=e80]:
+            - button "Ventas" [expanded] [ref=e81] [cursor=pointer]:
+              - img [ref=e82]
+              - generic [ref=e86]: Ventas
+              - img [ref=e87]
+            - list [ref=e90]:
+              - listitem [ref=e91]:
+                - link "Dashboard" [ref=e92] [cursor=pointer]:
+                  - /url: /admin/ventas
+                  - img [ref=e93]
+                  - generic [ref=e98]: Dashboard
+              - listitem [ref=e99]:
+                - link "Registro" [ref=e100] [cursor=pointer]:
+                  - /url: /admin/ventas/registro
+                  - img [ref=e101]
+                  - generic [ref=e105]: Registro
+              - listitem [ref=e106]:
+                - link "Clientes" [ref=e107] [cursor=pointer]:
+                  - /url: /admin/ventas/clientes
+                  - img [ref=e108]
+                  - generic [ref=e113]: Clientes
+              - listitem [ref=e114]:
+                - link "Estadísticas" [ref=e115] [cursor=pointer]:
+                  - /url: /admin/ventas/estadisticas
+                  - img [ref=e116]
+                  - generic [ref=e119]: Estadísticas
+          - listitem [ref=e120]:
+            - link "Registros de Autentificación" [ref=e121] [cursor=pointer]:
+              - /url: /admin/auth-logs
+              - img [ref=e122]
+              - generic [ref=e125]: Registros de Autentificación
+          - listitem [ref=e126]:
+            - link "Configuración" [ref=e127] [cursor=pointer]:
+              - /url: /configuracion/perfil
+              - img [ref=e128]
+              - generic [ref=e131]: Configuración
+      - generic [ref=e132]:
+        - banner [ref=e133]:
+          - generic [ref=e134]:
+            - button "Toggle Sidebar" [ref=e135] [cursor=pointer]:
+              - img
+              - generic [ref=e136]: Toggle Sidebar
+            - heading "MundoComputo" [level=1] [ref=e137]
+          - generic [ref=e138]:
+            - generic [ref=e139]:
+              - generic [ref=e141]: B
+              - generic [ref=e142]: breynersanchezquintero@gmail.com
+            - button "Cerrar sesión" [ref=e143] [cursor=pointer]:
+              - img
+              - text: Cerrar sesión
+        - main [ref=e144]:
+          - generic [ref=e145]:
+            - generic [ref=e146]:
+              - generic [ref=e147]:
+                - heading "Productos" [level=2] [ref=e148]
+                - paragraph [ref=e149]: Gestiona el catálogo de productos
+              - generic [ref=e150]:
+                - button "Exportar PDF" [ref=e151] [cursor=pointer]:
+                  - img
+                  - text: Exportar PDF
+                - button "Nuevo Producto" [ref=e152] [cursor=pointer]:
+                  - img
+                  - text: Nuevo Producto
+            - generic [ref=e153]:
+              - heading "Lista de Productos" [level=3] [ref=e155]:
+                - img [ref=e156]
+                - text: Lista de Productos
+              - generic [ref=e160]:
+                - textbox "Buscar producto por nombre..." [ref=e162]
+                - table [ref=e164]:
+                  - rowgroup [ref=e165]:
+                    - row "Nombre Descripción Categoría Precio Venta Código Barras Acciones" [ref=e166]:
+                      - cell "Nombre" [ref=e167]
+                      - cell "Descripción" [ref=e168]
+                      - cell "Categoría" [ref=e169]
+                      - cell "Precio Venta" [ref=e170]
+                      - cell "Código Barras" [ref=e171]
+                      - cell "Acciones" [ref=e172]
+                  - rowgroup [ref=e173]:
+                    - row "No hay productos registrados" [ref=e174]:
+                      - cell "No hay productos registrados" [ref=e175]
+  - status [ref=e176]: Notification Inicio de sesión exitosoBienvenido a MundoComputo
+```

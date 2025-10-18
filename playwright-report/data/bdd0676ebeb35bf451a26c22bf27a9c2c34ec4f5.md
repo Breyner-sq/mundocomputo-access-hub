@@ -1,0 +1,413 @@
+# Page snapshot
+
+```yaml
+- generic:
+  - generic:
+    - region "Notifications (F8)":
+      - list
+    - region "Notifications alt+T"
+    - button:
+      - img
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - generic: Administrador
+                  - generic:
+                    - list:
+                      - listitem:
+                        - link:
+                          - /url: /admin
+                          - img
+                          - generic: Dashboard
+                      - listitem:
+                        - link:
+                          - /url: /admin/usuarios
+                          - img
+                          - generic: Gestionar Usuarios
+                      - generic:
+                        - listitem:
+                          - button [expanded]:
+                            - img
+                            - generic: Inventario
+                            - img
+                          - generic:
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /inventario
+                                  - img
+                                  - generic: Dashboard
+                              - listitem:
+                                - link:
+                                  - /url: /inventario/productos
+                                  - img
+                                  - generic: Productos
+                              - listitem:
+                                - link:
+                                  - /url: /inventario/categorias
+                                  - img
+                                  - generic: Categorías
+                              - listitem:
+                                - link:
+                                  - /url: /inventario/stock
+                                  - img
+                                  - generic: Stock
+                      - generic:
+                        - listitem:
+                          - button [expanded]:
+                            - img
+                            - generic: Ventas
+                            - img
+                          - generic:
+                            - list:
+                              - listitem:
+                                - link:
+                                  - /url: /admin/ventas
+                                  - img
+                                  - generic: Dashboard
+                              - listitem:
+                                - link:
+                                  - /url: /admin/ventas/registro
+                                  - img
+                                  - generic: Registro
+                              - listitem:
+                                - link:
+                                  - /url: /admin/ventas/clientes
+                                  - img
+                                  - generic: Clientes
+                              - listitem:
+                                - link:
+                                  - /url: /admin/ventas/estadisticas
+                                  - img
+                                  - generic: Estadísticas
+                      - listitem:
+                        - link:
+                          - /url: /admin/auth-logs
+                          - img
+                          - generic: Registros de Autentificación
+                      - listitem:
+                        - link:
+                          - /url: /configuracion/perfil
+                          - img
+                          - generic: Configuración
+        - generic:
+          - banner:
+            - generic:
+              - button:
+                - img
+                - generic: Toggle Sidebar
+              - heading [level=1]: MundoComputo
+            - generic:
+              - generic:
+                - generic:
+                  - img
+                - generic: breynersanchezquintero@gmail.com
+              - button:
+                - img
+                - text: Cerrar sesión
+          - main:
+            - generic:
+              - generic:
+                - generic:
+                  - heading [level=2]: Productos
+                  - paragraph: Gestiona el catálogo de productos
+                - generic:
+                  - button:
+                    - img
+                    - text: Exportar PDF
+                  - button [expanded]:
+                    - img
+                    - text: Nuevo Producto
+              - generic:
+                - generic:
+                  - heading [level=3]:
+                    - img
+                    - text: Lista de Productos
+                - generic:
+                  - generic:
+                    - textbox:
+                      - /placeholder: Buscar producto por nombre...
+                  - generic:
+                    - table:
+                      - rowgroup:
+                        - row:
+                          - cell: Nombre
+                          - cell: Descripción
+                          - cell: Categoría
+                          - cell: Precio Venta
+                          - cell: Código Barras
+                          - cell: Acciones
+                      - rowgroup:
+                        - row:
+                          - cell: Producto sin categoría
+                          - cell: "-"
+                          - cell: "-"
+                          - cell: $25.00
+                          - cell: "-"
+                          - cell:
+                            - generic:
+                              - button:
+                                - img
+                              - button:
+                                - img
+                        - row:
+                          - cell: Producto sin categoría
+                          - cell: "-"
+                          - cell: "-"
+                          - cell: $25.00
+                          - cell: "-"
+                          - cell:
+                            - generic:
+                              - button:
+                                - img
+                              - button:
+                                - img
+                        - row:
+                          - cell: Producto sin categoría
+                          - cell: "-"
+                          - cell: "-"
+                          - cell: $25.00
+                          - cell: "-"
+                          - cell:
+                            - generic:
+                              - button:
+                                - img
+                              - button:
+                                - img
+                        - row:
+                          - cell: Producto sin categoría
+                          - cell: "-"
+                          - cell: "-"
+                          - cell: $25.00
+                          - cell: "-"
+                          - cell:
+                            - generic:
+                              - button:
+                                - img
+                              - button:
+                                - img
+                        - row:
+                          - cell: Producto sin categoría
+                          - cell: "-"
+                          - cell: "-"
+                          - cell: $25.00
+                          - cell: "-"
+                          - cell:
+                            - generic:
+                              - button:
+                                - img
+                              - button:
+                                - img
+                        - row:
+                          - cell: Producto sin categoría
+                          - cell: "-"
+                          - cell: "-"
+                          - cell: $25.00
+                          - cell: "-"
+                          - cell:
+                            - generic:
+                              - button:
+                                - img
+                              - button:
+                                - img
+                        - row:
+                          - cell: Producto sin categoría
+                          - cell: "-"
+                          - cell: "-"
+                          - cell: $25.00
+                          - cell: "-"
+                          - cell:
+                            - generic:
+                              - button:
+                                - img
+                              - button:
+                                - img
+                        - row:
+                          - cell: Producto sin categoría
+                          - cell: "-"
+                          - cell: "-"
+                          - cell: $25.00
+                          - cell: "-"
+                          - cell:
+                            - generic:
+                              - button:
+                                - img
+                              - button:
+                                - img
+                        - row:
+                          - cell: Producto sin categoría
+                          - cell: "-"
+                          - cell: "-"
+                          - cell: $25.00
+                          - cell: "-"
+                          - cell:
+                            - generic:
+                              - button:
+                                - img
+                              - button:
+                                - img
+                        - row:
+                          - cell: Producto sin categoría
+                          - cell: "-"
+                          - cell: "-"
+                          - cell: $25.00
+                          - cell: "-"
+                          - cell:
+                            - generic:
+                              - button:
+                                - img
+                              - button:
+                                - img
+                        - row:
+                          - cell: Producto sin categoría
+                          - cell: "-"
+                          - cell: "-"
+                          - cell: $25.00
+                          - cell: "-"
+                          - cell:
+                            - generic:
+                              - button:
+                                - img
+                              - button:
+                                - img
+                        - row:
+                          - cell: Producto sin categoría
+                          - cell: "-"
+                          - cell: "-"
+                          - cell: $25.00
+                          - cell: "-"
+                          - cell:
+                            - generic:
+                              - button:
+                                - img
+                              - button:
+                                - img
+                        - row:
+                          - cell: Producto sin categoría
+                          - cell: "-"
+                          - cell: "-"
+                          - cell: $25.00
+                          - cell: "-"
+                          - cell:
+                            - generic:
+                              - button:
+                                - img
+                              - button:
+                                - img
+                        - row:
+                          - cell: Producto sin categoría
+                          - cell: "-"
+                          - cell: "-"
+                          - cell: $25.00
+                          - cell: "-"
+                          - cell:
+                            - generic:
+                              - button:
+                                - img
+                              - button:
+                                - img
+                        - row:
+                          - cell: Producto sin categoría
+                          - cell: "-"
+                          - cell: "-"
+                          - cell: $25.00
+                          - cell: "-"
+                          - cell:
+                            - generic:
+                              - button:
+                                - img
+                              - button:
+                                - img
+                        - row:
+                          - cell: Producto sin categoría
+                          - cell: "-"
+                          - cell: "-"
+                          - cell: $25.00
+                          - cell: "-"
+                          - cell:
+                            - generic:
+                              - button:
+                                - img
+                              - button:
+                                - img
+                        - row:
+                          - cell: Producto sin categoría
+                          - cell: "-"
+                          - cell: "-"
+                          - cell: $25.00
+                          - cell: "-"
+                          - cell:
+                            - generic:
+                              - button:
+                                - img
+                              - button:
+                                - img
+                        - row:
+                          - cell: iPhone Air
+                          - cell: Apple
+                          - cell: Celular
+                          - cell: $5500000.00
+                          - cell: "-"
+                          - cell:
+                            - generic:
+                              - button:
+                                - img
+                              - button:
+                                - img
+                        - row:
+                          - cell: MacBook Pro M4 Pro
+                          - cell: Macbook de Apple
+                          - cell: Macbook
+                          - cell: $9200000.00
+                          - cell: "-"
+                          - cell:
+                            - generic:
+                              - button:
+                                - img
+                              - button:
+                                - img
+                        - row:
+                          - cell: iPhone 17 Pro Max
+                          - cell: Ultima generación de dispositivos móviles de Apple
+                          - cell: Celular
+                          - cell: $6200000.00
+                          - cell: "-"
+                          - cell:
+                            - generic:
+                              - button:
+                                - img
+                              - button:
+                                - img
+  - dialog "Crear Nuevo Producto" [ref=e2]:
+    - heading "Crear Nuevo Producto" [level=2] [ref=e4]
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - text: Nombre
+        - textbox "Nombre" [ref=e7]: Teclado Mecánico RGB
+      - generic [ref=e8]:
+        - text: Descripción
+        - textbox "Descripción" [active] [ref=e9]: Teclado mecánico con iluminación RGB
+      - generic [ref=e10]:
+        - text: Categoría
+        - combobox [ref=e11] [cursor=pointer]:
+          - generic: Selecciona una categoría
+          - img [ref=e12]
+        - combobox [ref=e14]
+      - generic [ref=e15]:
+        - text: Precio de Venta
+        - spinbutton "Precio de Venta" [ref=e16]
+      - generic [ref=e17]:
+        - text: Código de Barras (opcional)
+        - textbox "Código de Barras (opcional)" [ref=e18]
+      - generic [ref=e19]:
+        - text: Stock Mínimo
+        - spinbutton "Stock Mínimo" [ref=e20]: "10"
+      - button "Crear Producto" [ref=e21] [cursor=pointer]
+    - button "Close" [ref=e22] [cursor=pointer]:
+      - img [ref=e23]
+      - generic [ref=e26]: Close
+```

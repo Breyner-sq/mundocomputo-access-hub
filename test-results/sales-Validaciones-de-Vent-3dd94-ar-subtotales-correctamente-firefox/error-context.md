@@ -1,0 +1,89 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - region "Notifications (F8)":
+    - list
+  - region "Notifications alt+T"
+  - button "Menú de accesibilidad" [ref=e3] [cursor=pointer]:
+    - img
+  - generic [ref=e5]:
+    - generic [ref=e11]:
+      - generic [ref=e12]: Ventas
+      - list [ref=e14]:
+        - listitem [ref=e15]:
+          - link "Dashboard" [ref=e16] [cursor=pointer]:
+            - /url: /ventas
+            - img [ref=e17]
+            - generic [ref=e22]: Dashboard
+        - listitem [ref=e23]:
+          - link "Ventas" [ref=e24] [cursor=pointer]:
+            - /url: /ventas/registro
+            - img [ref=e25]
+            - generic [ref=e29]: Ventas
+        - listitem [ref=e30]:
+          - link "Clientes" [ref=e31] [cursor=pointer]:
+            - /url: /ventas/clientes
+            - img [ref=e32]
+            - generic [ref=e37]: Clientes
+        - listitem [ref=e38]:
+          - link "Estadísticas" [ref=e39] [cursor=pointer]:
+            - /url: /ventas/estadisticas
+            - img [ref=e40]
+            - generic [ref=e43]: Estadísticas
+        - listitem [ref=e44]:
+          - link "Productos" [ref=e45] [cursor=pointer]:
+            - /url: /ventas/productos
+            - img [ref=e46]
+            - generic [ref=e51]: Productos
+        - listitem [ref=e52]:
+          - link "Stock" [ref=e53] [cursor=pointer]:
+            - /url: /ventas/stock
+            - img [ref=e54]
+            - generic [ref=e58]: Stock
+        - listitem [ref=e59]:
+          - link "Configuración" [ref=e60] [cursor=pointer]:
+            - /url: /configuracion/perfil
+            - img [ref=e61]
+            - generic [ref=e64]: Configuración
+    - generic [ref=e65]:
+      - banner [ref=e66]:
+        - generic [ref=e67]:
+          - button "Toggle Sidebar" [ref=e68] [cursor=pointer]:
+            - img
+            - generic [ref=e69]: Toggle Sidebar
+          - heading "MundoComputo" [level=1] [ref=e70]
+        - generic [ref=e71]:
+          - generic [ref=e72]:
+            - generic [ref=e74]: L
+            - generic [ref=e75]: loaizac114@gmail.com
+          - button "Cerrar sesión" [ref=e76] [cursor=pointer]:
+            - img
+            - text: Cerrar sesión
+      - main [ref=e77]:
+        - generic [ref=e78]:
+          - generic [ref=e79]:
+            - heading "Dashboard de Ventas" [level=2] [ref=e80]
+            - paragraph [ref=e81]: Resumen general de ventas y clientes
+          - generic [ref=e82]:
+            - generic [ref=e83]:
+              - generic [ref=e84]:
+                - heading "Total Ventas" [level=3] [ref=e85]
+                - img [ref=e86]
+              - generic [ref=e90]: $54900000.00
+            - generic [ref=e91]:
+              - generic [ref=e92]:
+                - heading "Número de Ventas" [level=3] [ref=e93]
+                - img [ref=e94]
+              - generic [ref=e99]: "5"
+            - generic [ref=e100]:
+              - generic [ref=e101]:
+                - heading "Clientes Activos" [level=3] [ref=e102]
+                - img [ref=e103]
+              - generic [ref=e109]: "6"
+            - generic [ref=e110]:
+              - generic [ref=e111]:
+                - heading "Promedio por Venta" [level=3] [ref=e112]
+                - img [ref=e113]
+              - generic [ref=e117]: $10980000.00
+```

@@ -12,13 +12,9 @@ export default defineConfig({
     ['list']
   ],
   use: {
-    // 👇 Cambiamos el entorno base
     baseURL: 'https://mundocomputo.vercel.app',
-
-    // Espera un poco más por si el sitio demora
-    actionTimeout: 30000,
-    navigationTimeout: 30000,
-
+    actionTimeout: 10000,
+    navigationTimeout: 15000,
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'on-first-retry',

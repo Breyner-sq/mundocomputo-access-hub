@@ -14,6 +14,7 @@ import { Plus, Package, FileDown, AlertTriangle } from 'lucide-react';
 import { format } from 'date-fns';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { formatCOP } from '@/lib/formatCurrency';
 
 interface Product {
   id: string;
@@ -464,6 +465,7 @@ export default function InventarioStock() {
                   <TableHead>Producto</TableHead>
                   <TableHead>Cantidad</TableHead>
                   <TableHead>Precio Compra</TableHead>
+                  <TableHead>Precio Venta</TableHead>
                   <TableHead>Fecha Ingreso</TableHead>
                   <TableHead>Notas</TableHead>
                 </TableRow>

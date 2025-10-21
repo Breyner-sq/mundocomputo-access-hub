@@ -9,9 +9,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Plus, Trash2, Package, Edit, FileDown } from 'lucide-react';
+import { Plus, Trash2, Package, Edit, FileDown, ArrowUpDown } from 'lucide-react';
+import { formatCOP } from '@/lib/formatCurrency';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
@@ -38,6 +40,10 @@ export default function InventarioProductos() {
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [sortBy, setSortBy] = useState<'nombre' | 'categoria' | 'precio'>('nombre');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  const [exportDialogOpen, setExportDialogOpen] = useState(false);
+  const [exportCategory, setExportCategory] = useState<string>('all');
   const { toast } = useToast();
 
   const [formData, setFormData] = useState({
@@ -247,9 +253,29 @@ export default function InventarioProductos() {
 
   const filteredProducts = products.filter(product =>
     product.nombre.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  ).sort((a, b) => {
+    let comparison = 0;
+    
+    switch (sortBy) {
+      case 'nombre':
+        comparison = a.nombre.localeCompare(b.nombre);
+        break;
+      case 'categoria':
+        comparison = (a.categorias?.nombre || '').localeCompare(b.categorias?.nombre || '');
+        break;
+      case 'precio':
+        comparison = a.precio_venta - b.precio_venta;
+        break;
+    }
+    
+    return sortOrder === 'asc' ? comparison : -comparison;
+  });
 
-  const exportToPDF = () => {
+  const exportToPDF = (categoryFilter: string = 'all') => {
+    const productsToExport = categoryFilter === 'all' 
+      ? products 
+      : products.filter(p => p.categorias?.nombre === categoryFilter);
+
     const doc = new jsPDF();
     
     doc.setFontSize(18);
@@ -257,26 +283,32 @@ export default function InventarioProductos() {
     doc.setFontSize(11);
     doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 14, 30);
     
-    const tableData = products.map(product => [
+    if (categoryFilter !== 'all') {
+      doc.text(`Categoría: ${categoryFilter}`, 14, 37);
+    }
+    
+    const tableData = productsToExport.map(product => [
       product.nombre,
       product.descripcion || '-',
       product.categorias?.nombre || '-',
-      `$${product.precio_venta.toFixed(2)}`,
+      formatCOP(product.precio_venta),
       product.codigo_barras || '-'
     ]);
     
     autoTable(doc, {
       head: [['Nombre', 'Descripción', 'Categoría', 'Precio Venta', 'Código Barras']],
       body: tableData,
-      startY: 35,
+      startY: categoryFilter !== 'all' ? 42 : 35,
     });
     
-    doc.save(`reporte-productos-${new Date().toISOString().split('T')[0]}.pdf`);
+    doc.save(`reporte-productos${categoryFilter !== 'all' ? `-${categoryFilter}` : ''}-${new Date().toISOString().split('T')[0]}.pdf`);
     
     toast({
       title: 'Éxito',
       description: 'Reporte exportado correctamente',
     });
+    
+    setExportDialogOpen(false);
   };
 
   return (
@@ -288,10 +320,40 @@ export default function InventarioProductos() {
             <p className="text-muted-foreground">Gestiona el catálogo de productos</p>
           </div>
           <div className="flex gap-2">
-            <Button variant="outline" onClick={exportToPDF}>
-              <FileDown className="mr-2 h-4 w-4" />
-              Exportar PDF
-            </Button>
+            <Dialog open={exportDialogOpen} onOpenChange={setExportDialogOpen}>
+              <DialogTrigger asChild>
+                <Button variant="outline">
+                  <FileDown className="mr-2 h-4 w-4" />
+                  Exportar PDF
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Exportar Productos a PDF</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label>Seleccionar Categoría</Label>
+                    <Select value={exportCategory} onValueChange={setExportCategory}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecciona categoría" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">Todas las categorías</SelectItem>
+                        {categories.map((cat) => (
+                          <SelectItem key={cat.id} value={cat.nombre}>
+                            {cat.nombre}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <Button onClick={() => exportToPDF(exportCategory)} className="w-full">
+                    Exportar
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
             <Dialog open={open} onOpenChange={handleCloseDialog}>
             <DialogTrigger asChild>
               <Button>
@@ -407,12 +469,35 @@ export default function InventarioProductos() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="mb-4">
+            <div className="mb-4 space-y-4">
               <Input
                 placeholder="Buscar producto por nombre..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
+              <div className="flex gap-2 items-center">
+                <Label className="text-sm">Ordenar por:</Label>
+                <Select value={sortBy} onValueChange={(value: any) => setSortBy(value)}>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="nombre">Nombre</SelectItem>
+                    <SelectItem value="categoria">Categoría</SelectItem>
+                    <SelectItem value="precio">Precio de Venta</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
+                >
+                  <ArrowUpDown className="h-4 w-4" />
+                </Button>
+                <span className="text-xs text-muted-foreground">
+                  {sortOrder === 'asc' ? 'Ascendente' : 'Descendente'}
+                </span>
+              </div>
             </div>
             <Table>
               <TableHeader>
@@ -442,7 +527,7 @@ export default function InventarioProductos() {
                       <TableCell>
                         {product.categorias?.nombre || '-'}
                       </TableCell>
-                      <TableCell>${product.precio_venta.toFixed(2)}</TableCell>
+                      <TableCell>{formatCOP(product.precio_venta)}</TableCell>
                       <TableCell>{product.codigo_barras || '-'}</TableCell>
                       <TableCell>
                         <div className="flex gap-2">

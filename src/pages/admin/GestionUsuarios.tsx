@@ -12,6 +12,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Badge } from '@/components/ui/badge';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
+import { validatePassword } from '@/lib/passwordValidation';
 
 type UserWithRole = {
   id: string;
@@ -28,6 +29,8 @@ export default function GestionUsuarios() {
   const [users, setUsers] = useState<UserWithRole[]>([]);
   const [deleteUserId, setDeleteUserId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [filterRole, setFilterRole] = useState<string>('all');
+  const [filterStatus, setFilterStatus] = useState<string>('all');
   const { toast } = useToast();
 
   const [formData, setFormData] = useState({
@@ -79,6 +82,18 @@ export default function GestionUsuarios() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validar contraseña
+    const passwordValidation = validatePassword(formData.password);
+    if (!passwordValidation.isValid) {
+      toast({
+        title: "Contraseña débil",
+        description: passwordValidation.errors.join('. '),
+        variant: "destructive"
+      });
+      return;
+    }
+    
     setLoading(true);
 
     try {
@@ -180,10 +195,16 @@ export default function GestionUsuarios() {
     }
   };
 
-  const filteredUsers = users.filter(user =>
-    user.nombre_completo.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    user.email.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredUsers = users.filter(user => {
+    const matchesSearch = user.nombre_completo.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesRole = filterRole === 'all' || user.role === filterRole;
+    const matchesStatus = filterStatus === 'all' || 
+      (filterStatus === 'active' && user.activo) || 
+      (filterStatus === 'inactive' && !user.activo);
+    
+    return matchesSearch && matchesRole && matchesStatus;
+  });
 
   return (
     <DashboardLayout>
@@ -235,8 +256,11 @@ export default function GestionUsuarios() {
                     value={formData.password}
                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                     required
-                    minLength={6}
+                    minLength={8}
                   />
+                  <p className="text-xs text-muted-foreground">
+                    Mínimo 8 caracteres, una mayúscula, un número y un carácter especial
+                  </p>
                 </div>
                 
                 <div className="space-y-2">
@@ -267,12 +291,36 @@ export default function GestionUsuarios() {
             <CardTitle>Usuarios del Sistema</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="mb-4">
+            <div className="mb-4 space-y-4">
               <Input
                 placeholder="Buscar por nombre o correo..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
+              <div className="flex gap-4">
+                <Select value={filterRole} onValueChange={setFilterRole}>
+                  <SelectTrigger className="w-[200px]">
+                    <SelectValue placeholder="Filtrar por rol" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Todos los roles</SelectItem>
+                    <SelectItem value="administrador">Administrador</SelectItem>
+                    <SelectItem value="tecnico">Técnico</SelectItem>
+                    <SelectItem value="ventas">Ventas</SelectItem>
+                    <SelectItem value="inventario">Inventario</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Select value={filterStatus} onValueChange={setFilterStatus}>
+                  <SelectTrigger className="w-[200px]">
+                    <SelectValue placeholder="Filtrar por estado" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Todos los estados</SelectItem>
+                    <SelectItem value="active">Activos</SelectItem>
+                    <SelectItem value="inactive">Inactivos</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
             <Table>
               <TableHeader>

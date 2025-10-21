@@ -7,6 +7,7 @@ import { AuthProvider } from "@/hooks/useAuth";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { AccessibilityMenu } from "@/components/AccessibilityMenu";
 import { ThemeProvider } from '@/components/theme-provider';
+import { useIdleTimer } from "@/hooks/useIdleTimer";
 import Auth from "./pages/Auth";
 import RoleRedirect from "./pages/RoleRedirect";
 import Unauthorized from "./pages/Unauthorized";
@@ -20,12 +21,18 @@ import VentasClientes from "./pages/ventas/VentasClientes";
 import VentasEstadisticas from "./pages/ventas/VentasEstadisticas";
 import VentasProductos from "./pages/ventas/VentasProductos";
 import VentasStock from "./pages/ventas/VentasStock";
+import VentasDevoluciones from "./pages/ventas/VentasDevoluciones";
 import InventarioDashboard from "./pages/inventario/InventarioDashboard";
 import InventarioProductos from "./pages/inventario/InventarioProductos";
 import InventarioCategorias from "./pages/inventario/InventarioCategorias";
 import InventarioStock from "./pages/inventario/InventarioStock";
 import Perfil from "./pages/configuracion/Perfil";
 import NotFound from "./pages/NotFound";
+
+function AppContent() {
+  useIdleTimer();
+  return null;
+}
 
 const queryClient = new QueryClient();
 
@@ -37,6 +44,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <AuthProvider>
+            <AppContent />
             <AccessibilityMenu />
             <Routes>
             <Route path="/auth" element={<Auth />} />
@@ -131,6 +139,14 @@ const App = () => (
               element={
                 <ProtectedRoute allowedRoles={['ventas', 'administrador']}>
                   <VentasStock />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/ventas/devoluciones"
+              element={
+                <ProtectedRoute allowedRoles={['ventas', 'administrador']}>
+                  <VentasDevoluciones />
                 </ProtectedRoute>
               }
             />

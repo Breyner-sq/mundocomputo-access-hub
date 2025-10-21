@@ -9,6 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { User, Lock, Upload } from 'lucide-react';
+import { validatePassword } from '@/lib/passwordValidation';
 
 export default function Perfil() {
   const { user } = useAuth();
@@ -92,10 +93,12 @@ export default function Perfil() {
       return;
     }
 
-    if (passwords.new.length < 6) {
+    // Validar contraseña con la política
+    const passwordValidation = validatePassword(passwords.new);
+    if (!passwordValidation.isValid) {
       toast({
-        title: 'Error',
-        description: 'La contraseña debe tener al menos 6 caracteres',
+        title: 'Contraseña débil',
+        description: passwordValidation.errors.join('. '),
         variant: 'destructive',
       });
       return;
@@ -257,8 +260,12 @@ export default function Perfil() {
                     type="password"
                     value={passwords.new}
                     onChange={(e) => setPasswords({ ...passwords, new: e.target.value })}
-                    placeholder="Mínimo 6 caracteres"
+                    placeholder="Mínimo 8 caracteres"
+                    minLength={8}
                   />
+                  <p className="text-xs text-muted-foreground">
+                    Debe contener: mayúscula, número y carácter especial
+                  </p>
                 </div>
 
                 <div className="space-y-2">

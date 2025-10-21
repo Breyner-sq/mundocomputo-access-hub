@@ -301,6 +301,24 @@ export default function VentasRegistro() {
     try {
       const total = calculateTotal();
 
+      // Validar stock disponible antes de crear la venta
+      for (const item of items) {
+        const { data: lotes, error: lotesError } = await supabase
+          .from('lotes_inventario')
+          .select('cantidad')
+          .eq('producto_id', item.producto_id)
+          .gt('cantidad', 0);
+
+        if (lotesError) throw lotesError;
+
+        const stockTotal = (lotes || []).reduce((sum, lote) => sum + lote.cantidad, 0);
+        
+        if (stockTotal < item.cantidad) {
+          const producto = productos.find(p => p.id === item.producto_id);
+          throw new Error(`Stock insuficiente para ${producto?.nombre}. Disponible: ${stockTotal}, Requerido: ${item.cantidad}`);
+        }
+      }
+
       const { data: venta, error: ventaError } = await supabase
         .from('ventas')
         .insert([{

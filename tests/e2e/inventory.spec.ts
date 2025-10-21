@@ -11,12 +11,12 @@ test.describe('Gestión de Inventario E2E', () => {
     await page.locator('button[type="submit"]').click();
     
     // Esperar redirección y navegar a inventario
-    await page.waitForURL(/\/inventario/, { timeout: 10000 });
+    await page.waitForURL(/inventario\/stock/, { timeout: 10000 });
     await page.waitForLoadState('networkidle');
   });
 
   test('debe navegar a inventario', async ({ page }) => {
-    await expect(page).toHaveURL(/inventario/);
+    await expect(page).toHaveURL(/inventario\/stock/);
   });
 
   test('debe mostrar stock de productos', async ({ page }) => {

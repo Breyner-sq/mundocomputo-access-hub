@@ -1,28 +1,138 @@
 # Page snapshot
 
 ```yaml
-- generic [ref=e2]:
-  - region "Notifications (F8)":
-    - list
-  - region "Notifications alt+T"
-  - button "Menú de accesibilidad" [ref=e3] [cursor=pointer]:
-    - img
-  - generic [ref=e5]:
-    - generic [ref=e6]:
-      - heading "MundoComputo" [level=3] [ref=e7]
-      - paragraph [ref=e8]: Ingresa tus credenciales para acceder
-    - generic [ref=e10]:
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - region "Notifications (F8)":
+      - list
+    - region "Notifications alt+T"
+    - button "Menú de accesibilidad" [ref=e3] [cursor=pointer]:
+      - img
+    - generic [ref=e5]:
       - generic [ref=e11]:
-        - text: Correo electrónico
-        - textbox "Correo electrónico" [ref=e12]:
-          - /placeholder: tu@email.com
-      - generic [ref=e13]:
-        - text: Contraseña
-        - generic [ref=e14]:
-          - textbox "Contraseña" [ref=e15]:
-            - /placeholder: ••••••••
-          - button "Mostrar contraseña" [ref=e16] [cursor=pointer]:
-            - img
-            - generic [ref=e17]: Mostrar contraseña
-      - button "Iniciar sesión" [ref=e18] [cursor=pointer]
+        - generic [ref=e12]: Inventario
+        - list [ref=e14]:
+          - listitem [ref=e15]:
+            - link "Dashboard" [ref=e16] [cursor=pointer]:
+              - /url: /inventario
+              - img [ref=e17]
+              - generic [ref=e22]: Dashboard
+          - listitem [ref=e23]:
+            - link "Productos" [ref=e24] [cursor=pointer]:
+              - /url: /inventario/productos
+              - img [ref=e25]
+              - generic [ref=e29]: Productos
+          - listitem [ref=e30]:
+            - link "Categorías" [ref=e31] [cursor=pointer]:
+              - /url: /inventario/categorias
+              - img [ref=e32]
+              - generic [ref=e37]: Categorías
+          - listitem [ref=e38]:
+            - link "Control de Stock" [ref=e39] [cursor=pointer]:
+              - /url: /inventario/stock
+              - img [ref=e40]
+              - generic [ref=e44]: Control de Stock
+          - listitem [ref=e45]:
+            - link "Configuración" [ref=e46] [cursor=pointer]:
+              - /url: /configuracion/perfil
+              - img [ref=e47]
+              - generic [ref=e50]: Configuración
+      - generic [ref=e51]:
+        - banner [ref=e52]:
+          - generic [ref=e53]:
+            - button "Toggle Sidebar" [ref=e54] [cursor=pointer]:
+              - img
+              - generic [ref=e55]: Toggle Sidebar
+            - heading "MundoComputo" [level=1] [ref=e56]
+          - generic [ref=e57]:
+            - generic [ref=e58]:
+              - generic [ref=e60]: O
+              - generic [ref=e61]: olayageraldine17@gmail.com
+            - button "Cerrar sesión" [ref=e62] [cursor=pointer]:
+              - img
+              - text: Cerrar sesión
+        - main [ref=e63]:
+          - generic [ref=e64]:
+            - generic [ref=e65]:
+              - heading "Dashboard de Inventario" [level=2] [ref=e66]
+              - paragraph [ref=e67]: Visión general del estado del inventario
+            - alert [ref=e68]:
+              - img [ref=e69]
+              - heading "¡Alerta de Stock Bajo!" [level=5] [ref=e71]
+              - generic [ref=e73]:
+                - generic [ref=e74]:
+                  - strong [ref=e75]: Producto sin categoría
+                  - text: ": Stock actual 0 (mínimo: 10)"
+                - generic [ref=e76]:
+                  - strong [ref=e77]: Producto sin categoría
+                  - text: ": Stock actual 0 (mínimo: 10)"
+                - generic [ref=e78]:
+                  - strong [ref=e79]: Producto sin categoría
+                  - text: ": Stock actual 0 (mínimo: 10)"
+                - generic [ref=e80]:
+                  - strong [ref=e81]: Producto sin categoría
+                  - text: ": Stock actual 0 (mínimo: 10)"
+                - generic [ref=e82]:
+                  - strong [ref=e83]: Producto sin categoría
+                  - text: ": Stock actual 0 (mínimo: 10)"
+                - generic [ref=e84]: ...y 21 producto(s) más con stock bajo
+            - generic [ref=e85]:
+              - generic [ref=e86]:
+                - generic [ref=e87]:
+                  - heading "Total Productos" [level=3] [ref=e88]
+                  - img [ref=e89]
+                - generic [ref=e93]:
+                  - generic [ref=e94]: "29"
+                  - paragraph [ref=e95]: Productos registrados
+              - generic [ref=e96]:
+                - generic [ref=e97]:
+                  - heading "Categorías" [level=3] [ref=e98]
+                  - img [ref=e99]
+                - generic [ref=e101]:
+                  - generic [ref=e102]: "2"
+                  - paragraph [ref=e103]: Categorías activas
+              - generic [ref=e104]:
+                - generic [ref=e105]:
+                  - heading "Lotes" [level=3] [ref=e106]
+                  - img [ref=e107]
+                - generic [ref=e110]:
+                  - generic [ref=e111]: "3"
+                  - paragraph [ref=e112]: Lotes de inventario
+              - generic [ref=e113]:
+                - generic [ref=e114]:
+                  - heading "Stock Total" [level=3] [ref=e115]
+                  - img [ref=e116]
+                - generic [ref=e119]:
+                  - generic [ref=e120]: "58"
+                  - paragraph [ref=e121]: Unidades en stock
+            - generic [ref=e122]:
+              - generic [ref=e123]:
+                - heading "Productos por Categoría" [level=3] [ref=e125]
+                - img [ref=e129]:
+                  - generic [ref=e130]:
+                    - img [ref=e132]
+                    - img [ref=e134]
+                    - img [ref=e136]
+                    - generic [ref=e137]:
+                      - generic [ref=e139]: "Celular: 2"
+                      - generic [ref=e141]: "Macbook: 1"
+                      - generic [ref=e143]: "Sin categoría: 26"
+              - generic [ref=e144]:
+                - heading "Lotes Recientes" [level=3] [ref=e146]
+                - generic [ref=e149]:
+                  - img [ref=e150]:
+                    - generic [ref=e155]:
+                      - generic [ref=e157]: iPhone Air
+                      - generic [ref=e159]: iPhone 17 Pro Max
+                    - generic [ref=e161]:
+                      - generic [ref=e163]: "0"
+                      - generic [ref=e165]: "8"
+                      - generic [ref=e167]: "16"
+                      - generic [ref=e169]: "24"
+                      - generic [ref=e171]: "32"
+                  - list [ref=e182]:
+                    - listitem [ref=e183]:
+                      - img [ref=e184]
+                      - text: cantidad
+  - generic [ref=e186]: "32"
 ```

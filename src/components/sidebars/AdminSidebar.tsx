@@ -76,15 +76,15 @@ export function AdminSidebar() {
                             {item.subItems.map((subItem) => (
                               <SidebarMenuSubItem key={subItem.title}>
                                 <SidebarMenuSubButton asChild>
-                                  <NavLink
-                                    to={subItem.url}
-                                    end
-                                    className={({ isActive }) =>
-                                      isActive
-                                        ? 'bg-primary/10 text-primary font-medium'
-                                        : 'hover:bg-muted/50'
-                                    }
-                                  >
+                                   <NavLink
+                                     to={subItem.url}
+                                     end
+                                     className={({ isActive }) =>
+                                       isActive
+                                         ? 'bg-primary/10 text-primary font-medium border-l-4 border-primary'
+                                         : 'hover:bg-muted/50'
+                                     }
+                                   >
                                     <subItem.icon className="h-4 w-4" />
                                     <span>{subItem.title}</span>
                                   </NavLink>
@@ -99,15 +99,15 @@ export function AdminSidebar() {
                 ) : (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild tooltip={item.title}>
-                      <NavLink
-                        to={item.url}
-                        end
-                        className={({ isActive }) =>
-                          isActive
-                            ? 'bg-primary/10 text-primary font-medium'
-                            : 'hover:bg-muted/50'
-                        }
-                      >
+                       <NavLink
+                         to={item.url}
+                         end
+                         className={({ isActive }) =>
+                           isActive
+                             ? 'bg-primary/10 text-primary font-medium border-l-4 border-primary'
+                             : 'hover:bg-muted/50'
+                         }
+                       >
                         <item.icon className="h-4 w-4" />
                         {!isCollapsed && <span>{item.title}</span>}
                       </NavLink>

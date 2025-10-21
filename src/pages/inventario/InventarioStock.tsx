@@ -20,6 +20,7 @@ interface Product {
   id: string;
   nombre: string;
   codigo_barras: string | null;
+  precio_venta: number;
 }
 
 interface InventoryBatch {
@@ -32,6 +33,7 @@ interface InventoryBatch {
   created_at: string;
   productos: Product & {
     categorias: { nombre: string } | null;
+    precio_venta: number;
   };
 }
 
@@ -55,6 +57,8 @@ export default function InventarioStock() {
   const [categories, setCategories] = useState<{ id: string; nombre: string }[]>([]);
   const [searchBatches, setSearchBatches] = useState('');
   const [searchLowStock, setSearchLowStock] = useState('');
+  const [sortBy, setSortBy] = useState<'cantidad' | 'precio_compra' | 'precio_venta' | 'fecha'>('fecha');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const { toast } = useToast();
 
   const [formData, setFormData] = useState({
@@ -75,7 +79,7 @@ export default function InventarioStock() {
   const fetchBatches = async () => {
     const { data, error } = await supabase
       .from('lotes_inventario')
-      .select('*, productos(id, nombre, codigo_barras, categorias(nombre))')
+      .select('*, productos(id, nombre, codigo_barras, precio_venta, categorias(nombre))')
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -93,7 +97,7 @@ export default function InventarioStock() {
   const fetchProducts = async () => {
     const { data, error } = await supabase
       .from('productos')
-      .select('id, nombre, codigo_barras')
+      .select('id, nombre, codigo_barras, precio_venta')
       .order('nombre');
 
     if (error) {
@@ -283,7 +287,26 @@ export default function InventarioStock() {
 
   const filteredBatches = batches.filter(batch =>
     batch.productos.nombre.toLowerCase().includes(searchBatches.toLowerCase())
-  );
+  ).sort((a, b) => {
+    let comparison = 0;
+    
+    switch (sortBy) {
+      case 'cantidad':
+        comparison = a.cantidad - b.cantidad;
+        break;
+      case 'precio_compra':
+        comparison = a.precio_compra - b.precio_compra;
+        break;
+      case 'precio_venta':
+        comparison = (a.productos.precio_venta || 0) - (b.productos.precio_venta || 0);
+        break;
+      case 'fecha':
+        comparison = new Date(a.fecha_ingreso).getTime() - new Date(b.fecha_ingreso).getTime();
+        break;
+    }
+    
+    return sortOrder === 'asc' ? comparison : -comparison;
+  });
 
   const filteredLowStock = lowStockProducts.filter(product =>
     product.nombre.toLowerCase().includes(searchLowStock.toLowerCase())
@@ -452,12 +475,36 @@ export default function InventarioStock() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="mb-4">
+            <div className="mb-4 space-y-4">
               <Input
                 placeholder="Buscar lote por producto..."
                 value={searchBatches}
                 onChange={(e) => setSearchBatches(e.target.value)}
               />
+              <div className="flex gap-2 items-center">
+                <Label className="text-sm">Ordenar por:</Label>
+                <Select value={sortBy} onValueChange={(value: any) => setSortBy(value)}>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="cantidad">Cantidad</SelectItem>
+                    <SelectItem value="precio_compra">Precio de Compra</SelectItem>
+                    <SelectItem value="precio_venta">Precio de Venta</SelectItem>
+                    <SelectItem value="fecha">Fecha de Ingreso</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
+                >
+                  <span className="h-4 w-4">↕</span>
+                </Button>
+                <span className="text-xs text-muted-foreground">
+                  {sortOrder === 'asc' ? 'Ascendente' : 'Descendente'}
+                </span>
+              </div>
             </div>
             <Table>
               <TableHeader>
@@ -473,7 +520,7 @@ export default function InventarioStock() {
               <TableBody>
                 {filteredBatches.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={5} className="text-center text-muted-foreground">
+                    <TableCell colSpan={6} className="text-center text-muted-foreground">
                       {searchBatches ? 'No se encontraron lotes' : 'No hay lotes registrados'}
                     </TableCell>
                   </TableRow>
@@ -484,7 +531,8 @@ export default function InventarioStock() {
                         {batch.productos.nombre}
                       </TableCell>
                       <TableCell>{batch.cantidad}</TableCell>
-                      <TableCell>${batch.precio_compra.toFixed(2)}</TableCell>
+                      <TableCell>{formatCOP(batch.precio_compra)}</TableCell>
+                      <TableCell>{formatCOP(batch.productos.precio_venta)}</TableCell>
                       <TableCell>{format(new Date(batch.fecha_ingreso), 'dd/MM/yyyy')}</TableCell>
                       <TableCell className="text-sm text-muted-foreground">
                         {batch.notas || '-'}

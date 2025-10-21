@@ -5,6 +5,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { supabase } from '@/integrations/supabase/client';
@@ -14,6 +15,7 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { formatCOP } from '@/lib/formatCurrency';
 
 interface Cliente {
   id: string;
@@ -45,6 +47,8 @@ export default function VentasClientes() {
   const [open, setOpen] = useState(false);
   const [editingCliente, setEditingCliente] = useState<Cliente | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [filterStatus, setFilterStatus] = useState<string>('all');
+  const [sortBy, setSortBy] = useState<'nombre' | 'estado'>('nombre');
   const [searchCedulaDialog, setSearchCedulaDialog] = useState(false);
   const [cedulaSearch, setCedulaSearch] = useState('');
   const [ventasCliente, setVentasCliente] = useState<Venta[]>([]);
@@ -201,10 +205,21 @@ export default function VentasClientes() {
     });
   };
 
-  const filteredClientes = clientes.filter(cliente =>
-    cliente.nombre.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    cliente.cedula.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredClientes = clientes.filter(cliente => {
+    const matchesSearch = cliente.nombre.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      cliente.cedula.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesStatus = filterStatus === 'all' || 
+      (filterStatus === 'active' && cliente.activo) || 
+      (filterStatus === 'inactive' && !cliente.activo);
+    
+    return matchesSearch && matchesStatus;
+  }).sort((a, b) => {
+    if (sortBy === 'nombre') {
+      return a.nombre.localeCompare(b.nombre);
+    } else {
+      return (b.activo ? 1 : 0) - (a.activo ? 1 : 0);
+    }
+  });
 
   const buscarVentasPorCedula = async () => {
     if (!cedulaSearch.trim()) {
@@ -401,75 +416,75 @@ export default function VentasClientes() {
                     </Button>
                   </div>
 
-                  {clienteEncontrado && (
-                    <>
-                      <Card>
-                        <CardHeader>
-                          <div className="flex justify-between items-center">
-                            <CardTitle>Ventas de {clienteEncontrado.nombre}</CardTitle>
-                            <Button onClick={exportarVentasClientePDF} size="sm">
-                              <FileDown className="mr-2 h-4 w-4" />
-                              Exportar PDF
-                            </Button>
-                          </div>
-                        </CardHeader>
-                        <CardContent>
-                          <Table>
-                            <TableHeader>
-                              <TableRow>
-                                <TableHead>Fecha</TableHead>
-                                <TableHead>Hora</TableHead>
-                                <TableHead>Productos</TableHead>
-                                <TableHead>Total</TableHead>
-                              </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                              {ventasCliente.length === 0 ? (
-                                <TableRow>
-                                  <TableCell colSpan={4} className="text-center text-muted-foreground">
-                                    No hay ventas registradas para este cliente
-                                  </TableCell>
-                                </TableRow>
-                              ) : (
-                                ventasCliente.map((venta) => {
-                                  const productosVendidos = venta.items?.map(item => 
-                                    `${item.producto?.nombre || 'N/A'} (${item.cantidad})`
-                                  ).join(', ') || 'N/A';
-                                  
-                                  return (
-                                    <TableRow key={venta.id}>
-                                      <TableCell>
-                                        {format(new Date(venta.fecha), 'dd/MM/yyyy', { locale: es })}
-                                      </TableCell>
-                                      <TableCell>
-                                        {format(new Date(venta.fecha), 'HH:mm', { locale: es })}
-                                      </TableCell>
-                                      <TableCell className="max-w-xs truncate" title={productosVendidos}>
-                                        {productosVendidos}
-                                      </TableCell>
-                                      <TableCell className="font-medium">
-                                        ${Number(venta.total).toFixed(2)}
+                      {clienteEncontrado && (
+                        <Card>
+                          <CardHeader>
+                            <div className="flex justify-between items-center">
+                              <CardTitle>Ventas de {clienteEncontrado.nombre}</CardTitle>
+                              <Button onClick={exportarVentasClientePDF} size="sm">
+                                <FileDown className="mr-2 h-4 w-4" />
+                                Exportar PDF
+                              </Button>
+                            </div>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="max-h-[400px] overflow-y-auto">
+                              <Table>
+                                <TableHeader className="sticky top-0 bg-background">
+                                  <TableRow>
+                                    <TableHead>Fecha</TableHead>
+                                    <TableHead>Hora</TableHead>
+                                    <TableHead>Productos</TableHead>
+                                    <TableHead>Total</TableHead>
+                                  </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                  {ventasCliente.length === 0 ? (
+                                    <TableRow>
+                                      <TableCell colSpan={4} className="text-center text-muted-foreground">
+                                        No hay ventas registradas para este cliente
                                       </TableCell>
                                     </TableRow>
-                                  );
-                                })
-                              )}
-                            </TableBody>
-                          </Table>
-                          {ventasCliente.length > 0 && (
-                            <div className="mt-4 pt-4 border-t">
-                              <div className="flex justify-between items-center">
-                                <span className="font-medium">Total General:</span>
-                                <span className="text-xl font-bold">
-                                  ${ventasCliente.reduce((sum, v) => sum + Number(v.total), 0).toFixed(2)}
-                                </span>
-                              </div>
+                                  ) : (
+                                    ventasCliente.map((venta) => {
+                                      const productosVendidos = venta.items?.map(item => 
+                                        `${item.producto?.nombre || 'N/A'} (${item.cantidad})`
+                                      ).join(', ') || 'N/A';
+                                      
+                                      return (
+                                        <TableRow key={venta.id}>
+                                          <TableCell>
+                                            {format(new Date(venta.fecha), 'dd/MM/yyyy', { locale: es })}
+                                          </TableCell>
+                                          <TableCell>
+                                            {format(new Date(venta.fecha), 'HH:mm', { locale: es })}
+                                          </TableCell>
+                                          <TableCell className="max-w-xs truncate" title={productosVendidos}>
+                                            {productosVendidos}
+                                          </TableCell>
+                                          <TableCell className="font-medium">
+                                            {formatCOP(venta.total)}
+                                          </TableCell>
+                                        </TableRow>
+                                      );
+                                    })
+                                  )}
+                                </TableBody>
+                              </Table>
                             </div>
-                          )}
-                        </CardContent>
-                      </Card>
-                    </>
-                  )}
+                            {ventasCliente.length > 0 && (
+                              <div className="mt-4 pt-4 border-t">
+                                <div className="flex justify-between items-center">
+                                  <span className="font-medium">Total General:</span>
+                                  <span className="text-xl font-bold">
+                                    {formatCOP(ventasCliente.reduce((sum, v) => sum + Number(v.total), 0))}
+                                  </span>
+                                </div>
+                              </div>
+                            )}
+                          </CardContent>
+                        </Card>
+                      )}
                 </div>
               </DialogContent>
             </Dialog>
@@ -549,12 +564,33 @@ export default function VentasClientes() {
             <CardTitle>Lista de Clientes</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="mb-4">
+            <div className="mb-4 space-y-4">
               <Input
                 placeholder="Buscar por nombre o cédula..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
+              <div className="flex gap-4">
+                <Select value={filterStatus} onValueChange={setFilterStatus}>
+                  <SelectTrigger className="w-[200px]">
+                    <SelectValue placeholder="Filtrar por estado" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Todos</SelectItem>
+                    <SelectItem value="active">Activos</SelectItem>
+                    <SelectItem value="inactive">Inactivos</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Select value={sortBy} onValueChange={(value: any) => setSortBy(value)}>
+                  <SelectTrigger className="w-[200px]">
+                    <SelectValue placeholder="Ordenar por" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="nombre">Nombre</SelectItem>
+                    <SelectItem value="estado">Estado</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
             <Table>
               <TableHeader>

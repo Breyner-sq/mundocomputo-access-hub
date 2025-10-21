@@ -15,6 +15,7 @@ import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { formatCOP } from '@/lib/formatCurrency';
 
 interface Cliente {
   id: string;
@@ -44,6 +45,7 @@ interface Venta {
   vendedor_id: string;
   total: number;
   fecha: string;
+  numero_factura: string;
   vendedor?: {
     nombre_completo: string;
   };
@@ -72,6 +74,16 @@ export default function VentasRegistro() {
     cantidad: 1,
   });
   const [searchFilter, setSearchFilter] = useState('');
+  const [sortBy, setSortBy] = useState<'fecha' | 'producto' | 'vendedor'>('fecha');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+  const [exportDialogOpen, setExportDialogOpen] = useState(false);
+  const [exportOptions, setExportOptions] = useState({
+    type: 'all',
+    producto_id: '',
+    startDate: '',
+    endDate: '',
+    month: '',
+  });
 
   useEffect(() => {
     fetchClientes();
@@ -138,7 +150,8 @@ export default function VentasRegistro() {
           cliente_id, 
           vendedor_id, 
           total, 
-          fecha, 
+          fecha,
+          numero_factura,
           created_at,
           vendedor:profiles!ventas_vendedor_id_fkey(nombre_completo)
         `)
@@ -625,45 +638,47 @@ export default function VentasRegistro() {
                       </Button>
 
                       {items.length > 0 && (
-                        <Table>
-                          <TableHeader>
-                            <TableRow>
-                              <TableHead>Producto</TableHead>
-                              <TableHead>Cantidad</TableHead>
-                              <TableHead>Precio</TableHead>
-                              <TableHead>Subtotal</TableHead>
-                              <TableHead></TableHead>
-                            </TableRow>
-                          </TableHeader>
-                          <TableBody>
-                            {items.map((item, index) => {
-                              const producto = productos.find(p => p.id === item.producto_id);
-                              return (
-                                <TableRow key={index}>
-                                  <TableCell>{producto?.nombre}</TableCell>
-                                  <TableCell>{item.cantidad}</TableCell>
-                                  <TableCell>${item.precio_unitario.toFixed(2)}</TableCell>
-                                  <TableCell>${item.subtotal.toFixed(2)}</TableCell>
-                                  <TableCell>
-                                    <Button
-                                      type="button"
-                                      variant="ghost"
-                                      size="sm"
-                                      onClick={() => removeItem(index)}
-                                    >
-                                      Eliminar
-                                    </Button>
-                                  </TableCell>
-                                </TableRow>
-                              );
-                            })}
-                            <TableRow>
-                              <TableCell colSpan={3} className="text-right font-bold">Total:</TableCell>
-                              <TableCell className="font-bold">${calculateTotal().toFixed(2)}</TableCell>
-                              <TableCell></TableCell>
-                            </TableRow>
-                          </TableBody>
-                        </Table>
+                        <div className="max-h-[300px] overflow-y-auto border rounded-md">
+                          <Table>
+                            <TableHeader className="sticky top-0 bg-background">
+                              <TableRow>
+                                <TableHead>Producto</TableHead>
+                                <TableHead>Cantidad</TableHead>
+                                <TableHead>Precio</TableHead>
+                                <TableHead>Subtotal</TableHead>
+                                <TableHead></TableHead>
+                              </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                              {items.map((item, index) => {
+                                const producto = productos.find(p => p.id === item.producto_id);
+                                return (
+                                  <TableRow key={index}>
+                                    <TableCell>{producto?.nombre}</TableCell>
+                                    <TableCell>{item.cantidad}</TableCell>
+                                    <TableCell>{formatCOP(item.precio_unitario)}</TableCell>
+                                    <TableCell>{formatCOP(item.subtotal)}</TableCell>
+                                    <TableCell>
+                                      <Button
+                                        type="button"
+                                        variant="ghost"
+                                        size="sm"
+                                        onClick={() => removeItem(index)}
+                                      >
+                                        Eliminar
+                                      </Button>
+                                    </TableCell>
+                                  </TableRow>
+                                );
+                              })}
+                              <TableRow>
+                                <TableCell colSpan={3} className="text-right font-bold">Total:</TableCell>
+                                <TableCell className="font-bold">{formatCOP(calculateTotal())}</TableCell>
+                                <TableCell></TableCell>
+                              </TableRow>
+                            </TableBody>
+                          </Table>
+                        </div>
                       )}
                     </CardContent>
                   </Card>
@@ -697,6 +712,7 @@ export default function VentasRegistro() {
             <Table>
               <TableHeader>
                 <TableRow>
+                  <TableHead>N° Factura</TableHead>
                   <TableHead>Fecha</TableHead>
                   <TableHead>Cliente</TableHead>
                   <TableHead>Vendedor</TableHead>
@@ -708,7 +724,7 @@ export default function VentasRegistro() {
               <TableBody>
                 {filteredVentas.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={6} className="text-center text-muted-foreground">
+                    <TableCell colSpan={7} className="text-center text-muted-foreground">
                       {loading ? 'Cargando...' : searchFilter ? 'No se encontraron ventas' : 'No hay ventas registradas'}
                     </TableCell>
                   </TableRow>
@@ -721,6 +737,7 @@ export default function VentasRegistro() {
                     
                     return (
                       <TableRow key={venta.id}>
+                        <TableCell className="font-medium">{venta.numero_factura}</TableCell>
                         <TableCell>
                           {format(new Date(venta.fecha), 'dd/MM/yyyy HH:mm', { locale: es })}
                         </TableCell>
@@ -729,7 +746,7 @@ export default function VentasRegistro() {
                         <TableCell className="max-w-xs truncate" title={productosVendidos}>
                           {productosVendidos}
                         </TableCell>
-                        <TableCell className="font-medium">${venta.total.toFixed(2)}</TableCell>
+                        <TableCell className="font-medium">{formatCOP(venta.total)}</TableCell>
                         <TableCell>
                           <Button
                             variant="ghost"

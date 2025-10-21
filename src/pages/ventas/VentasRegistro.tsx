@@ -297,81 +297,66 @@ export default function VentasRegistro() {
     }
 
     setLoading(true);
-    let ventaCreada: any = null;
 
     try {
       const total = calculateTotal();
 
-      // Validar stock disponible antes de crear la venta
-      for (const item of items) {
-        const { data: lotes, error: lotesError } = await supabase
-          .from('lotes_inventario')
-          .select('cantidad')
-          .eq('producto_id', item.producto_id)
-          .gt('cantidad', 0);
-
-        if (lotesError) throw lotesError;
-
-        const stockTotal = (lotes || []).reduce((sum, lote) => sum + lote.cantidad, 0);
-        
-        if (stockTotal < item.cantidad) {
-          const producto = productos.find(p => p.id === item.producto_id);
-          throw new Error(`Stock insuficiente para ${producto?.nombre}. Disponible: ${stockTotal}, Requerido: ${item.cantidad}`);
-        }
-      }
-
-      // Descontar del inventario PRIMERO para validar que sea posible
-      for (const item of items) {
-        await descontarInventario(item.producto_id, item.cantidad);
-      }
-
-      // Si el descuento fue exitoso, crear la venta
-      const { data: venta, error: ventaError } = await supabase
-        .from('ventas')
-        .insert([{
-          cliente_id: selectedCliente.id,
-          vendedor_id: user?.id,
-          total,
-        }])
-        .select()
-        .single();
-
-      if (ventaError) throw ventaError;
-      ventaCreada = venta;
-
-      const itemsToInsert = items.map(item => ({
-        venta_id: venta.id,
-        ...item,
+      // Preparar items en formato JSONB para la función
+      const itemsJson = items.map(item => ({
+        producto_id: item.producto_id,
+        cantidad: item.cantidad,
+        precio_unitario: item.precio_unitario,
+        subtotal: item.subtotal,
       }));
 
-      const { error: itemsError } = await supabase
-        .from('venta_items')
-        .insert(itemsToInsert);
+      // Llamar a la función RPC que maneja toda la transacción
+      const { data, error } = await supabase.rpc('procesar_venta', {
+        p_cliente_id: selectedCliente.id,
+        p_vendedor_id: user?.id,
+        p_items: itemsJson,
+      });
 
-      if (itemsError) throw itemsError;
+      if (error) {
+        console.error('Error en RPC:', error);
+        throw new Error(error.message);
+      }
 
-      await sendInvoice(venta.id, selectedCliente, items, total);
+      // Verificar el resultado de la función
+      const resultado = data as { success: boolean; venta_id?: string; total?: number; error?: string; message: string };
+
+      if (!resultado.success) {
+        throw new Error(resultado.error || 'Error al procesar la venta');
+      }
+
+      // Obtener los datos de la venta creada
+      const { data: venta, error: ventaError } = await supabase
+        .from('ventas')
+        .select('*')
+        .eq('id', resultado.venta_id)
+        .single();
+
+      if (ventaError) {
+        console.error('Error obteniendo venta:', ventaError);
+      }
+
+      // Enviar factura por correo
+      try {
+        await sendInvoice(resultado.venta_id!, selectedCliente, items, total);
+      } catch (emailError) {
+        console.error('Error enviando factura:', emailError);
+        // No fallar si el email falla
+      }
 
       toast({
-        title: 'Venta registrada',
-        description: `Venta ${venta.numero_factura || venta.id.substring(0, 8)} registrada exitosamente`,
+        title: 'Venta registrada exitosamente',
+        description: `Venta ${venta?.numero_factura || resultado.venta_id!.substring(0, 8)} registrada. Total: ${formatCOP(resultado.total!)}`,
       });
 
       handleCloseDialog();
       fetchVentas();
-      fetchProductos(); // Actualizar stock
+      fetchProductos();
     } catch (error: any) {
       console.error('Error en venta:', error);
-      
-      // Si ya se creó la venta pero falló algo después, intentar eliminarla
-      if (ventaCreada) {
-        try {
-          await supabase.from('venta_items').delete().eq('venta_id', ventaCreada.id);
-          await supabase.from('ventas').delete().eq('id', ventaCreada.id);
-        } catch (rollbackError) {
-          console.error('Error al revertir venta:', rollbackError);
-        }
-      }
       
       toast({
         title: 'Error al registrar venta',
@@ -383,61 +368,6 @@ export default function VentasRegistro() {
       fetchProductos();
     } finally {
       setLoading(false);
-    }
-  };
-
-  const descontarInventario = async (productoId: string, cantidadVendida: number) => {
-    try {
-      // Obtener lotes del producto ordenados por fecha (FIFO)
-      const { data: lotes, error: lotesError } = await supabase
-        .from('lotes_inventario')
-        .select('*')
-        .eq('producto_id', productoId)
-        .gt('cantidad', 0)
-        .order('fecha_ingreso', { ascending: true });
-
-      if (lotesError) throw lotesError;
-
-      if (!lotes || lotes.length === 0) {
-        throw new Error('No hay lotes disponibles para este producto');
-      }
-
-      // Verificar que hay suficiente stock total
-      const stockTotal = lotes.reduce((sum, lote) => sum + lote.cantidad, 0);
-      if (stockTotal < cantidadVendida) {
-        throw new Error(`Stock insuficiente. Disponible: ${stockTotal}, Requerido: ${cantidadVendida}`);
-      }
-
-      let cantidadRestante = cantidadVendida;
-
-      for (const lote of lotes) {
-        if (cantidadRestante <= 0) break;
-
-        const cantidadADescontar = Math.min(lote.cantidad, cantidadRestante);
-        const nuevaCantidad = lote.cantidad - cantidadADescontar;
-
-        // Verificar que la nueva cantidad no sea negativa antes de actualizar
-        if (nuevaCantidad < 0) {
-          throw new Error('Error calculando inventario: cantidad negativa detectada');
-        }
-
-        const { error: updateError } = await supabase
-          .from('lotes_inventario')
-          .update({ cantidad: nuevaCantidad })
-          .eq('id', lote.id)
-          .eq('cantidad', lote.cantidad); // Verificar que no cambió entre lectura y escritura
-
-        if (updateError) throw updateError;
-
-        cantidadRestante -= cantidadADescontar;
-      }
-
-      if (cantidadRestante > 0) {
-        throw new Error(`No se pudo descontar toda la cantidad. Faltante: ${cantidadRestante}`);
-      }
-    } catch (error: any) {
-      console.error('Error descontando inventario:', error);
-      throw error;
     }
   };
 

@@ -1,4 +1,4 @@
-import { Users, Settings, LayoutDashboard, Package, FileText, ShoppingCart, TrendingUp, ChevronRight, BarChart } from 'lucide-react';
+import { Users, Settings, LayoutDashboard, Package, FileText, ShoppingCart, TrendingUp, ChevronRight, BarChart, PackageX } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import {
   Sidebar,
@@ -41,6 +41,7 @@ const menuItems = [
       { title: 'Registro', url: '/admin/ventas/registro', icon: ShoppingCart },
       { title: 'Clientes', url: '/admin/ventas/clientes', icon: Users },
       { title: 'Estadísticas', url: '/admin/ventas/estadisticas', icon: TrendingUp },
+      { title: 'Devoluciones', url: '/ventas/devoluciones', icon: PackageX },
     ]
   },
   { title: 'Registros de Autentificación', url: '/admin/auth-logs', icon: FileText },

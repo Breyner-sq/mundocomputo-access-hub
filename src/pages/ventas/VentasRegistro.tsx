@@ -488,33 +488,98 @@ export default function VentasRegistro() {
   };
 
   const exportSalesReport = async () => {
-    const doc = new jsPDF();
-    
-    doc.setFontSize(18);
-    doc.text('Reporte de Ventas', 14, 20);
-    
-    const tableData = ventas.map(venta => {
-      const cliente = clientes.find(c => c.id === venta.cliente_id);
-      return [
-        format(new Date(venta.fecha), 'dd/MM/yyyy HH:mm', { locale: es }),
-        cliente?.nombre || 'N/A',
-        venta.vendedor?.nombre_completo || 'N/A',
-        `$${venta.total.toFixed(2)}`,
-      ];
-    });
+    try {
+      let filteredData = [...ventas];
 
-    autoTable(doc, {
-      head: [['Fecha', 'Cliente', 'Vendedor', 'Total']],
-      body: tableData,
-      startY: 30,
-    });
+      // Apply filters based on export options
+      if (exportOptions.type === 'producto' && exportOptions.producto_id) {
+        // Fetch all venta_items for the selected product
+        const { data: ventaItems, error } = await supabase
+          .from('venta_items')
+          .select('venta_id')
+          .eq('producto_id', exportOptions.producto_id);
+        
+        if (error) throw error;
+        
+        const ventaIdsWithProduct = new Set(ventaItems?.map(item => item.venta_id) || []);
+        filteredData = filteredData.filter(venta => ventaIdsWithProduct.has(venta.id));
+      }
 
-    doc.save(`reporte-ventas-${format(new Date(), 'yyyy-MM-dd')}.pdf`);
+      if (exportOptions.type === 'rango' && exportOptions.startDate && exportOptions.endDate) {
+        const start = new Date(exportOptions.startDate);
+        const end = new Date(exportOptions.endDate);
+        end.setHours(23, 59, 59, 999);
+        
+        filteredData = filteredData.filter(venta => {
+          const ventaDate = new Date(venta.fecha);
+          return ventaDate >= start && ventaDate <= end;
+        });
+      }
 
-    toast({
-      title: 'Reporte exportado',
-      description: 'El reporte PDF ha sido generado',
-    });
+      if (exportOptions.type === 'mes' && exportOptions.month) {
+        const [year, month] = exportOptions.month.split('-').map(Number);
+        filteredData = filteredData.filter(venta => {
+          const ventaDate = new Date(venta.fecha);
+          return ventaDate.getFullYear() === year && ventaDate.getMonth() === month - 1;
+        });
+      }
+
+      const doc = new jsPDF();
+      
+      doc.setFontSize(18);
+      doc.text('Reporte de Ventas', 14, 20);
+      
+      // Add filter information
+      doc.setFontSize(10);
+      let yPos = 30;
+      if (exportOptions.type === 'producto' && exportOptions.producto_id) {
+        const producto = productos.find(p => p.id === exportOptions.producto_id);
+        doc.text(`Filtrado por producto: ${producto?.nombre || 'N/A'}`, 14, yPos);
+        yPos += 6;
+      }
+      if (exportOptions.type === 'rango' && exportOptions.startDate && exportOptions.endDate) {
+        doc.text(`Rango: ${format(new Date(exportOptions.startDate), 'dd/MM/yyyy')} - ${format(new Date(exportOptions.endDate), 'dd/MM/yyyy')}`, 14, yPos);
+        yPos += 6;
+      }
+      if (exportOptions.type === 'mes' && exportOptions.month) {
+        const [year, month] = exportOptions.month.split('-');
+        doc.text(`Mes: ${month}/${year}`, 14, yPos);
+        yPos += 6;
+      }
+
+      const tableData = filteredData.map(venta => {
+        const cliente = clientes.find(c => c.id === venta.cliente_id);
+        return [
+          format(new Date(venta.fecha), 'dd/MM/yyyy HH:mm', { locale: es }),
+          cliente?.nombre || 'N/A',
+          venta.vendedor?.nombre_completo || 'N/A',
+          formatCOP(venta.total),
+        ];
+      });
+
+      autoTable(doc, {
+        head: [['Fecha', 'Cliente', 'Vendedor', 'Total']],
+        body: tableData,
+        startY: yPos + 5,
+        foot: [['', '', 'TOTAL:', formatCOP(filteredData.reduce((sum, v) => sum + v.total, 0))]],
+        footStyles: { fontStyle: 'bold', fillColor: [240, 240, 240] },
+      });
+
+      doc.save(`reporte-ventas-${format(new Date(), 'yyyy-MM-dd')}.pdf`);
+
+      toast({
+        title: 'Reporte exportado',
+        description: 'El reporte PDF ha sido generado',
+      });
+      
+      setExportDialogOpen(false);
+    } catch (error: any) {
+      toast({
+        title: 'Error',
+        description: 'No se pudo generar el reporte',
+        variant: 'destructive',
+      });
+    }
   };
 
   const handleCloseDialog = () => {
@@ -525,11 +590,34 @@ export default function VentasRegistro() {
     setCurrentItem({ producto_id: '', cantidad: 1 });
   };
 
-  const filteredVentas = ventas.filter(venta => {
-    const cliente = clientes.find(c => c.id === venta.cliente_id);
-    return cliente?.nombre.toLowerCase().includes(searchFilter.toLowerCase()) ||
-           cliente?.cedula.toLowerCase().includes(searchFilter.toLowerCase());
-  });
+  const filteredVentas = ventas
+    .filter(venta => {
+      const cliente = clientes.find(c => c.id === venta.cliente_id);
+      return cliente?.nombre.toLowerCase().includes(searchFilter.toLowerCase()) ||
+             cliente?.cedula.toLowerCase().includes(searchFilter.toLowerCase());
+    })
+    .sort((a, b) => {
+      if (sortBy === 'fecha') {
+        const dateA = new Date(a.fecha).getTime();
+        const dateB = new Date(b.fecha).getTime();
+        return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
+      }
+      if (sortBy === 'vendedor') {
+        const vendedorA = a.vendedor?.nombre_completo || '';
+        const vendedorB = b.vendedor?.nombre_completo || '';
+        return sortOrder === 'asc' 
+          ? vendedorA.localeCompare(vendedorB)
+          : vendedorB.localeCompare(vendedorA);
+      }
+      if (sortBy === 'producto') {
+        const productoA = a.items?.[0]?.producto?.nombre || '';
+        const productoB = b.items?.[0]?.producto?.nombre || '';
+        return sortOrder === 'asc'
+          ? productoA.localeCompare(productoB)
+          : productoB.localeCompare(productoA);
+      }
+      return 0;
+    });
 
   return (
     <DashboardLayout>
@@ -540,10 +628,101 @@ export default function VentasRegistro() {
             <p className="text-muted-foreground">Gestiona las ventas realizadas</p>
           </div>
           <div className="flex gap-2">
-            <Button variant="outline" onClick={exportSalesReport}>
-              <FileDown className="mr-2 h-4 w-4" />
-              Exportar Reporte
-            </Button>
+            <Dialog open={exportDialogOpen} onOpenChange={setExportDialogOpen}>
+              <DialogTrigger asChild>
+                <Button variant="outline">
+                  <FileDown className="mr-2 h-4 w-4" />
+                  Exportar Reporte
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Exportar Reporte de Ventas</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4">
+                  <div>
+                    <Label>Tipo de Exportación</Label>
+                    <Select
+                      value={exportOptions.type}
+                      onValueChange={(value) => setExportOptions({ ...exportOptions, type: value })}
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">Todas las ventas</SelectItem>
+                        <SelectItem value="producto">Por producto</SelectItem>
+                        <SelectItem value="rango">Rango de fechas</SelectItem>
+                        <SelectItem value="mes">Por mes</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {exportOptions.type === 'producto' && (
+                    <div>
+                      <Label>Producto</Label>
+                      <Select
+                        value={exportOptions.producto_id}
+                        onValueChange={(value) => setExportOptions({ ...exportOptions, producto_id: value })}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Seleccione un producto" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {productos.map((producto) => (
+                            <SelectItem key={producto.id} value={producto.id}>
+                              {producto.nombre}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  )}
+
+                  {exportOptions.type === 'rango' && (
+                    <>
+                      <div>
+                        <Label>Fecha Inicio</Label>
+                        <Input
+                          type="date"
+                          value={exportOptions.startDate}
+                          onChange={(e) => setExportOptions({ ...exportOptions, startDate: e.target.value })}
+                        />
+                      </div>
+                      <div>
+                        <Label>Fecha Fin</Label>
+                        <Input
+                          type="date"
+                          value={exportOptions.endDate}
+                          onChange={(e) => setExportOptions({ ...exportOptions, endDate: e.target.value })}
+                        />
+                      </div>
+                    </>
+                  )}
+
+                  {exportOptions.type === 'mes' && (
+                    <div>
+                      <Label>Mes</Label>
+                      <Input
+                        type="month"
+                        value={exportOptions.month}
+                        onChange={(e) => setExportOptions({ ...exportOptions, month: e.target.value })}
+                      />
+                    </div>
+                  )}
+
+                  <div className="flex gap-2">
+                    <Button onClick={exportSalesReport} className="flex-1">
+                      <Download className="mr-2 h-4 w-4" />
+                      Exportar PDF
+                    </Button>
+                    <Button variant="outline" onClick={() => setExportDialogOpen(false)}>
+                      Cancelar
+                    </Button>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
             <Dialog open={open} onOpenChange={setOpen}>
               <DialogTrigger asChild>
                 <Button>
@@ -702,12 +881,45 @@ export default function VentasRegistro() {
             <CardTitle>Ventas Realizadas</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="mb-4">
+            <div className="mb-4 space-y-4">
               <Input
                 placeholder="Filtrar por cliente (nombre o cédula)..."
                 value={searchFilter}
                 onChange={(e) => setSearchFilter(e.target.value)}
               />
+              <div className="flex gap-4">
+                <div className="flex-1">
+                  <Label>Ordenar por</Label>
+                  <Select
+                    value={sortBy}
+                    onValueChange={(value: 'fecha' | 'producto' | 'vendedor') => setSortBy(value)}
+                  >
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="fecha">Fecha</SelectItem>
+                      <SelectItem value="producto">Producto</SelectItem>
+                      <SelectItem value="vendedor">Vendedor</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex-1">
+                  <Label>Orden</Label>
+                  <Select
+                    value={sortOrder}
+                    onValueChange={(value: 'asc' | 'desc') => setSortOrder(value)}
+                  >
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="asc">Ascendente</SelectItem>
+                      <SelectItem value="desc">Descendente</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
             </div>
             <Table>
               <TableHeader>

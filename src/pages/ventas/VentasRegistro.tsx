@@ -297,6 +297,7 @@ export default function VentasRegistro() {
     }
 
     setLoading(true);
+    let ventaCreada: any = null;
 
     try {
       const total = calculateTotal();
@@ -319,6 +320,12 @@ export default function VentasRegistro() {
         }
       }
 
+      // Descontar del inventario PRIMERO para validar que sea posible
+      for (const item of items) {
+        await descontarInventario(item.producto_id, item.cantidad);
+      }
+
+      // Si el descuento fue exitoso, crear la venta
       const { data: venta, error: ventaError } = await supabase
         .from('ventas')
         .insert([{
@@ -330,6 +337,7 @@ export default function VentasRegistro() {
         .single();
 
       if (ventaError) throw ventaError;
+      ventaCreada = venta;
 
       const itemsToInsert = items.map(item => ({
         venta_id: venta.id,
@@ -342,27 +350,37 @@ export default function VentasRegistro() {
 
       if (itemsError) throw itemsError;
 
-      // Descontar del inventario
-      for (const item of items) {
-        await descontarInventario(item.producto_id, item.cantidad);
-      }
-
       await sendInvoice(venta.id, selectedCliente, items, total);
 
       toast({
         title: 'Venta registrada',
-        description: 'La venta ha sido registrada y el inventario actualizado',
+        description: `Venta ${venta.numero_factura || venta.id.substring(0, 8)} registrada exitosamente`,
       });
 
       handleCloseDialog();
       fetchVentas();
       fetchProductos(); // Actualizar stock
     } catch (error: any) {
+      console.error('Error en venta:', error);
+      
+      // Si ya se creó la venta pero falló algo después, intentar eliminarla
+      if (ventaCreada) {
+        try {
+          await supabase.from('venta_items').delete().eq('venta_id', ventaCreada.id);
+          await supabase.from('ventas').delete().eq('id', ventaCreada.id);
+        } catch (rollbackError) {
+          console.error('Error al revertir venta:', rollbackError);
+        }
+      }
+      
       toast({
-        title: 'Error',
-        description: error.message,
+        title: 'Error al registrar venta',
+        description: error.message || 'Ocurrió un error al procesar la venta',
         variant: 'destructive',
       });
+      
+      // Recargar datos para asegurar consistencia
+      fetchProductos();
     } finally {
       setLoading(false);
     }
@@ -380,22 +398,42 @@ export default function VentasRegistro() {
 
       if (lotesError) throw lotesError;
 
+      if (!lotes || lotes.length === 0) {
+        throw new Error('No hay lotes disponibles para este producto');
+      }
+
+      // Verificar que hay suficiente stock total
+      const stockTotal = lotes.reduce((sum, lote) => sum + lote.cantidad, 0);
+      if (stockTotal < cantidadVendida) {
+        throw new Error(`Stock insuficiente. Disponible: ${stockTotal}, Requerido: ${cantidadVendida}`);
+      }
+
       let cantidadRestante = cantidadVendida;
 
-      for (const lote of lotes || []) {
+      for (const lote of lotes) {
         if (cantidadRestante <= 0) break;
 
         const cantidadADescontar = Math.min(lote.cantidad, cantidadRestante);
         const nuevaCantidad = lote.cantidad - cantidadADescontar;
 
+        // Verificar que la nueva cantidad no sea negativa antes de actualizar
+        if (nuevaCantidad < 0) {
+          throw new Error('Error calculando inventario: cantidad negativa detectada');
+        }
+
         const { error: updateError } = await supabase
           .from('lotes_inventario')
           .update({ cantidad: nuevaCantidad })
-          .eq('id', lote.id);
+          .eq('id', lote.id)
+          .eq('cantidad', lote.cantidad); // Verificar que no cambió entre lectura y escritura
 
         if (updateError) throw updateError;
 
         cantidadRestante -= cantidadADescontar;
+      }
+
+      if (cantidadRestante > 0) {
+        throw new Error(`No se pudo descontar toda la cantidad. Faltante: ${cantidadRestante}`);
       }
     } catch (error: any) {
       console.error('Error descontando inventario:', error);

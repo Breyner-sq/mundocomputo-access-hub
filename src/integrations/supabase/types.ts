@@ -74,6 +74,70 @@ export type Database = {
         }
         Relationships: []
       }
+      devoluciones: {
+        Row: {
+          cantidad: number
+          cliente_id: string
+          created_at: string
+          estado: string
+          fecha_devolucion: string
+          id: string
+          motivo: string
+          notas: string | null
+          producto_id: string
+          vendedor_id: string
+          venta_id: string
+        }
+        Insert: {
+          cantidad: number
+          cliente_id: string
+          created_at?: string
+          estado?: string
+          fecha_devolucion?: string
+          id?: string
+          motivo: string
+          notas?: string | null
+          producto_id: string
+          vendedor_id: string
+          venta_id: string
+        }
+        Update: {
+          cantidad?: number
+          cliente_id?: string
+          created_at?: string
+          estado?: string
+          fecha_devolucion?: string
+          id?: string
+          motivo?: string
+          notas?: string | null
+          producto_id?: string
+          vendedor_id?: string
+          venta_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "devoluciones_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "clientes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "devoluciones_producto_id_fkey"
+            columns: ["producto_id"]
+            isOneToOne: false
+            referencedRelation: "productos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "devoluciones_venta_id_fkey"
+            columns: ["venta_id"]
+            isOneToOne: false
+            referencedRelation: "ventas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lotes_inventario: {
         Row: {
           cantidad: number
@@ -166,6 +230,9 @@ export type Database = {
           created_at: string | null
           email: string
           id: string
+          mfa_code: string | null
+          mfa_expires_at: string | null
+          mfa_verified: boolean | null
           nombre_completo: string | null
           updated_at: string | null
         }
@@ -175,6 +242,9 @@ export type Database = {
           created_at?: string | null
           email: string
           id: string
+          mfa_code?: string | null
+          mfa_expires_at?: string | null
+          mfa_verified?: boolean | null
           nombre_completo?: string | null
           updated_at?: string | null
         }
@@ -184,6 +254,9 @@ export type Database = {
           created_at?: string | null
           email?: string
           id?: string
+          mfa_code?: string | null
+          mfa_expires_at?: string | null
+          mfa_verified?: boolean | null
           nombre_completo?: string | null
           updated_at?: string | null
         }
@@ -258,6 +331,7 @@ export type Database = {
           created_at: string
           fecha: string
           id: string
+          numero_factura: string | null
           total: number
           vendedor_id: string
         }
@@ -266,6 +340,7 @@ export type Database = {
           created_at?: string
           fecha?: string
           id?: string
+          numero_factura?: string | null
           total: number
           vendedor_id: string
         }
@@ -274,6 +349,7 @@ export type Database = {
           created_at?: string
           fecha?: string
           id?: string
+          numero_factura?: string | null
           total?: number
           vendedor_id?: string
         }

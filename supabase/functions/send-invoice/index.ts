@@ -39,7 +39,7 @@ const handler = async (req: Request): Promise<Response> => {
     `).join('');
 
     const emailBody = {
-      from: "Sistema de Ventas <onboarding@resend.dev>",
+      from: "Sistema de Ventas <ventas@email.juanchito.me>",
       to: [clientEmail],
       subject: `Factura #${invoiceNumber}`,
       html: `

@@ -48,9 +48,10 @@ interface Repuesto {
 const ESTADOS_LABELS: Record<string, string> = {
   recibido: 'Recibido',
   en_diagnostico: 'En Diagnóstico',
-  esperando_repuestos: 'Esperando Repuestos',
+  cotizacion_hecha: 'Cotización Lista',
   cotizacion_aceptada: 'Cotización Aceptada',
   cotizacion_rechazada: 'Cotización Rechazada',
+  esperando_repuestos: 'Esperando Repuestos',
   en_reparacion: 'En Reparación',
   listo_para_entrega: 'Listo para Entrega',
   entregado: 'Entregado',
@@ -106,7 +107,7 @@ export default function ConsultarReparacion() {
 
       setReparacion(reparacionData as Reparacion);
 
-      // Cargar repuestos si existen
+      // Cargar repuestos si existen (cuando hay cotización)
       if (reparacionData.estado !== 'recibido' && reparacionData.estado !== 'en_diagnostico') {
         const { data: repuestosData } = await supabase
           .from('reparacion_repuestos')
@@ -145,12 +146,19 @@ export default function ConsultarReparacion() {
       const nuevoEstadoCotizacion = accionCotizacion === 'aceptar' ? 'aceptada' : 'rechazada';
       const nuevoEstado = accionCotizacion === 'aceptar' ? 'cotizacion_aceptada' : 'cotizacion_rechazada';
 
+      // Si rechazó la cotización, agregar cargo de 70mil por revisión
+      const updateData: any = {
+        estado_cotizacion: nuevoEstadoCotizacion,
+        estado: nuevoEstado,
+      };
+
+      if (accionCotizacion === 'rechazar') {
+        updateData.costo_total = 70000; // Cargo por revisión
+      }
+
       const { error } = await supabase
         .from('reparaciones')
-        .update({
-          estado_cotizacion: nuevoEstadoCotizacion,
-          estado: nuevoEstado,
-        })
+        .update(updateData)
         .eq('id', reparacion.id);
 
       if (error) throw error;
@@ -168,6 +176,7 @@ export default function ConsultarReparacion() {
         ...reparacion,
         estado_cotizacion: nuevoEstadoCotizacion,
         estado: nuevoEstado,
+        costo_total: accionCotizacion === 'rechazar' ? 70000 : reparacion.costo_total,
       });
     } catch (error: any) {
       toast({
@@ -229,6 +238,8 @@ export default function ConsultarReparacion() {
         return 'secondary';
       case 'en_diagnostico':
         return 'default';
+      case 'cotizacion_hecha':
+        return 'outline';
       case 'esperando_repuestos':
       case 'cotizacion_aceptada':
         return 'default';
@@ -247,7 +258,7 @@ export default function ConsultarReparacion() {
 
   const mostrarBotonesCotizacion =
     reparacion &&
-    reparacion.estado === 'esperando_repuestos' &&
+    reparacion.estado === 'cotizacion_hecha' &&
     reparacion.estado_cotizacion === 'pendiente' &&
     repuestos.length > 0;
 

@@ -440,7 +440,14 @@ export default function TecnicoReparaciones() {
       doc.setFontSize(11);
       doc.text(`${reparacion.tipo_producto} - ${reparacion.marca} ${reparacion.modelo}`, 20, 113);
 
-      if (repuestosData && repuestosData.length > 0) {
+      // Si la cotización fue rechazada, el costo es solo el cargo por revisión
+      if (reparacion.estado_cotizacion === 'rechazada') {
+        doc.setFontSize(14);
+        doc.text('Cargo por Revisión', 20, 130);
+        doc.setFontSize(11);
+        doc.text(`Total: ${formatCOP(70000)}`, 20, 140);
+        doc.text(`Entregado a: ${reparacion.nombre_quien_retira || 'N/A'}`, 20, 150);
+      } else if (repuestosData && repuestosData.length > 0) {
         doc.setFontSize(14);
         doc.text('Repuestos Utilizados', 20, 130);
 
@@ -510,12 +517,14 @@ export default function TecnicoReparaciones() {
         return 'secondary';
       case 'en_diagnostico':
         return 'default';
-      case 'esperando_repuestos':
+      case 'cotizacion_hecha':
         return 'outline';
       case 'cotizacion_aceptada':
         return 'default';
       case 'cotizacion_rechazada':
         return 'destructive';
+      case 'esperando_repuestos':
+        return 'outline';
       case 'en_reparacion':
         return 'default';
       case 'listo_para_entrega':
@@ -531,9 +540,10 @@ export default function TecnicoReparaciones() {
     const labels: Record<string, string> = {
       recibido: 'Recibido',
       en_diagnostico: 'En Diagnóstico',
-      esperando_repuestos: 'Esperando Repuestos',
+      cotizacion_hecha: 'Cotización Hecha',
       cotizacion_aceptada: 'Cotización Aceptada',
       cotizacion_rechazada: 'Cotización Rechazada',
+      esperando_repuestos: 'Esperando Repuestos',
       en_reparacion: 'En Reparación',
       listo_para_entrega: 'Listo para Entrega',
       entregado: 'Entregado',

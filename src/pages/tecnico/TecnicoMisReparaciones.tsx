@@ -73,9 +73,8 @@ interface Repuesto {
 const ESTADOS = [
   { value: 'recibido', label: 'Recibido' },
   { value: 'en_diagnostico', label: 'En Diagnóstico' },
+  { value: 'cotizacion_hecha', label: 'Cotización Hecha' },
   { value: 'esperando_repuestos', label: 'Esperando Repuestos' },
-  { value: 'cotizacion_aceptada', label: 'Cotización Aceptada' },
-  { value: 'cotizacion_rechazada', label: 'Cotización Rechazada' },
   { value: 'en_reparacion', label: 'En Reparación' },
   { value: 'listo_para_entrega', label: 'Listo para Entrega' },
 ];
@@ -83,10 +82,11 @@ const ESTADOS = [
 // Validación de transiciones de estado permitidas
 const TRANSICIONES_PERMITIDAS: Record<string, string[]> = {
   recibido: ['en_diagnostico'],
-  en_diagnostico: ['esperando_repuestos'],
-  esperando_repuestos: ['cotizacion_aceptada', 'cotizacion_rechazada'],
-  cotizacion_aceptada: ['en_reparacion'],
-  cotizacion_rechazada: ['en_diagnostico'], // Permite reiniciar el proceso
+  en_diagnostico: ['cotizacion_hecha'],
+  cotizacion_hecha: [], // Solo el cliente puede cambiar a cotizacion_aceptada/rechazada
+  cotizacion_aceptada: ['esperando_repuestos'],
+  cotizacion_rechazada: ['listo_para_entrega'],
+  esperando_repuestos: ['en_reparacion'],
   en_reparacion: ['listo_para_entrega'],
   listo_para_entrega: ['entregado'],
 };
@@ -242,7 +242,7 @@ export default function TecnicoMisReparaciones() {
       const { error: updateError } = await supabase
         .from('reparaciones')
         .update({
-          estado: 'esperando_repuestos',
+          estado: 'cotizacion_hecha',
           costo_total: costoTotal,
         })
         .eq('id', selectedReparacion.id);
@@ -268,7 +268,7 @@ export default function TecnicoMisReparaciones() {
         {
           reparacion_id: selectedReparacion.id,
           estado_anterior: 'en_diagnostico',
-          estado_nuevo: 'esperando_repuestos',
+          estado_nuevo: 'cotizacion_hecha',
           notas: 'Diagnóstico finalizado y cotización generada',
           usuario_id: user?.id,
         },
@@ -467,12 +467,14 @@ export default function TecnicoMisReparaciones() {
         return 'secondary';
       case 'en_diagnostico':
         return 'default';
-      case 'esperando_repuestos':
+      case 'cotizacion_hecha':
         return 'outline';
       case 'cotizacion_aceptada':
         return 'default';
       case 'cotizacion_rechazada':
         return 'destructive';
+      case 'esperando_repuestos':
+        return 'outline';
       case 'en_reparacion':
         return 'default';
       case 'listo_para_entrega':
@@ -583,7 +585,9 @@ export default function TecnicoMisReparaciones() {
                                   <Package className="h-4 w-4" />
                                 </Button>
                               )}
-                              {(rep.estado === 'esperando_repuestos' ||
+                              {(rep.estado === 'cotizacion_hecha' ||
+                                rep.estado === 'cotizacion_aceptada' ||
+                                rep.estado === 'esperando_repuestos' ||
                                 rep.estado === 'en_reparacion') && (
                                 <Button
                                   variant="ghost"

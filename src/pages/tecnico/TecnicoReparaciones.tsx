@@ -34,6 +34,7 @@ import {
 import { Search, Plus, FileText, CheckCircle2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 import { formatCOP } from '@/lib/formatCurrency';
 import { format } from 'date-fns';
 
@@ -51,6 +52,8 @@ interface Reparacion {
   estado: string;
   fecha_ingreso: string;
   fecha_finalizacion: string | null;
+  fecha_entrega: string | null;
+  nombre_quien_retira: string | null;
   costo_total: number;
   clientes?: {
     nombre: string;
@@ -86,6 +89,7 @@ export default function TecnicoReparaciones() {
   const [isFinalizarDialogOpen, setIsFinalizarDialogOpen] = useState(false);
   const [selectedReparacion, setSelectedReparacion] = useState<Reparacion | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [reparacionesEntregadas, setReparacionesEntregadas] = useState<Reparacion[]>([]);
 
   const [formData, setFormData] = useState({
     cliente_id: '',
@@ -108,6 +112,7 @@ export default function TecnicoReparaciones() {
 
   useEffect(() => {
     fetchReparaciones();
+    fetchReparacionesEntregadas();
     fetchClientes();
     fetchTecnicos();
   }, []);
@@ -122,6 +127,7 @@ export default function TecnicoReparaciones() {
           clientes (nombre, cedula, email, telefono),
           profiles (nombre_completo)
         `)
+        .neq('estado', 'entregado')
         .order('fecha_ingreso', { ascending: false });
 
       if (error) throw error;
@@ -263,6 +269,7 @@ export default function TecnicoReparaciones() {
       });
 
       fetchReparaciones();
+      fetchReparacionesEntregadas();
       handleCloseDialog();
     } catch (error: any) {
       toast({
@@ -308,6 +315,7 @@ export default function TecnicoReparaciones() {
       });
 
       fetchReparaciones();
+      fetchReparacionesEntregadas();
       setIsFinalizarDialogOpen(false);
       setSelectedReparacion(null);
       setFinalizarData({ nombre_quien_retira: '' });
@@ -375,6 +383,99 @@ export default function TecnicoReparaciones() {
     }
 
     doc.save(`Comprobante-${reparacion.numero_orden}.pdf`);
+  };
+
+  const fetchReparacionesEntregadas = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('reparaciones')
+        .select(`
+          *,
+          clientes (nombre, cedula, email, telefono),
+          profiles (nombre_completo)
+        `)
+        .eq('estado', 'entregado')
+        .order('fecha_entrega', { ascending: false });
+
+      if (error) throw error;
+      setReparacionesEntregadas(data || []);
+    } catch (error: any) {
+      console.error('Error fetching entregadas:', error);
+    }
+  };
+
+  const generarComprobanteEntrega = async (reparacion: Reparacion) => {
+    try {
+      // Obtener repuestos
+      const { data: repuestosData, error: repuestosError } = await supabase
+        .from('reparacion_repuestos')
+        .select('*')
+        .eq('reparacion_id', reparacion.id);
+
+      if (repuestosError) throw repuestosError;
+
+      const doc = new jsPDF();
+
+      doc.setFontSize(20);
+      doc.text('Comprobante de Entrega', 105, 20, { align: 'center' });
+
+      doc.setFontSize(12);
+      doc.text(`Orden: ${reparacion.numero_orden}`, 20, 40);
+      doc.text(`Fecha Ingreso: ${format(new Date(reparacion.fecha_ingreso), 'dd/MM/yyyy')}`, 20, 48);
+      doc.text(
+        `Fecha Entrega: ${format(new Date(reparacion.fecha_entrega || new Date()), 'dd/MM/yyyy HH:mm')}`,
+        20,
+        56
+      );
+
+      doc.setFontSize(14);
+      doc.text('Cliente', 20, 73);
+      doc.setFontSize(11);
+      doc.text(`Nombre: ${reparacion.clientes?.nombre || 'N/A'}`, 20, 81);
+      doc.text(`Cédula: ${reparacion.clientes?.cedula || 'N/A'}`, 20, 88);
+
+      doc.setFontSize(14);
+      doc.text('Dispositivo', 20, 105);
+      doc.setFontSize(11);
+      doc.text(`${reparacion.tipo_producto} - ${reparacion.marca} ${reparacion.modelo}`, 20, 113);
+
+      if (repuestosData && repuestosData.length > 0) {
+        doc.setFontSize(14);
+        doc.text('Repuestos Utilizados', 20, 130);
+
+        const tableData = repuestosData.map((r: any) => [
+          r.descripcion,
+          r.cantidad.toString(),
+          formatCOP(r.costo),
+          formatCOP(r.cantidad * r.costo),
+        ]);
+
+        autoTable(doc, {
+          startY: 137,
+          head: [['Descripción', 'Cantidad', 'Precio Unit.', 'Subtotal']],
+          body: tableData,
+          theme: 'grid',
+        });
+
+        const finalY = (doc as any).lastAutoTable.finalY || 137;
+        doc.setFontSize(14);
+        doc.text(`Total: ${formatCOP(reparacion.costo_total)}`, 20, finalY + 15);
+        doc.setFontSize(11);
+        doc.text(`Entregado a: ${reparacion.nombre_quien_retira || 'N/A'}`, 20, finalY + 25);
+      } else {
+        doc.setFontSize(11);
+        doc.text(`Costo Total: ${formatCOP(reparacion.costo_total)}`, 20, 130);
+        doc.text(`Entregado a: ${reparacion.nombre_quien_retira || 'N/A'}`, 20, 140);
+      }
+
+      doc.save(`Comprobante-Entrega-${reparacion.numero_orden}.pdf`);
+    } catch (error: any) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'No se pudo generar el comprobante',
+      });
+    }
   };
 
   const handleCloseDialog = () => {
@@ -534,6 +635,65 @@ export default function TecnicoReparaciones() {
                 </Table>
               </div>
             )}
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Reparaciones Entregadas</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="rounded-md border">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Orden</TableHead>
+                    <TableHead>Cliente</TableHead>
+                    <TableHead>Dispositivo</TableHead>
+                    <TableHead>Fecha Entrega</TableHead>
+                    <TableHead>Entregado a</TableHead>
+                    <TableHead>Total</TableHead>
+                    <TableHead className="text-right">Acciones</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {reparacionesEntregadas.length === 0 ? (
+                    <TableRow>
+                      <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
+                        No hay reparaciones entregadas
+                      </TableCell>
+                    </TableRow>
+                  ) : (
+                    reparacionesEntregadas.map((rep) => (
+                      <TableRow key={rep.id}>
+                        <TableCell className="font-medium">{rep.numero_orden}</TableCell>
+                        <TableCell>{rep.clientes?.nombre || 'N/A'}</TableCell>
+                        <TableCell>
+                          {rep.marca} {rep.modelo}
+                        </TableCell>
+                        <TableCell>
+                          {rep.fecha_entrega
+                            ? format(new Date(rep.fecha_entrega), 'dd/MM/yyyy HH:mm')
+                            : 'N/A'}
+                        </TableCell>
+                        <TableCell>{rep.nombre_quien_retira || 'N/A'}</TableCell>
+                        <TableCell>{formatCOP(rep.costo_total)}</TableCell>
+                        <TableCell className="text-right">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => generarComprobanteEntrega(rep)}
+                            title="Descargar comprobante de entrega"
+                          >
+                            <FileText className="h-4 w-4" />
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  )}
+                </TableBody>
+              </Table>
+            </div>
           </CardContent>
         </Card>
 

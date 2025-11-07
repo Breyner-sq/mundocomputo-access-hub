@@ -30,6 +30,7 @@ import InventarioProductos from "./pages/inventario/InventarioProductos";
 import InventarioCategorias from "./pages/inventario/InventarioCategorias";
 import InventarioStock from "./pages/inventario/InventarioStock";
 import Perfil from "./pages/configuracion/Perfil";
+import ConsultarReparacion from "./pages/ConsultarReparacion";
 import NotFound from "./pages/NotFound";
 
 function AppContent() {
@@ -53,6 +54,9 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="/" element={<RoleRedirect />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
+            
+            {/* Ruta pública para consultar reparaciones */}
+            <Route path="/consultarreparacion" element={<ConsultarReparacion />} />
             
             {/* Admin Routes */}
             <Route

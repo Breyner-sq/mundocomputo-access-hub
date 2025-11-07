@@ -50,6 +50,7 @@ interface Reparacion {
   descripcion_falla: string;
   estado_fisico: string | null;
   estado: string;
+  estado_cotizacion?: string;
   fecha_ingreso: string;
   fecha_finalizacion: string | null;
   fecha_entrega: string | null;
@@ -511,6 +512,10 @@ export default function TecnicoReparaciones() {
         return 'default';
       case 'esperando_repuestos':
         return 'outline';
+      case 'cotizacion_aceptada':
+        return 'default';
+      case 'cotizacion_rechazada':
+        return 'destructive';
       case 'en_reparacion':
         return 'default';
       case 'listo_para_entrega':
@@ -527,6 +532,8 @@ export default function TecnicoReparaciones() {
       recibido: 'Recibido',
       en_diagnostico: 'En Diagnóstico',
       esperando_repuestos: 'Esperando Repuestos',
+      cotizacion_aceptada: 'Cotización Aceptada',
+      cotizacion_rechazada: 'Cotización Rechazada',
       en_reparacion: 'En Reparación',
       listo_para_entrega: 'Listo para Entrega',
       entregado: 'Entregado',
@@ -600,9 +607,16 @@ export default function TecnicoReparaciones() {
                             {format(new Date(rep.fecha_ingreso), 'dd/MM/yyyy')}
                           </TableCell>
                           <TableCell>
-                            <Badge variant={getEstadoBadgeVariant(rep.estado)}>
-                              {getEstadoLabel(rep.estado)}
-                            </Badge>
+                            <div className="flex flex-col gap-1">
+                              <Badge variant={getEstadoBadgeVariant(rep.estado)}>
+                                {getEstadoLabel(rep.estado)}
+                              </Badge>
+                              {rep.estado_cotizacion && rep.estado_cotizacion !== 'pendiente' && (
+                                <span className="text-xs text-muted-foreground">
+                                  {rep.estado_cotizacion === 'aceptada' ? '✓ Aceptada' : '✗ Rechazada'}
+                                </span>
+                              )}
+                            </div>
                           </TableCell>
                           <TableCell>{rep.profiles?.nombre_completo || 'Sin asignar'}</TableCell>
                           <TableCell className="text-right">

@@ -359,6 +359,7 @@ export type Database = {
           created_at: string
           descripcion_falla: string
           estado: string
+          estado_cotizacion: string | null
           estado_fisico: string | null
           fecha_entrega: string | null
           fecha_finalizacion: string | null
@@ -381,6 +382,7 @@ export type Database = {
           created_at?: string
           descripcion_falla: string
           estado?: string
+          estado_cotizacion?: string | null
           estado_fisico?: string | null
           fecha_entrega?: string | null
           fecha_finalizacion?: string | null
@@ -403,6 +405,7 @@ export type Database = {
           created_at?: string
           descripcion_falla?: string
           estado?: string
+          estado_cotizacion?: string | null
           estado_fisico?: string | null
           fecha_entrega?: string | null
           fecha_finalizacion?: string | null

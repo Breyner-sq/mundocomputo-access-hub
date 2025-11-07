@@ -49,6 +49,7 @@ interface Reparacion {
   descripcion_falla: string;
   estado_fisico: string | null;
   estado: string;
+  estado_cotizacion?: string;
   fecha_ingreso: string;
   fecha_entrega: string | null;
   nombre_quien_retira: string | null;
@@ -73,9 +74,22 @@ const ESTADOS = [
   { value: 'recibido', label: 'Recibido' },
   { value: 'en_diagnostico', label: 'En Diagnóstico' },
   { value: 'esperando_repuestos', label: 'Esperando Repuestos' },
+  { value: 'cotizacion_aceptada', label: 'Cotización Aceptada' },
+  { value: 'cotizacion_rechazada', label: 'Cotización Rechazada' },
   { value: 'en_reparacion', label: 'En Reparación' },
   { value: 'listo_para_entrega', label: 'Listo para Entrega' },
 ];
+
+// Validación de transiciones de estado permitidas
+const TRANSICIONES_PERMITIDAS: Record<string, string[]> = {
+  recibido: ['en_diagnostico'],
+  en_diagnostico: ['esperando_repuestos'],
+  esperando_repuestos: ['cotizacion_aceptada', 'cotizacion_rechazada'],
+  cotizacion_aceptada: ['en_reparacion'],
+  cotizacion_rechazada: ['en_diagnostico'], // Permite reiniciar el proceso
+  en_reparacion: ['listo_para_entrega'],
+  listo_para_entrega: ['entregado'],
+};
 
 export default function TecnicoMisReparaciones() {
   const { toast } = useToast();
@@ -139,6 +153,17 @@ export default function TecnicoMisReparaciones() {
     e.preventDefault();
 
     if (!selectedReparacion) return;
+
+    // Validar transición de estado
+    const transicionesPermitidas = TRANSICIONES_PERMITIDAS[selectedReparacion.estado] || [];
+    if (!transicionesPermitidas.includes(nuevoEstado) && nuevoEstado !== selectedReparacion.estado) {
+      toast({
+        variant: 'destructive',
+        title: 'Transición no permitida',
+        description: `No puedes cambiar de "${selectedReparacion.estado}" a "${nuevoEstado}". Debes seguir el orden de estados.`,
+      });
+      return;
+    }
 
     try {
       // Actualizar estado de la reparación
@@ -444,6 +469,10 @@ export default function TecnicoMisReparaciones() {
         return 'default';
       case 'esperando_repuestos':
         return 'outline';
+      case 'cotizacion_aceptada':
+        return 'default';
+      case 'cotizacion_rechazada':
+        return 'destructive';
       case 'en_reparacion':
         return 'default';
       case 'listo_para_entrega':
@@ -618,13 +647,22 @@ export default function TecnicoMisReparaciones() {
                       <SelectValue placeholder="Selecciona un estado" />
                     </SelectTrigger>
                     <SelectContent>
-                      {ESTADOS.map((estado) => (
+                      {ESTADOS.filter((estado) => {
+                        // Mostrar el estado actual y los estados permitidos para la transición
+                        const estadosPermitidos = TRANSICIONES_PERMITIDAS[selectedReparacion?.estado || ''] || [];
+                        return estado.value === selectedReparacion?.estado || estadosPermitidos.includes(estado.value);
+                      }).map((estado) => (
                         <SelectItem key={estado.value} value={estado.value}>
                           {estado.label}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
+                  {selectedReparacion && (
+                    <p className="text-xs text-muted-foreground">
+                      Estado actual: {getEstadoLabel(selectedReparacion.estado)}
+                    </p>
+                  )}
                 </div>
 
                 <div className="space-y-2">

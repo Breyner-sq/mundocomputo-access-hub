@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
 import { DashboardLayout } from '@/components/layouts/DashboardLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Users, Package, TrendingUp, ShoppingCart } from 'lucide-react';
+import { Users, Package, ShoppingCart, Wrench } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({
     totalUsuarios: 0,
     totalProductos: 0,
-    ventasDelMes: 0,
     totalVentas: 0,
+    totalReparaciones: 0,
   });
 
   useEffect(() => {
@@ -39,32 +39,36 @@ export default function AdminDashboard() {
       })
       .subscribe();
 
+    // Suscripción en tiempo real para reparaciones
+    const reparacionesChannel = supabase
+      .channel('reparaciones-changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'reparaciones' }, () => {
+        fetchStats();
+      })
+      .subscribe();
+
     return () => {
       supabase.removeChannel(usersChannel);
       supabase.removeChannel(productsChannel);
       supabase.removeChannel(salesChannel);
+      supabase.removeChannel(reparacionesChannel);
     };
   }, []);
 
   const fetchStats = async () => {
     try {
-      const [profilesRes, productosRes, ventasRes] = await Promise.all([
+      const [profilesRes, productosRes, ventasRes, reparacionesRes] = await Promise.all([
         supabase.from('profiles').select('id', { count: 'exact' }),
         supabase.from('productos').select('id', { count: 'exact' }),
-        supabase.from('ventas').select('total, fecha'),
+        supabase.from('ventas').select('id', { count: 'exact' }),
+        supabase.from('reparaciones').select('id', { count: 'exact' }),
       ]);
-
-      const now = new Date();
-      const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-      const ventasDelMes = (ventasRes.data || [])
-        .filter(v => new Date(v.fecha) >= firstDayOfMonth)
-        .reduce((sum, v) => sum + Number(v.total), 0);
 
       setStats({
         totalUsuarios: profilesRes.count || 0,
         totalProductos: productosRes.count || 0,
-        ventasDelMes,
-        totalVentas: (ventasRes.data || []).length,
+        totalVentas: ventasRes.count || 0,
+        totalReparaciones: reparacionesRes.count || 0,
       });
     } catch (error) {
       console.error('Error fetching stats:', error);
@@ -102,21 +106,21 @@ export default function AdminDashboard() {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">Ventas del Mes</CardTitle>
-              <TrendingUp className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">${stats.ventasDelMes.toFixed(2)}</div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">Total Ventas</CardTitle>
               <ShoppingCart className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{stats.totalVentas}</div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium">Total Reparaciones</CardTitle>
+              <Wrench className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{stats.totalReparaciones}</div>
             </CardContent>
           </Card>
         </div>

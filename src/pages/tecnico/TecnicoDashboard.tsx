@@ -4,7 +4,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { Wrench, Clock, CheckCircle2, TrendingUp } from 'lucide-react';
-import { formatCOP } from '@/lib/formatCurrency';
 
 export default function TecnicoDashboard() {
   const { user } = useAuth();
@@ -13,7 +12,6 @@ export default function TecnicoDashboard() {
     finalizadas: 0,
     pendientes: 0,
     promedioTiempo: 0,
-    gananciasMes: 0,
     misReparaciones: 0,
   });
 
@@ -51,22 +49,6 @@ export default function TecnicoDashboard() {
         .eq('tecnico_id', user?.id)
         .neq('estado', 'entregado');
 
-      // Ganancias del mes actual
-      const inicioMes = new Date();
-      inicioMes.setDate(1);
-      inicioMes.setHours(0, 0, 0, 0);
-
-      const { data: reparacionesMes } = await supabase
-        .from('reparaciones')
-        .select('costo_total, fecha_ingreso, fecha_finalizacion')
-        .eq('estado', 'entregado')
-        .gte('fecha_finalizacion', inicioMes.toISOString());
-
-      const gananciasMes = reparacionesMes?.reduce(
-        (sum, rep) => sum + (Number(rep.costo_total) || 0),
-        0
-      ) || 0;
-
       // Calcular promedio de tiempo de reparación (en días)
       const { data: reparacionesCompletas } = await supabase
         .from('reparaciones')
@@ -90,7 +72,6 @@ export default function TecnicoDashboard() {
         finalizadas: finalizadas || 0,
         pendientes: pendientes || 0,
         promedioTiempo: Math.round(promedioTiempo * 10) / 10,
-        gananciasMes,
         misReparaciones: misReparaciones || 0,
       });
     } catch (error) {
@@ -178,21 +159,6 @@ export default function TecnicoDashboard() {
               <div className="text-2xl font-bold">{stats.promedioTiempo} días</div>
               <p className="text-xs text-muted-foreground">
                 Tiempo de reparación
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Ganancias del Mes
-              </CardTitle>
-              <TrendingUp className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{formatCOP(stats.gananciasMes)}</div>
-              <p className="text-xs text-muted-foreground">
-                Ingresos mensuales
               </p>
             </CardContent>
           </Card>

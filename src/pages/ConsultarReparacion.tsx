@@ -340,22 +340,15 @@ export default function ConsultarReparacion() {
 
     setProcesandoPago(true);
     try {
-      const response = await fetch(
-        'https://twaqppiracythbmwyjnn.supabase.co/functions/v1/procesar-pago',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            reparacion_id: reparacion.id,
-            monto: reparacion.costo_total,
-            metodo_pago: metodoPago,
-          }),
-        }
-      );
+      const { data, error } = await supabase.functions.invoke('procesar-pago', {
+        body: {
+          reparacion_id: reparacion.id,
+          monto: reparacion.costo_total,
+          metodo_pago: metodoPago,
+        },
+      });
 
-      const data = await response.json();
+      if (error) throw error;
 
       if (data.success) {
         toast({

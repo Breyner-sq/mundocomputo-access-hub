@@ -36,8 +36,7 @@ serve(async (req) => {
       );
     }
 
-    // SIMULACIÓN: Todos los pagos son aprobados
-    // En producción, aquí iría la integración real con pasarela de pagos
+    // SIMULACIÓN: Todos los pagos son siempre aprobados
     const exito = true;
     const estado = 'aprobado';
     const numero_transaccion = `TXN-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;

@@ -345,8 +345,8 @@ export default function TecnicoReparaciones() {
 
     if (!selectedReparacion) return;
 
-    // Validar que la reparación esté pagada solo si está lista para entrega
-    if (selectedReparacion.estado === 'listo_para_entrega' && selectedReparacion.pagado !== true) {
+    // Validar que la reparación esté pagada
+    if (!selectedReparacion.pagado) {
       toast({
         variant: 'destructive',
         title: 'Pago pendiente',
@@ -448,18 +448,77 @@ export default function TecnicoReparaciones() {
       currentY += 25;
     }
 
-    // Fotos
+    // Fotos adjuntas
     if (reparacion.fotos && reparacion.fotos.length > 0) {
       doc.setFontSize(14);
-      doc.text(`Fotos adjuntas: ${reparacion.fotos.length}`, 20, currentY);
+      doc.text('Fotos del Dispositivo', 20, currentY);
       currentY += 10;
+      
+      // Intentar cargar e incrustar las fotos en el PDF
+      for (let i = 0; i < reparacion.fotos.length; i++) {
+        try {
+          const fotoUrl = reparacion.fotos[i];
+          const img = new Image();
+          img.crossOrigin = 'anonymous';
+          
+          await new Promise((resolve, reject) => {
+            img.onload = () => {
+              try {
+                // Añadir nueva página si es necesario
+                if (currentY > 240) {
+                  doc.addPage();
+                  currentY = 20;
+                }
+                
+                // Calcular dimensiones para que la imagen quepa bien
+                const maxWidth = 80;
+                const maxHeight = 60;
+                let width = img.width;
+                let height = img.height;
+                
+                if (width > maxWidth) {
+                  height = (maxWidth / width) * height;
+                  width = maxWidth;
+                }
+                if (height > maxHeight) {
+                  width = (maxHeight / height) * width;
+                  height = maxHeight;
+                }
+                
+                doc.setFontSize(10);
+                doc.text(`Foto ${i + 1}:`, 20, currentY);
+                currentY += 5;
+                
+                doc.addImage(img, 'JPEG', 20, currentY, width, height);
+                currentY += height + 10;
+                
+                resolve(true);
+              } catch (err) {
+                reject(err);
+              }
+            };
+            img.onerror = reject;
+            img.src = fotoUrl;
+          });
+        } catch (error) {
+          console.error('Error cargando foto:', error);
+          doc.setFontSize(10);
+          doc.text(`Foto ${i + 1}: Error al cargar`, 20, currentY);
+          currentY += 8;
+        }
+      }
     }
 
     // Footer
+    if (currentY > 240) {
+      doc.addPage();
+      currentY = 20;
+    }
+    
     doc.setFontSize(10);
-    doc.text('Estado: Recibido', 20, 250);
+    doc.text('Estado: Recibido', 20, currentY);
     if (reparacion.profiles?.nombre_completo) {
-      doc.text(`Técnico asignado: ${reparacion.profiles.nombre_completo}`, 20, 257);
+      doc.text(`Técnico asignado: ${reparacion.profiles.nombre_completo}`, 20, currentY + 7);
     }
 
     doc.save(`Comprobante-${reparacion.numero_orden}.pdf`);

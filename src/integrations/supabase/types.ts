@@ -179,6 +179,50 @@ export type Database = {
           },
         ]
       }
+      pagos_reparaciones: {
+        Row: {
+          created_at: string
+          estado: string
+          fecha_pago: string | null
+          id: string
+          metodo_pago: string
+          monto: number
+          numero_transaccion: string | null
+          reparacion_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          estado?: string
+          fecha_pago?: string | null
+          id?: string
+          metodo_pago: string
+          monto: number
+          numero_transaccion?: string | null
+          reparacion_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          estado?: string
+          fecha_pago?: string | null
+          id?: string
+          metodo_pago?: string
+          monto?: number
+          numero_transaccion?: string | null
+          reparacion_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pagos_reparaciones_reparacion_id_fkey"
+            columns: ["reparacion_id"]
+            isOneToOne: false
+            referencedRelation: "reparaciones"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       productos: {
         Row: {
           categoria_id: string | null
@@ -371,6 +415,7 @@ export type Database = {
           nombre_quien_retira: string | null
           numero_orden: string | null
           numero_serie: string | null
+          pagado: boolean
           tecnico_id: string | null
           tiempo_trabajo_minutos: number | null
           tipo_producto: string
@@ -394,6 +439,7 @@ export type Database = {
           nombre_quien_retira?: string | null
           numero_orden?: string | null
           numero_serie?: string | null
+          pagado?: boolean
           tecnico_id?: string | null
           tiempo_trabajo_minutos?: number | null
           tipo_producto: string
@@ -417,6 +463,7 @@ export type Database = {
           nombre_quien_retira?: string | null
           numero_orden?: string | null
           numero_serie?: string | null
+          pagado?: boolean
           tecnico_id?: string | null
           tiempo_trabajo_minutos?: number | null
           tipo_producto?: string

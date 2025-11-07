@@ -31,6 +31,7 @@ interface Reparacion {
   estado_cotizacion: string;
   fecha_ingreso: string;
   costo_total: number;
+  pagado: boolean;
   clientes?: {
     nombre: string;
     cedula: string;
@@ -66,6 +67,8 @@ export default function ConsultarReparacion() {
   const [loading, setLoading] = useState(false);
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const [accionCotizacion, setAccionCotizacion] = useState<'aceptar' | 'rechazar' | null>(null);
+  const [metodoPago, setMetodoPago] = useState('tarjeta');
+  const [procesandoPago, setProcesandoPago] = useState(false);
 
   const buscarReparacion = async () => {
     if (!numeroOrden.trim()) {
@@ -279,6 +282,58 @@ export default function ConsultarReparacion() {
     reparacion.estado_cotizacion === 'pendiente' &&
     repuestos.length > 0;
 
+  const mostrarBotonPago =
+    reparacion &&
+    reparacion.estado === 'listo_para_entrega' &&
+    !reparacion.pagado;
+
+  const procesarPago = async () => {
+    if (!reparacion) return;
+
+    setProcesandoPago(true);
+    try {
+      const response = await fetch(
+        'https://twaqppiracythbmwyjnn.supabase.co/functions/v1/procesar-pago',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            reparacion_id: reparacion.id,
+            monto: reparacion.costo_total,
+            metodo_pago: metodoPago,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (data.success) {
+        toast({
+          title: 'Pago exitoso',
+          description: `Transacción ${data.pago.numero_transaccion} procesada correctamente`,
+        });
+        
+        setReparacion({ ...reparacion, pagado: true });
+      } else {
+        toast({
+          variant: 'destructive',
+          title: 'Pago rechazado',
+          description: data.mensaje || 'Intente nuevamente o use otro método de pago',
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'No se pudo procesar el pago',
+      });
+    } finally {
+      setProcesandoPago(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background p-4 md:p-8">
       <div className="max-w-4xl mx-auto">
@@ -422,6 +477,53 @@ export default function ConsultarReparacion() {
                         </p>
                       </div>
                     )}
+                  </div>
+                )}
+
+                {mostrarBotonPago && (
+                  <div className="space-y-4 pt-6 border-t">
+                    <h3 className="text-lg font-semibold">Pagar Reparación</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Tu reparación está lista para entrega. Por favor realiza el pago para poder retirarla.
+                    </p>
+                    
+                    <div className="p-4 bg-primary/5 rounded-lg">
+                      <div className="flex items-center justify-between mb-4">
+                        <span className="font-medium">Total a pagar:</span>
+                        <span className="text-2xl font-bold">{formatCOP(reparacion.costo_total)}</span>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="metodoPago">Método de Pago</Label>
+                      <select
+                        id="metodoPago"
+                        value={metodoPago}
+                        onChange={(e) => setMetodoPago(e.target.value)}
+                        className="w-full p-2 border rounded-md"
+                      >
+                        <option value="tarjeta">Tarjeta de Crédito/Débito</option>
+                        <option value="efectivo">Efectivo</option>
+                        <option value="transferencia">Transferencia Bancaria</option>
+                      </select>
+                    </div>
+
+                    <Button
+                      onClick={procesarPago}
+                      disabled={procesandoPago}
+                      className="w-full"
+                      size="lg"
+                    >
+                      {procesandoPago ? 'Procesando...' : 'Pagar Ahora'}
+                    </Button>
+                  </div>
+                )}
+
+                {reparacion.pagado && reparacion.estado === 'listo_para_entrega' && (
+                  <div className="p-4 bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800 rounded-lg">
+                    <p className="text-sm text-green-800 dark:text-green-200 font-medium">
+                      ✓ Pago confirmado - Tu reparación está lista para retirar
+                    </p>
                   </div>
                 )}
               </div>

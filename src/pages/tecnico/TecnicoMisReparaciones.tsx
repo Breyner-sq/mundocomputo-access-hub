@@ -54,6 +54,7 @@ interface Reparacion {
   fecha_entrega: string | null;
   nombre_quien_retira: string | null;
   costo_total: number;
+  pagado: boolean;
   clientes?: {
     nombre: string;
     telefono: string;
@@ -96,6 +97,7 @@ export default function TecnicoMisReparaciones() {
   const { user } = useAuth();
   const [reparaciones, setReparaciones] = useState<Reparacion[]>([]);
   const [loading, setLoading] = useState(true);
+  const [ordenMisReparaciones, setOrdenMisReparaciones] = useState('fecha_ingreso');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isDiagnosticoDialogOpen, setIsDiagnosticoDialogOpen] = useState(false);
   const [isEntregarDialogOpen, setIsEntregarDialogOpen] = useState(false);
@@ -114,20 +116,29 @@ export default function TecnicoMisReparaciones() {
     if (user) {
       fetchMisReparaciones();
     }
-  }, [user]);
+  }, [user, ordenMisReparaciones]);
 
   const fetchMisReparaciones = async () => {
     try {
       setLoading(true);
-      const { data, error } = await supabase
+      
+      let query = supabase
         .from('reparaciones')
         .select(`
           *,
           clientes (nombre, telefono, cedula, email)
         `)
         .eq('tecnico_id', user?.id)
-        .neq('estado', 'entregado')
-        .order('fecha_ingreso', { ascending: false });
+        .neq('estado', 'entregado');
+
+      // Ordenar según la selección
+      if (ordenMisReparaciones === 'estado') {
+        query = query.order('estado').order('fecha_ingreso', { ascending: false });
+      } else {
+        query = query.order('fecha_ingreso', { ascending: false });
+      }
+
+      const { data, error } = await query;
 
       if (error) throw error;
       setReparaciones(data || []);
@@ -501,7 +512,21 @@ export default function TecnicoMisReparaciones() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Reparaciones Asignadas</CardTitle>
+            <div className="flex justify-between items-center">
+              <CardTitle>Reparaciones Asignadas</CardTitle>
+              <div className="flex items-center gap-2">
+                <Label htmlFor="ordenMisReparaciones" className="text-sm">Ordenar por:</Label>
+                <Select value={ordenMisReparaciones} onValueChange={setOrdenMisReparaciones}>
+                  <SelectTrigger id="ordenMisReparaciones" className="w-40">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="fecha_ingreso">Fecha Ingreso</SelectItem>
+                    <SelectItem value="estado">Estado</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
           </CardHeader>
           <CardContent>
             {loading ? (

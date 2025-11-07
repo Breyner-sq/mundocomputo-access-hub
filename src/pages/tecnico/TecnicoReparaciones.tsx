@@ -56,6 +56,7 @@ interface Reparacion {
   fecha_entrega: string | null;
   nombre_quien_retira: string | null;
   costo_total: number;
+  pagado: boolean;
   clientes?: {
     nombre: string;
     cedula: string;
@@ -91,6 +92,8 @@ export default function TecnicoReparaciones() {
   const [selectedReparacion, setSelectedReparacion] = useState<Reparacion | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [reparacionesEntregadas, setReparacionesEntregadas] = useState<Reparacion[]>([]);
+  const [ordenActivas, setOrdenActivas] = useState('fecha_ingreso');
+  const [ordenEntregadas, setOrdenEntregadas] = useState('fecha_entrega');
 
   const [formData, setFormData] = useState({
     cliente_id: '',
@@ -116,20 +119,29 @@ export default function TecnicoReparaciones() {
     fetchReparacionesEntregadas();
     fetchClientes();
     fetchTecnicos();
-  }, []);
+  }, [ordenActivas, ordenEntregadas]);
 
   const fetchReparaciones = async () => {
     try {
       setLoading(true);
-      const { data, error } = await supabase
+      
+      let query = supabase
         .from('reparaciones')
         .select(`
           *,
           clientes (nombre, cedula, email, telefono),
           profiles (nombre_completo)
         `)
-        .neq('estado', 'entregado')
-        .order('fecha_ingreso', { ascending: false });
+        .neq('estado', 'entregado');
+
+      // Ordenar según la selección
+      if (ordenActivas === 'estado') {
+        query = query.order('estado').order('fecha_ingreso', { ascending: false });
+      } else {
+        query = query.order('fecha_ingreso', { ascending: false });
+      }
+
+      const { data, error } = await query;
 
       if (error) throw error;
       setReparaciones(data || []);
@@ -286,6 +298,16 @@ export default function TecnicoReparaciones() {
 
     if (!selectedReparacion) return;
 
+    // Validar que la reparación esté pagada
+    if (!selectedReparacion.pagado) {
+      toast({
+        variant: 'destructive',
+        title: 'Pago pendiente',
+        description: 'No se puede entregar la reparación sin confirmar el pago',
+      });
+      return;
+    }
+
     try {
       const { error } = await supabase
         .from('reparaciones')
@@ -388,15 +410,23 @@ export default function TecnicoReparaciones() {
 
   const fetchReparacionesEntregadas = async () => {
     try {
-      const { data, error } = await supabase
+      let query = supabase
         .from('reparaciones')
         .select(`
           *,
           clientes (nombre, cedula, email, telefono),
           profiles (nombre_completo)
         `)
-        .eq('estado', 'entregado')
-        .order('fecha_entrega', { ascending: false });
+        .eq('estado', 'entregado');
+
+      // Ordenar según la selección
+      if (ordenEntregadas === 'total') {
+        query = query.order('costo_total', { ascending: false });
+      } else {
+        query = query.order('fecha_entrega', { ascending: false });
+      }
+
+      const { data, error } = await query;
 
       if (error) throw error;
       setReparacionesEntregadas(data || []);
@@ -567,7 +597,21 @@ export default function TecnicoReparaciones() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Reparaciones Activas</CardTitle>
+            <div className="flex justify-between items-center">
+              <CardTitle>Reparaciones Activas</CardTitle>
+              <div className="flex items-center gap-2">
+                <Label htmlFor="ordenActivas" className="text-sm">Ordenar por:</Label>
+                <Select value={ordenActivas} onValueChange={setOrdenActivas}>
+                  <SelectTrigger id="ordenActivas" className="w-40">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="fecha_ingreso">Fecha Ingreso</SelectItem>
+                    <SelectItem value="estado">Estado</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
           </CardHeader>
           <CardContent>
             <div className="mb-6">
@@ -664,7 +708,21 @@ export default function TecnicoReparaciones() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Reparaciones Entregadas</CardTitle>
+            <div className="flex justify-between items-center">
+              <CardTitle>Reparaciones Entregadas</CardTitle>
+              <div className="flex items-center gap-2">
+                <Label htmlFor="ordenEntregadas" className="text-sm">Ordenar por:</Label>
+                <Select value={ordenEntregadas} onValueChange={setOrdenEntregadas}>
+                  <SelectTrigger id="ordenEntregadas" className="w-40">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="fecha_entrega">Fecha Entrega</SelectItem>
+                    <SelectItem value="total">Total</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
           </CardHeader>
           <CardContent>
             <div className="rounded-md border">

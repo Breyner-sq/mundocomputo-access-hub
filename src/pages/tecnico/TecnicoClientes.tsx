@@ -29,7 +29,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Search, Plus, Edit, Power, FileText } from 'lucide-react';
+import { Search, Plus, Edit, Power, Trash2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
@@ -175,6 +175,32 @@ export default function TecnicoClientes() {
     }
   };
 
+  const handleDelete = async (id: string) => {
+    if (!confirm('¿Está seguro de eliminar este cliente?')) return;
+
+    try {
+      const { error } = await supabase
+        .from('clientes')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+
+      toast({
+        title: 'Cliente eliminado',
+        description: 'El cliente ha sido eliminado correctamente',
+      });
+
+      fetchClientes();
+    } catch (error: any) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: error.message || 'No se pudo eliminar el cliente',
+      });
+    }
+  };
+
   const handleCloseDialog = () => {
     setIsDialogOpen(false);
     setIsEditMode(false);
@@ -312,6 +338,13 @@ export default function TecnicoClientes() {
                                 onClick={() => handleToggleActive(cliente.id, cliente.activo)}
                               >
                                 <Power className="h-4 w-4" />
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => handleDelete(cliente.id)}
+                              >
+                                <Trash2 className="h-4 w-4" />
                               </Button>
                             </div>
                           </TableCell>

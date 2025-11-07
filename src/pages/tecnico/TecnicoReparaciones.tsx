@@ -154,20 +154,38 @@ export default function TecnicoReparaciones() {
 
   const fetchTecnicos = async () => {
     try {
+      // First, get all user_ids with role='tecnico'
+      const { data: userRoles, error: rolesError } = await supabase
+        .from('user_roles')
+        .select('user_id')
+        .eq('role', 'tecnico');
+
+      if (rolesError) throw rolesError;
+
+      if (!userRoles || userRoles.length === 0) {
+        setTecnicos([]);
+        return;
+      }
+
+      const tecnicoIds = userRoles.map(ur => ur.user_id);
+
+      // Then, get profiles for those user_ids
       const { data, error } = await supabase
         .from('profiles')
-        .select(`
-          id,
-          nombre_completo,
-          user_roles!inner (role)
-        `)
-        .eq('user_roles.role', 'tecnico')
-        .eq('activo', true);
+        .select('id, nombre_completo')
+        .in('id', tecnicoIds)
+        .eq('activo', true)
+        .order('nombre_completo');
 
       if (error) throw error;
       setTecnicos(data || []);
     } catch (error: any) {
       console.error('Error fetching tecnicos:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'No se pudieron cargar los técnicos',
+      });
     }
   };
 

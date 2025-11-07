@@ -298,12 +298,12 @@ export default function TecnicoReparaciones() {
 
     if (!selectedReparacion) return;
 
-    // Validar que la reparación esté pagada
-    if (!selectedReparacion.pagado) {
+    // Validar que la reparación esté pagada solo si está lista para entrega
+    if (selectedReparacion.estado === 'listo_para_entrega' && selectedReparacion.pagado !== true) {
       toast({
         variant: 'destructive',
         title: 'Pago pendiente',
-        description: 'No se puede entregar la reparación sin confirmar el pago',
+        description: 'No se puede entregar la reparación sin confirmar el pago. El cliente debe pagar primero.',
       });
       return;
     }

@@ -86,7 +86,17 @@ export default function ConsultarReparacion() {
         .from('reparaciones')
         .select(
           `
-          *,
+          id,
+          numero_orden,
+          marca,
+          modelo,
+          tipo_producto,
+          descripcion_falla,
+          estado,
+          estado_cotizacion,
+          fecha_ingreso,
+          costo_total,
+          pagado,
           clientes (
             nombre,
             cedula,
@@ -285,7 +295,7 @@ export default function ConsultarReparacion() {
   const mostrarBotonPago =
     reparacion &&
     reparacion.estado === 'listo_para_entrega' &&
-    !reparacion.pagado;
+    reparacion.pagado !== true;
 
   const procesarPago = async () => {
     if (!reparacion) return;

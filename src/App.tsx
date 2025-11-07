@@ -15,6 +15,9 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import GestionUsuarios from "./pages/admin/GestionUsuarios";
 import AuthLogs from "./pages/admin/AuthLogs";
 import TecnicoDashboard from "./pages/tecnico/TecnicoDashboard";
+import TecnicoClientes from "./pages/tecnico/TecnicoClientes";
+import TecnicoReparaciones from "./pages/tecnico/TecnicoReparaciones";
+import TecnicoMisReparaciones from "./pages/tecnico/TecnicoMisReparaciones";
 import VentasDashboard from "./pages/ventas/VentasDashboard";
 import VentasRegistro from "./pages/ventas/VentasRegistro";
 import VentasClientes from "./pages/ventas/VentasClientes";
@@ -89,6 +92,30 @@ const App = () => (
               element={
                 <ProtectedRoute allowedRoles={['tecnico']}>
                   <TecnicoDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/tecnico/clientes"
+              element={
+                <ProtectedRoute allowedRoles={['tecnico', 'administrador']}>
+                  <TecnicoClientes />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/tecnico/reparaciones"
+              element={
+                <ProtectedRoute allowedRoles={['tecnico', 'administrador']}>
+                  <TecnicoReparaciones />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/tecnico/mis-reparaciones"
+              element={
+                <ProtectedRoute allowedRoles={['tecnico']}>
+                  <TecnicoMisReparaciones />
                 </ProtectedRoute>
               }
             />

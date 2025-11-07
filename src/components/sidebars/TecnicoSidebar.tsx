@@ -1,4 +1,4 @@
-import { Wrench, ClipboardList, LayoutDashboard, Settings } from 'lucide-react';
+import { Wrench, ClipboardList, LayoutDashboard, Settings, Users } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import {
   Sidebar,
@@ -14,8 +14,9 @@ import {
 
 const menuItems = [
   { title: 'Dashboard', url: '/tecnico', icon: LayoutDashboard },
-  { title: 'Órdenes de Servicio', url: '/tecnico/ordenes', icon: ClipboardList },
-  { title: 'Reparaciones', url: '/tecnico/reparaciones', icon: Wrench },
+  { title: 'Clientes', url: '/tecnico/clientes', icon: Users },
+  { title: 'Reparaciones', url: '/tecnico/reparaciones', icon: ClipboardList },
+  { title: 'Mis Reparaciones', url: '/tecnico/mis-reparaciones', icon: Wrench },
   { title: 'Configuración', url: '/configuracion/perfil', icon: Settings },
 ];
 

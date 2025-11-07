@@ -102,6 +102,10 @@ export default function TecnicoReparaciones() {
     nombre_quien_retira: '',
   });
 
+  const [cedulaBusqueda, setCedulaBusqueda] = useState('');
+  const [clienteEncontrado, setClienteEncontrado] = useState<Cliente | null>(null);
+  const [buscandoCliente, setBuscandoCliente] = useState(false);
+
   useEffect(() => {
     fetchReparaciones();
     fetchClientes();
@@ -167,8 +171,63 @@ export default function TecnicoReparaciones() {
     }
   };
 
+  const buscarClientePorCedula = async (cedula: string) => {
+    if (!cedula.trim()) {
+      setClienteEncontrado(null);
+      setFormData({ ...formData, cliente_id: '' });
+      return;
+    }
+
+    try {
+      setBuscandoCliente(true);
+      const { data, error } = await supabase
+        .from('clientes')
+        .select('id, nombre, cedula, email')
+        .eq('cedula', cedula.trim())
+        .eq('activo', true)
+        .maybeSingle();
+
+      if (error) throw error;
+
+      if (data) {
+        setClienteEncontrado(data);
+        setFormData({ ...formData, cliente_id: data.id });
+        toast({
+          title: 'Cliente encontrado',
+          description: `${data.nombre}`,
+        });
+      } else {
+        setClienteEncontrado(null);
+        setFormData({ ...formData, cliente_id: '' });
+        toast({
+          variant: 'destructive',
+          title: 'Cliente no encontrado',
+          description: 'No existe un cliente con esa cédula',
+        });
+      }
+    } catch (error: any) {
+      console.error('Error buscando cliente:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Error al buscar el cliente',
+      });
+    } finally {
+      setBuscandoCliente(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!formData.cliente_id) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Debes buscar y seleccionar un cliente por su cédula',
+      });
+      return;
+    }
 
     try {
       const { error } = await supabase.from('reparaciones').insert([
@@ -312,6 +371,8 @@ export default function TecnicoReparaciones() {
       descripcion_falla: '',
       estado_fisico: '',
     });
+    setCedulaBusqueda('');
+    setClienteEncontrado(null);
   };
 
   const filteredReparaciones = reparaciones.filter((rep) => {
@@ -470,25 +531,37 @@ export default function TecnicoReparaciones() {
               <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="cliente_id">Cliente *</Label>
-                    <Select
-                      value={formData.cliente_id}
-                      onValueChange={(value) =>
-                        setFormData({ ...formData, cliente_id: value })
-                      }
-                      required
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Selecciona un cliente" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {clientes.map((cliente) => (
-                          <SelectItem key={cliente.id} value={cliente.id}>
-                            {cliente.nombre} - {cliente.cedula}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <Label htmlFor="cedula_cliente">Cédula del Cliente *</Label>
+                    <div className="flex gap-2">
+                      <Input
+                        id="cedula_cliente"
+                        value={cedulaBusqueda}
+                        onChange={(e) => setCedulaBusqueda(e.target.value)}
+                        onBlur={() => buscarClientePorCedula(cedulaBusqueda)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            e.preventDefault();
+                            buscarClientePorCedula(cedulaBusqueda);
+                          }
+                        }}
+                        placeholder="Ingresa la cédula"
+                        disabled={buscandoCliente}
+                        required
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => buscarClientePorCedula(cedulaBusqueda)}
+                        disabled={buscandoCliente}
+                      >
+                        Buscar
+                      </Button>
+                    </div>
+                    {clienteEncontrado && (
+                      <p className="text-sm text-muted-foreground">
+                        Cliente: <span className="font-medium">{clienteEncontrado.nombre}</span>
+                      </p>
+                    )}
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="tecnico_id">Técnico Asignado</Label>

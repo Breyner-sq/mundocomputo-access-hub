@@ -36,23 +36,10 @@ serve(async (req) => {
       );
     }
 
-    // Simular procesamiento realista según el método de pago
-    let exito = true;
-    let estado = 'aprobado';
-    
-    // Diferentes tasas de éxito según método de pago
-    if (metodo_pago === 'tarjeta') {
-      // Tarjeta: 95% de éxito (fallas por fondos insuficientes, etc.)
-      exito = Math.random() > 0.05;
-    } else if (metodo_pago === 'transferencia') {
-      // Transferencia: 98% de éxito
-      exito = Math.random() > 0.02;
-    } else if (metodo_pago === 'efectivo') {
-      // Efectivo: 100% de éxito (se registra cuando ya se recibió)
-      exito = true;
-    }
-    
-    estado = exito ? 'aprobado' : 'rechazado';
+    // SIMULACIÓN: Todos los pagos son aprobados
+    // En producción, aquí iría la integración real con pasarela de pagos
+    const exito = true;
+    const estado = 'aprobado';
     const numero_transaccion = `TXN-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
     // Crear registro de pago

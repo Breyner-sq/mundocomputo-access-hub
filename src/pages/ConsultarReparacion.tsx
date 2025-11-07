@@ -19,6 +19,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 interface Reparacion {
   id: string;
@@ -67,8 +74,15 @@ export default function ConsultarReparacion() {
   const [loading, setLoading] = useState(false);
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const [accionCotizacion, setAccionCotizacion] = useState<'aceptar' | 'rechazar' | null>(null);
-  const [metodoPago, setMetodoPago] = useState('tarjeta');
+  const [metodoPago, setMetodoPago] = useState('');
   const [procesandoPago, setProcesandoPago] = useState(false);
+  const [showPaymentDialog, setShowPaymentDialog] = useState(false);
+  const [datosTarjeta, setDatosTarjeta] = useState({
+    numero: '',
+    nombre: '',
+    vencimiento: '',
+    cvv: '',
+  });
 
   const buscarReparacion = async () => {
     if (!numeroOrden.trim()) {
@@ -297,8 +311,32 @@ export default function ConsultarReparacion() {
     reparacion.estado === 'listo_para_entrega' &&
     reparacion.pagado !== true;
 
+  const iniciarPago = () => {
+    if (!metodoPago) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Selecciona un método de pago',
+      });
+      return;
+    }
+    setShowPaymentDialog(true);
+  };
+
   const procesarPago = async () => {
     if (!reparacion) return;
+
+    // Validaciones según método de pago
+    if (metodoPago === 'tarjeta') {
+      if (!datosTarjeta.numero || !datosTarjeta.nombre || !datosTarjeta.vencimiento || !datosTarjeta.cvv) {
+        toast({
+          variant: 'destructive',
+          title: 'Error',
+          description: 'Completa todos los datos de la tarjeta',
+        });
+        return;
+      }
+    }
 
     setProcesandoPago(true);
     try {
@@ -326,11 +364,14 @@ export default function ConsultarReparacion() {
         });
         
         setReparacion({ ...reparacion, pagado: true });
+        setShowPaymentDialog(false);
+        setMetodoPago('');
+        setDatosTarjeta({ numero: '', nombre: '', vencimiento: '', cvv: '' });
       } else {
         toast({
           variant: 'destructive',
           title: 'Pago rechazado',
-          description: data.mensaje || 'Intente nuevamente o use otro método de pago',
+          description: data.mensaje || 'Intente nuevamente',
         });
       }
     } catch (error) {
@@ -494,45 +535,42 @@ export default function ConsultarReparacion() {
                   <div className="space-y-4 pt-6 border-t">
                     <h3 className="text-lg font-semibold">Pagar Reparación</h3>
                     <p className="text-sm text-muted-foreground">
-                      Tu reparación está lista para entrega. Por favor realiza el pago para poder retirarla.
+                      Tu reparación está lista. Por favor realiza el pago para poder retirarla.
                     </p>
-                    
-                    <div className="p-4 bg-primary/5 rounded-lg">
-                      <div className="flex items-center justify-between mb-4">
-                        <span className="font-medium">Total a pagar:</span>
-                        <span className="text-2xl font-bold">{formatCOP(reparacion.costo_total)}</span>
-                      </div>
+                    <div className="p-4 bg-muted rounded-lg">
+                      <p className="text-lg font-semibold mb-2">Total a pagar:</p>
+                      <p className="text-2xl font-bold text-primary">{formatCOP(reparacion.costo_total)}</p>
                     </div>
 
                     <div className="space-y-2">
                       <Label htmlFor="metodoPago">Método de Pago</Label>
-                      <select
-                        id="metodoPago"
-                        value={metodoPago}
-                        onChange={(e) => setMetodoPago(e.target.value)}
-                        className="w-full p-2 border rounded-md"
-                      >
-                        <option value="tarjeta">Tarjeta de Crédito/Débito</option>
-                        <option value="efectivo">Efectivo</option>
-                        <option value="transferencia">Transferencia Bancaria</option>
-                      </select>
+                      <Select value={metodoPago} onValueChange={setMetodoPago}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Selecciona un método" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="tarjeta">Tarjeta de Crédito/Débito</SelectItem>
+                          <SelectItem value="efectivo">Efectivo</SelectItem>
+                          <SelectItem value="transferencia">Transferencia Bancaria</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
 
                     <Button
-                      onClick={procesarPago}
-                      disabled={procesandoPago}
+                      onClick={iniciarPago}
+                      disabled={!metodoPago}
                       className="w-full"
                       size="lg"
                     >
-                      {procesandoPago ? 'Procesando...' : 'Pagar Ahora'}
+                      Continuar al Pago
                     </Button>
                   </div>
                 )}
 
                 {reparacion.pagado && reparacion.estado === 'listo_para_entrega' && (
-                  <div className="p-4 bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800 rounded-lg">
+                  <div className="p-4 bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800 rounded-lg mt-6">
                     <p className="text-sm text-green-800 dark:text-green-200 font-medium">
-                      ✓ Pago confirmado - Tu reparación está lista para retirar
+                      ✓ Pago realizado - Tu reparación está lista para retirar
                     </p>
                   </div>
                 )}
@@ -542,6 +580,7 @@ export default function ConsultarReparacion() {
         </Card>
       </div>
 
+      {/* Diálogo de Confirmación de Cotización */}
       <Dialog open={isConfirmDialogOpen} onOpenChange={setIsConfirmDialogOpen}>
         <DialogContent>
           <DialogHeader>
@@ -550,19 +589,108 @@ export default function ConsultarReparacion() {
             </DialogTitle>
             <DialogDescription>
               {accionCotizacion === 'aceptar'
-                ? '¿Estás seguro de que deseas aceptar esta cotización? Procederemos con la reparación.'
-                : '¿Estás seguro de que deseas rechazar esta cotización? Nos pondremos en contacto contigo para discutir otras opciones.'}
+                ? '¿Estás seguro de aceptar esta cotización? Procederemos con la reparación.'
+                : '¿Estás seguro de rechazar esta cotización? Se aplicará un cargo de $70,000 por la revisión.'}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsConfirmDialogOpen(false)}>
               Cancelar
             </Button>
-            <Button
-              variant={accionCotizacion === 'aceptar' ? 'default' : 'destructive'}
-              onClick={handleAccionCotizacion}
-            >
-              Confirmar
+            <Button onClick={handleAccionCotizacion}>Confirmar</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Diálogo de Pago */}
+      <Dialog open={showPaymentDialog} onOpenChange={setShowPaymentDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Procesar Pago</DialogTitle>
+            <DialogDescription>
+              {metodoPago === 'tarjeta' && 'Ingresa los datos de tu tarjeta'}
+              {metodoPago === 'efectivo' && 'Confirma el pago en efectivo'}
+              {metodoPago === 'transferencia' && 'Confirma la transferencia'}
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4">
+            {metodoPago === 'tarjeta' && (
+              <div className="space-y-3">
+                <div>
+                  <Label htmlFor="numeroTarjeta">Número de Tarjeta</Label>
+                  <Input
+                    id="numeroTarjeta"
+                    placeholder="1234 5678 9012 3456"
+                    maxLength={19}
+                    value={datosTarjeta.numero}
+                    onChange={(e) => setDatosTarjeta({ ...datosTarjeta, numero: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="nombreTarjeta">Nombre en la Tarjeta</Label>
+                  <Input
+                    id="nombreTarjeta"
+                    placeholder="JUAN PEREZ"
+                    value={datosTarjeta.nombre}
+                    onChange={(e) => setDatosTarjeta({ ...datosTarjeta, nombre: e.target.value })}
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <Label htmlFor="vencimiento">Vencimiento</Label>
+                    <Input
+                      id="vencimiento"
+                      placeholder="MM/AA"
+                      maxLength={5}
+                      value={datosTarjeta.vencimiento}
+                      onChange={(e) => setDatosTarjeta({ ...datosTarjeta, vencimiento: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="cvv">CVV</Label>
+                    <Input
+                      id="cvv"
+                      placeholder="123"
+                      maxLength={4}
+                      type="password"
+                      value={datosTarjeta.cvv}
+                      onChange={(e) => setDatosTarjeta({ ...datosTarjeta, cvv: e.target.value })}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {metodoPago === 'efectivo' && (
+              <div className="p-4 bg-muted rounded-lg">
+                <p className="text-sm">
+                  Al confirmar, el pago en efectivo será registrado. Asegúrate de tener el monto exacto al retirar la reparación.
+                </p>
+                <p className="text-lg font-bold mt-2">Total: {formatCOP(reparacion?.costo_total || 0)}</p>
+              </div>
+            )}
+
+            {metodoPago === 'transferencia' && (
+              <div className="p-4 bg-muted rounded-lg space-y-2">
+                <p className="text-sm font-medium">Datos para transferencia:</p>
+                <p className="text-xs">Banco: Banco Ejemplo</p>
+                <p className="text-xs">Cuenta: 1234-5678-9012</p>
+                <p className="text-xs">Titular: TechRepair</p>
+                <p className="text-lg font-bold mt-3">Total: {formatCOP(reparacion?.costo_total || 0)}</p>
+                <p className="text-xs text-muted-foreground mt-2">
+                  Al confirmar, se registrará el pago. Por favor realiza la transferencia.
+                </p>
+              </div>
+            )}
+          </div>
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowPaymentDialog(false)} disabled={procesandoPago}>
+              Cancelar
+            </Button>
+            <Button onClick={procesarPago} disabled={procesandoPago}>
+              {procesandoPago ? 'Procesando...' : 'Confirmar Pago'}
             </Button>
           </DialogFooter>
         </DialogContent>

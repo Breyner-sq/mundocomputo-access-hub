@@ -57,6 +57,7 @@ interface Reparacion {
   nombre_quien_retira: string | null;
   costo_total: number;
   pagado: boolean;
+  fotos?: string[];
   clientes?: {
     nombre: string;
     cedula: string;
@@ -94,6 +95,8 @@ export default function TecnicoReparaciones() {
   const [reparacionesEntregadas, setReparacionesEntregadas] = useState<Reparacion[]>([]);
   const [ordenActivas, setOrdenActivas] = useState('fecha_ingreso');
   const [ordenEntregadas, setOrdenEntregadas] = useState('fecha_entrega');
+  const [fotosSeleccionadas, setFotosSeleccionadas] = useState<File[]>([]);
+  const [uploadingFotos, setUploadingFotos] = useState(false);
 
   const [formData, setFormData] = useState({
     cliente_id: '',
@@ -266,15 +269,57 @@ export default function TecnicoReparaciones() {
       return;
     }
 
-    try {
-      const { error } = await supabase.from('reparaciones').insert([
-        {
-          ...formData,
-          estado: 'recibido',
-        },
-      ]);
+    if (fotosSeleccionadas.length > 4) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Máximo 4 fotos permitidas',
+      });
+      return;
+    }
 
-      if (error) throw error;
+    try {
+      setUploadingFotos(true);
+
+      // Insertar la reparación primero
+      const { data: reparacionData, error: reparacionError } = await supabase
+        .from('reparaciones')
+        .insert([
+          {
+            ...formData,
+            estado: 'recibido',
+          },
+        ])
+        .select()
+        .single();
+
+      if (reparacionError) throw reparacionError;
+
+      // Subir fotos si hay
+      const fotosUrls: string[] = [];
+      if (fotosSeleccionadas.length > 0) {
+        for (const foto of fotosSeleccionadas) {
+          const fileName = `${reparacionData.id}/${Date.now()}-${foto.name}`;
+          const { error: uploadError, data: uploadData } = await supabase.storage
+            .from('reparaciones-fotos')
+            .upload(fileName, foto);
+
+          if (uploadError) {
+            console.error('Error subiendo foto:', uploadError);
+          } else if (uploadData) {
+            const { data: { publicUrl } } = supabase.storage
+              .from('reparaciones-fotos')
+              .getPublicUrl(uploadData.path);
+            fotosUrls.push(publicUrl);
+          }
+        }
+
+        // Actualizar la reparación con las URLs de las fotos
+        await supabase
+          .from('reparaciones')
+          .update({ fotos: fotosUrls })
+          .eq('id', reparacionData.id);
+      }
 
       toast({
         title: 'Reparación registrada',
@@ -290,6 +335,8 @@ export default function TecnicoReparaciones() {
         title: 'Error',
         description: error.message || 'Ocurrió un error al registrar la reparación',
       });
+    } finally {
+      setUploadingFotos(false);
     }
   };
 
@@ -351,7 +398,7 @@ export default function TecnicoReparaciones() {
     }
   };
 
-  const generarComprobante = (reparacion: Reparacion) => {
+  const generarComprobante = async (reparacion: Reparacion) => {
     const doc = new jsPDF();
 
     // Header
@@ -389,13 +436,23 @@ export default function TecnicoReparaciones() {
     const splitFalla = doc.splitTextToSize(reparacion.descripcion_falla, 170);
     doc.text(splitFalla, 20, 163);
 
+    let currentY = 180;
+
     // Estado físico
     if (reparacion.estado_fisico) {
       doc.setFontSize(14);
-      doc.text('Estado Físico', 20, 190);
+      doc.text('Estado Físico', 20, currentY);
       doc.setFontSize(11);
       const splitEstado = doc.splitTextToSize(reparacion.estado_fisico, 170);
-      doc.text(splitEstado, 20, 198);
+      doc.text(splitEstado, 20, currentY + 8);
+      currentY += 25;
+    }
+
+    // Fotos
+    if (reparacion.fotos && reparacion.fotos.length > 0) {
+      doc.setFontSize(14);
+      doc.text(`Fotos adjuntas: ${reparacion.fotos.length}`, 20, currentY);
+      currentY += 10;
     }
 
     // Footer
@@ -530,6 +587,22 @@ export default function TecnicoReparaciones() {
     });
     setCedulaBusqueda('');
     setClienteEncontrado(null);
+    setFotosSeleccionadas([]);
+  };
+
+  const handleFotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const files = Array.from(e.target.files);
+      if (files.length > 4) {
+        toast({
+          variant: 'destructive',
+          title: 'Error',
+          description: 'Máximo 4 fotos permitidas',
+        });
+        return;
+      }
+      setFotosSeleccionadas(files);
+    }
   };
 
   const filteredReparaciones = reparaciones.filter((rep) => {
@@ -920,12 +993,31 @@ export default function TecnicoReparaciones() {
                     placeholder="Describe el estado físico del dispositivo"
                   />
                 </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="fotos">Fotos del Producto (máximo 4)</Label>
+                  <Input
+                    id="fotos"
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={handleFotoChange}
+                    className="cursor-pointer"
+                  />
+                  {fotosSeleccionadas.length > 0 && (
+                    <p className="text-sm text-muted-foreground">
+                      {fotosSeleccionadas.length} foto(s) seleccionada(s)
+                    </p>
+                  )}
+                </div>
               </div>
               <DialogFooter>
                 <Button type="button" variant="outline" onClick={handleCloseDialog}>
                   Cancelar
                 </Button>
-                <Button type="submit">Registrar Reparación</Button>
+                <Button type="submit" disabled={uploadingFotos}>
+                  {uploadingFotos ? 'Subiendo fotos...' : 'Registrar Reparación'}
+                </Button>
               </DialogFooter>
             </form>
           </DialogContent>

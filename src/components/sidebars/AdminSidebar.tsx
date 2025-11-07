@@ -1,4 +1,4 @@
-import { Users, Settings, LayoutDashboard, Package, FileText, ShoppingCart, TrendingUp, ChevronRight, BarChart, PackageX } from 'lucide-react';
+import { Users, Settings, LayoutDashboard, Package, FileText, ShoppingCart, TrendingUp, ChevronRight, BarChart, PackageX, Wrench, ClipboardList } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import {
   Sidebar,
@@ -42,6 +42,15 @@ const menuItems = [
       { title: 'Clientes', url: '/admin/ventas/clientes', icon: Users },
       { title: 'Estadísticas', url: '/admin/ventas/estadisticas', icon: TrendingUp },
       { title: 'Devoluciones', url: '/ventas/devoluciones', icon: PackageX },
+    ]
+  },
+  { 
+    title: 'Reparaciones', 
+    icon: Wrench, 
+    subItems: [
+      { title: 'Dashboard', url: '/tecnico', icon: LayoutDashboard },
+      { title: 'Clientes', url: '/tecnico/clientes', icon: Users },
+      { title: 'Reparaciones', url: '/tecnico/reparaciones', icon: ClipboardList },
     ]
   },
   { title: 'Registros de Autentificación', url: '/admin/auth-logs', icon: FileText },

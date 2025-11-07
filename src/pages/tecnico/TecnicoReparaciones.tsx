@@ -802,6 +802,11 @@ export default function TecnicoReparaciones() {
                                   {rep.estado_cotizacion === 'aceptada' ? '✓ Aceptada' : '✗ Rechazada'}
                                 </span>
                               )}
+                              {rep.estado === 'listo_para_entrega' && (
+                                <span className={`text-xs ${rep.pagado ? 'text-green-600' : 'text-orange-600'}`}>
+                                  {rep.pagado ? '✓ Pagado' : '⏳ Pendiente pago'}
+                                </span>
+                              )}
                             </div>
                           </TableCell>
                           <TableCell>{rep.profiles?.nombre_completo || 'Sin asignar'}</TableCell>
@@ -811,20 +816,35 @@ export default function TecnicoReparaciones() {
                                 variant="ghost"
                                 size="icon"
                                 onClick={() => generarComprobante(rep)}
+                                title="Descargar comprobante"
                               >
                                 <FileText className="h-4 w-4" />
                               </Button>
                               {rep.estado === 'listo_para_entrega' && (
-                                <Button
-                                  variant="ghost"
-                                  size="icon"
-                                  onClick={() => {
-                                    setSelectedReparacion(rep);
-                                    setIsFinalizarDialogOpen(true);
-                                  }}
-                                >
-                                  <CheckCircle2 className="h-4 w-4" />
-                                </Button>
+                                <>
+                                  {rep.pagado ? (
+                                    <Button
+                                      variant="ghost"
+                                      size="icon"
+                                      onClick={() => {
+                                        setSelectedReparacion(rep);
+                                        setIsFinalizarDialogOpen(true);
+                                      }}
+                                      title="Finalizar y entregar"
+                                    >
+                                      <CheckCircle2 className="h-4 w-4 text-green-600" />
+                                    </Button>
+                                  ) : (
+                                    <Button
+                                      variant="ghost"
+                                      size="icon"
+                                      disabled
+                                      title="Esperando pago del cliente"
+                                    >
+                                      <CheckCircle2 className="h-4 w-4 text-muted-foreground" />
+                                    </Button>
+                                  )}
+                                </>
                               )}
                             </div>
                           </TableCell>

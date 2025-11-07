@@ -409,6 +409,7 @@ export type Database = {
           fecha_finalizacion: string | null
           fecha_ingreso: string
           fotos: string[] | null
+          fotos_entrega: string[] | null
           fotos_ingreso: string[] | null
           id: string
           marca: string
@@ -434,6 +435,7 @@ export type Database = {
           fecha_finalizacion?: string | null
           fecha_ingreso?: string
           fotos?: string[] | null
+          fotos_entrega?: string[] | null
           fotos_ingreso?: string[] | null
           id?: string
           marca: string
@@ -459,6 +461,7 @@ export type Database = {
           fecha_finalizacion?: string | null
           fecha_ingreso?: string
           fotos?: string[] | null
+          fotos_entrega?: string[] | null
           fotos_ingreso?: string[] | null
           id?: string
           marca?: string

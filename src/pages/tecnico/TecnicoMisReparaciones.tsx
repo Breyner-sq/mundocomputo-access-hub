@@ -32,7 +32,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { Clock, FileText, Package, Truck, Download, Plus, Trash2 } from 'lucide-react';
+import { Clock, FileText, Package, Truck, Download, Plus, Trash2, Eye, CheckCircle2, Upload, Image as ImageIcon } from 'lucide-react';
 import { format } from 'date-fns';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
@@ -55,11 +55,15 @@ interface Reparacion {
   nombre_quien_retira: string | null;
   costo_total: number;
   pagado: boolean;
+  fotos_entrega?: string[];
   clientes?: {
     nombre: string;
     telefono: string;
     cedula: string;
     email: string;
+  };
+  profiles?: {
+    nombre_completo: string;
   };
 }
 
@@ -96,11 +100,17 @@ export default function TecnicoMisReparaciones() {
   const { toast } = useToast();
   const { user } = useAuth();
   const [reparaciones, setReparaciones] = useState<Reparacion[]>([]);
+  const [reparacionesEntregadas, setReparacionesEntregadas] = useState<Reparacion[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadingEntregadas, setLoadingEntregadas] = useState(true);
   const [ordenMisReparaciones, setOrdenMisReparaciones] = useState('fecha_ingreso');
+  const [ordenEntregadas, setOrdenEntregadas] = useState('fecha_entrega');
+  const [searchAsignadas, setSearchAsignadas] = useState('');
+  const [searchEntregadas, setSearchEntregadas] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isDiagnosticoDialogOpen, setIsDiagnosticoDialogOpen] = useState(false);
   const [isEntregarDialogOpen, setIsEntregarDialogOpen] = useState(false);
+  const [isDetallesDialogOpen, setIsDetallesDialogOpen] = useState(false);
   const [selectedReparacion, setSelectedReparacion] = useState<Reparacion | null>(null);
   const [nuevoEstado, setNuevoEstado] = useState('');
   const [notas, setNotas] = useState('');
@@ -111,12 +121,14 @@ export default function TecnicoMisReparaciones() {
     costo: 0,
   });
   const [nombreQuienRetira, setNombreQuienRetira] = useState('');
+  const [fotosEntrega, setFotosEntrega] = useState<File[]>([]);
 
   useEffect(() => {
     if (user) {
       fetchMisReparaciones();
+      fetchReparacionesEntregadas();
     }
-  }, [user, ordenMisReparaciones]);
+  }, [user, ordenMisReparaciones, searchAsignadas, ordenEntregadas, searchEntregadas]);
 
   const fetchMisReparaciones = async () => {
     try {
@@ -126,10 +138,16 @@ export default function TecnicoMisReparaciones() {
         .from('reparaciones')
         .select(`
           *,
-          clientes (nombre, telefono, cedula, email)
+          clientes (nombre, telefono, cedula, email),
+          profiles (nombre_completo)
         `)
         .eq('tecnico_id', user?.id)
         .neq('estado', 'entregado');
+
+      // Aplicar búsqueda
+      if (searchAsignadas.trim()) {
+        query = query.or(`numero_orden.ilike.%${searchAsignadas}%,clientes.nombre.ilike.%${searchAsignadas}%,clientes.cedula.ilike.%${searchAsignadas}%`);
+      }
 
       // Ordenar según la selección
       if (ordenMisReparaciones === 'estado') {
@@ -150,6 +168,47 @@ export default function TecnicoMisReparaciones() {
       });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchReparacionesEntregadas = async () => {
+    try {
+      setLoadingEntregadas(true);
+      
+      let query = supabase
+        .from('reparaciones')
+        .select(`
+          *,
+          clientes (nombre, telefono, cedula, email),
+          profiles (nombre_completo)
+        `)
+        .eq('tecnico_id', user?.id)
+        .eq('estado', 'entregado');
+
+      // Aplicar búsqueda
+      if (searchEntregadas.trim()) {
+        query = query.or(`numero_orden.ilike.%${searchEntregadas}%,clientes.nombre.ilike.%${searchEntregadas}%,clientes.cedula.ilike.%${searchEntregadas}%`);
+      }
+
+      // Ordenar según la selección
+      if (ordenEntregadas === 'costo_total') {
+        query = query.order('costo_total', { ascending: false });
+      } else {
+        query = query.order('fecha_entrega', { ascending: false });
+      }
+
+      const { data, error } = await query;
+
+      if (error) throw error;
+      setReparacionesEntregadas(data || []);
+    } catch (error: any) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'No se pudieron cargar las reparaciones entregadas',
+      });
+    } finally {
+      setLoadingEntregadas(false);
     }
   };
 
@@ -306,17 +365,69 @@ export default function TecnicoMisReparaciones() {
     }
   };
 
+  const handleFotosChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length > 4) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Solo puedes subir hasta 4 fotos',
+      });
+      return;
+    }
+    setFotosEntrega(files);
+  };
+
   const handleEntregar = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedReparacion || !nombreQuienRetira.trim()) return;
 
+    // Verificar que el pago se haya realizado
+    const { data: reparacionActual, error: fetchError } = await supabase
+      .from('reparaciones')
+      .select('pagado')
+      .eq('id', selectedReparacion.id)
+      .single();
+
+    if (fetchError || !reparacionActual?.pagado) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'No se puede entregar una reparación sin confirmar el pago',
+      });
+      return;
+    }
+
     try {
+      // Subir fotos de entrega si existen
+      const fotosUrls: string[] = [];
+      if (fotosEntrega.length > 0) {
+        for (const foto of fotosEntrega) {
+          const fileExt = foto.name.split('.').pop();
+          const fileName = `${selectedReparacion.id}_entrega_${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
+          const filePath = `${fileName}`;
+
+          const { error: uploadError, data } = await supabase.storage
+            .from('reparaciones-fotos')
+            .upload(filePath, foto);
+
+          if (uploadError) throw uploadError;
+
+          const { data: { publicUrl } } = supabase.storage
+            .from('reparaciones-fotos')
+            .getPublicUrl(filePath);
+
+          fotosUrls.push(publicUrl);
+        }
+      }
+
       const { error } = await supabase
         .from('reparaciones')
         .update({
           estado: 'entregado',
           fecha_entrega: new Date().toISOString(),
           nombre_quien_retira: nombreQuienRetira,
+          fotos_entrega: fotosUrls,
         })
         .eq('id', selectedReparacion.id);
 
@@ -333,15 +444,20 @@ export default function TecnicoMisReparaciones() {
         },
       ]);
 
+      // Generar factura con fotos
+      await generarFacturaEntrega(selectedReparacion, nombreQuienRetira, fotosUrls);
+
       toast({
         title: 'Reparación entregada',
         description: 'El comprobante de entrega está listo',
       });
 
       fetchMisReparaciones();
+      fetchReparacionesEntregadas();
       setIsEntregarDialogOpen(false);
       setSelectedReparacion(null);
       setNombreQuienRetira('');
+      setFotosEntrega([]);
     } catch (error: any) {
       toast({
         variant: 'destructive',
@@ -349,6 +465,83 @@ export default function TecnicoMisReparaciones() {
         description: 'No se pudo registrar la entrega',
       });
     }
+  };
+
+  const generarFacturaEntrega = async (reparacion: Reparacion, quienRetira: string, fotosUrls: string[]) => {
+    const doc = new jsPDF();
+    let yPos = 20;
+
+    doc.setFontSize(20);
+    doc.text('Comprobante de Entrega', 105, yPos, { align: 'center' });
+    yPos += 20;
+
+    doc.setFontSize(12);
+    doc.text(`Orden: ${reparacion.numero_orden}`, 20, yPos);
+    yPos += 8;
+    doc.text(`Fecha de Entrega: ${format(new Date(), 'dd/MM/yyyy HH:mm')}`, 20, yPos);
+    yPos += 15;
+
+    doc.setFontSize(14);
+    doc.text('Datos del Cliente', 20, yPos);
+    yPos += 8;
+    doc.setFontSize(11);
+    doc.text(`Nombre: ${reparacion.clientes?.nombre || 'N/A'}`, 20, yPos);
+    yPos += 7;
+    doc.text(`Cédula: ${reparacion.clientes?.cedula || 'N/A'}`, 20, yPos);
+    yPos += 15;
+
+    doc.setFontSize(14);
+    doc.text('Datos del Dispositivo', 20, yPos);
+    yPos += 8;
+    doc.setFontSize(11);
+    doc.text(`Tipo: ${reparacion.tipo_producto}`, 20, yPos);
+    yPos += 7;
+    doc.text(`Marca y Modelo: ${reparacion.marca} ${reparacion.modelo}`, 20, yPos);
+    yPos += 15;
+
+    doc.setFontSize(14);
+    doc.text('Datos de Entrega', 20, yPos);
+    yPos += 8;
+    doc.setFontSize(11);
+    doc.text(`Persona que retira: ${quienRetira}`, 20, yPos);
+    yPos += 7;
+    doc.text(`Costo Total: ${formatCOP(reparacion.costo_total)}`, 20, yPos);
+    yPos += 15;
+
+    // Agregar fotos si existen
+    if (fotosUrls.length > 0) {
+      doc.setFontSize(14);
+      doc.text('Fotos de Entrega', 20, yPos);
+      yPos += 8;
+
+      for (let i = 0; i < fotosUrls.length; i++) {
+        try {
+          const response = await fetch(fotosUrls[i]);
+          const blob = await response.blob();
+          const reader = new FileReader();
+          
+          await new Promise((resolve) => {
+            reader.onloadend = () => {
+              const base64data = reader.result as string;
+              
+              if (yPos > 240) {
+                doc.addPage();
+                yPos = 20;
+              }
+              
+              doc.addImage(base64data, 'JPEG', 20, yPos, 80, 60);
+              yPos += 70;
+              resolve(null);
+            };
+            reader.readAsDataURL(blob);
+          });
+        } catch (error) {
+          console.error('Error al cargar foto:', error);
+        }
+      }
+    }
+
+    doc.save(`Comprobante-Entrega-${reparacion.numero_orden}.pdf`);
   };
 
   const generarComprobanteIngreso = async (reparacion: Reparacion) => {
@@ -472,6 +665,28 @@ export default function TecnicoMisReparaciones() {
     }
   };
 
+  const handleVerDetalles = async (reparacion: Reparacion) => {
+    try {
+      // Obtener información completa incluyendo repuestos
+      const { data: repuestosData } = await supabase
+        .from('reparacion_repuestos')
+        .select('*')
+        .eq('reparacion_id', reparacion.id);
+
+      setSelectedReparacion({
+        ...reparacion,
+      });
+      setRepuestos(repuestosData || []);
+      setIsDetallesDialogOpen(true);
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'No se pudieron cargar los detalles',
+      });
+    }
+  };
+
   const getEstadoBadgeVariant = (estado: string) => {
     switch (estado) {
       case 'recibido':
@@ -510,21 +725,30 @@ export default function TecnicoMisReparaciones() {
           </p>
         </div>
 
+        {/* Tabla de Reparaciones Asignadas */}
         <Card>
           <CardHeader>
             <div className="flex justify-between items-center">
               <CardTitle>Reparaciones Asignadas</CardTitle>
-              <div className="flex items-center gap-2">
-                <Label htmlFor="ordenMisReparaciones" className="text-sm">Ordenar por:</Label>
-                <Select value={ordenMisReparaciones} onValueChange={setOrdenMisReparaciones}>
-                  <SelectTrigger id="ordenMisReparaciones" className="w-40">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="fecha_ingreso">Fecha Ingreso</SelectItem>
-                    <SelectItem value="estado">Estado</SelectItem>
-                  </SelectContent>
-                </Select>
+              <div className="flex items-center gap-4">
+                <Input
+                  placeholder="Buscar por orden, cliente o cédula..."
+                  value={searchAsignadas}
+                  onChange={(e) => setSearchAsignadas(e.target.value)}
+                  className="w-80"
+                />
+                <div className="flex items-center gap-2">
+                  <Label htmlFor="ordenMisReparaciones" className="text-sm">Ordenar:</Label>
+                  <Select value={ordenMisReparaciones} onValueChange={setOrdenMisReparaciones}>
+                    <SelectTrigger id="ordenMisReparaciones" className="w-40">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="fecha_ingreso">Fecha Ingreso</SelectItem>
+                      <SelectItem value="estado">Estado</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
             </div>
           </CardHeader>
@@ -574,12 +798,27 @@ export default function TecnicoMisReparaciones() {
                             {format(new Date(rep.fecha_ingreso), 'dd/MM/yyyy')}
                           </TableCell>
                           <TableCell>
-                            <Badge variant={getEstadoBadgeVariant(rep.estado)}>
-                              {getEstadoLabel(rep.estado)}
-                            </Badge>
+                            <div className="flex flex-col gap-1">
+                              <Badge variant={getEstadoBadgeVariant(rep.estado)}>
+                                {getEstadoLabel(rep.estado)}
+                              </Badge>
+                              {rep.estado === 'listo_para_entrega' && (
+                                <span className={`text-xs ${rep.pagado ? 'text-green-600' : 'text-orange-600'}`}>
+                                  {rep.pagado ? '✓ Pagado' : '⏳ Pendiente pago'}
+                                </span>
+                              )}
+                            </div>
                           </TableCell>
                           <TableCell className="text-right">
                             <div className="flex justify-end gap-2">
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => handleVerDetalles(rep)}
+                                title="Ver detalles completos"
+                              >
+                                <Eye className="h-4 w-4" />
+                              </Button>
                               <Button
                                 variant="ghost"
                                 size="icon"
@@ -633,18 +872,30 @@ export default function TecnicoMisReparaciones() {
                                   >
                                     <FileText className="h-4 w-4" />
                                   </Button>
-                                  <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    onClick={() => {
-                                      setSelectedReparacion(rep);
-                                      setNombreQuienRetira('');
-                                      setIsEntregarDialogOpen(true);
-                                    }}
-                                    title="Entregar"
-                                  >
-                                    <Truck className="h-4 w-4" />
-                                  </Button>
+                                  {rep.pagado ? (
+                                    <Button
+                                      variant="ghost"
+                                      size="icon"
+                                      onClick={() => {
+                                        setSelectedReparacion(rep);
+                                        setNombreQuienRetira('');
+                                        setFotosEntrega([]);
+                                        setIsEntregarDialogOpen(true);
+                                      }}
+                                      title="Entregar"
+                                    >
+                                      <CheckCircle2 className="h-4 w-4 text-green-600" />
+                                    </Button>
+                                  ) : (
+                                    <Button
+                                      variant="ghost"
+                                      size="icon"
+                                      disabled
+                                      title="Esperando pago del cliente"
+                                    >
+                                      <CheckCircle2 className="h-4 w-4 text-muted-foreground" />
+                                    </Button>
+                                  )}
                                 </>
                               )}
                             </div>
@@ -659,6 +910,210 @@ export default function TecnicoMisReparaciones() {
           </CardContent>
         </Card>
 
+        {/* Tabla de Reparaciones Entregadas */}
+        <Card>
+          <CardHeader>
+            <div className="flex justify-between items-center">
+              <CardTitle>Reparaciones Entregadas</CardTitle>
+              <div className="flex items-center gap-4">
+                <Input
+                  placeholder="Buscar por orden, cliente o cédula..."
+                  value={searchEntregadas}
+                  onChange={(e) => setSearchEntregadas(e.target.value)}
+                  className="w-80"
+                />
+                <div className="flex items-center gap-2">
+                  <Label htmlFor="ordenEntregadas" className="text-sm">Ordenar:</Label>
+                  <Select value={ordenEntregadas} onValueChange={setOrdenEntregadas}>
+                    <SelectTrigger id="ordenEntregadas" className="w-40">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="fecha_entrega">Fecha Entrega</SelectItem>
+                      <SelectItem value="costo_total">Total</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            {loadingEntregadas ? (
+              <div className="text-center py-8">Cargando...</div>
+            ) : (
+              <div className="rounded-md border">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Orden</TableHead>
+                      <TableHead>Cliente</TableHead>
+                      <TableHead>Dispositivo</TableHead>
+                      <TableHead>Fecha Entrega</TableHead>
+                      <TableHead>Total</TableHead>
+                      <TableHead>Quien Retiró</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {reparacionesEntregadas.length === 0 ? (
+                      <TableRow>
+                        <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
+                          No hay reparaciones entregadas
+                        </TableCell>
+                      </TableRow>
+                    ) : (
+                      reparacionesEntregadas.map((rep) => (
+                        <TableRow key={rep.id}>
+                          <TableCell className="font-medium">{rep.numero_orden}</TableCell>
+                          <TableCell>
+                            <div>
+                              <div className="font-medium">{rep.clientes?.nombre}</div>
+                              <div className="text-sm text-muted-foreground">
+                                {rep.clientes?.cedula}
+                              </div>
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            {rep.marca} {rep.modelo}
+                          </TableCell>
+                          <TableCell>
+                            {rep.fecha_entrega && format(new Date(rep.fecha_entrega), 'dd/MM/yyyy HH:mm')}
+                          </TableCell>
+                          <TableCell className="font-semibold">
+                            {formatCOP(rep.costo_total)}
+                          </TableCell>
+                          <TableCell>
+                            {rep.nombre_quien_retira || 'N/A'}
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Dialog para Ver Detalles Completos */}
+        <Dialog open={isDetallesDialogOpen} onOpenChange={setIsDetallesDialogOpen}>
+          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Detalles Completos de la Reparación</DialogTitle>
+              <DialogDescription>
+                Orden: {selectedReparacion?.numero_orden}
+              </DialogDescription>
+            </DialogHeader>
+            {selectedReparacion && (
+              <div className="space-y-6">
+                {/* Información del Cliente */}
+                <div>
+                  <h3 className="font-semibold text-lg mb-2">Cliente</h3>
+                  <div className="grid grid-cols-2 gap-2 text-sm">
+                    <div>
+                      <span className="text-muted-foreground">Nombre:</span>
+                      <p className="font-medium">{selectedReparacion.clientes?.nombre}</p>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground">Cédula:</span>
+                      <p className="font-medium">{selectedReparacion.clientes?.cedula}</p>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground">Teléfono:</span>
+                      <p className="font-medium">{selectedReparacion.clientes?.telefono}</p>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground">Email:</span>
+                      <p className="font-medium">{selectedReparacion.clientes?.email}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Información del Dispositivo */}
+                <div>
+                  <h3 className="font-semibold text-lg mb-2">Dispositivo</h3>
+                  <div className="grid grid-cols-2 gap-2 text-sm">
+                    <div>
+                      <span className="text-muted-foreground">Tipo:</span>
+                      <p className="font-medium">{selectedReparacion.tipo_producto}</p>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground">Marca y Modelo:</span>
+                      <p className="font-medium">{selectedReparacion.marca} {selectedReparacion.modelo}</p>
+                    </div>
+                    {selectedReparacion.numero_serie && (
+                      <div>
+                        <span className="text-muted-foreground">Nº Serie:</span>
+                        <p className="font-medium">{selectedReparacion.numero_serie}</p>
+                      </div>
+                    )}
+                    <div>
+                      <span className="text-muted-foreground">Estado:</span>
+                      <Badge variant={getEstadoBadgeVariant(selectedReparacion.estado)}>
+                        {getEstadoLabel(selectedReparacion.estado)}
+                      </Badge>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Descripción de la Falla */}
+                <div>
+                  <h3 className="font-semibold text-lg mb-2">Descripción de la Falla</h3>
+                  <p className="text-sm">{selectedReparacion.descripcion_falla}</p>
+                </div>
+
+                {/* Estado Físico */}
+                {selectedReparacion.estado_fisico && (
+                  <div>
+                    <h3 className="font-semibold text-lg mb-2">Estado Físico</h3>
+                    <p className="text-sm">{selectedReparacion.estado_fisico}</p>
+                  </div>
+                )}
+
+                {/* Repuestos */}
+                {repuestos.length > 0 && (
+                  <div>
+                    <h3 className="font-semibold text-lg mb-2">Repuestos</h3>
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Descripción</TableHead>
+                          <TableHead>Cantidad</TableHead>
+                          <TableHead>Costo Unit.</TableHead>
+                          <TableHead>Subtotal</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {repuestos.map((rep, index) => (
+                          <TableRow key={index}>
+                            <TableCell>{rep.descripcion}</TableCell>
+                            <TableCell>{rep.cantidad}</TableCell>
+                            <TableCell>{formatCOP(rep.costo)}</TableCell>
+                            <TableCell>{formatCOP(rep.cantidad * rep.costo)}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+                )}
+
+                {/* Costo Total */}
+                <div className="border-t pt-4">
+                  <div className="flex justify-between items-center">
+                    <h3 className="font-semibold text-lg">Costo Total:</h3>
+                    <p className="text-2xl font-bold">{formatCOP(selectedReparacion.costo_total)}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+            <DialogFooter>
+              <Button onClick={() => setIsDetallesDialogOpen(false)}>
+                Cerrar
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        {/* Dialog para Cambiar Estado */}
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogContent>
             <DialogHeader>
@@ -719,6 +1174,7 @@ export default function TecnicoMisReparaciones() {
           </DialogContent>
         </Dialog>
 
+        {/* Dialog para Finalizar Diagnóstico */}
         <Dialog open={isDiagnosticoDialogOpen} onOpenChange={setIsDiagnosticoDialogOpen}>
           <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
@@ -833,8 +1289,9 @@ export default function TecnicoMisReparaciones() {
           </DialogContent>
         </Dialog>
 
+        {/* Dialog para Entregar */}
         <Dialog open={isEntregarDialogOpen} onOpenChange={setIsEntregarDialogOpen}>
-          <DialogContent>
+          <DialogContent className="max-w-2xl">
             <DialogHeader>
               <DialogTitle>Entregar Reparación</DialogTitle>
               <DialogDescription>
@@ -857,12 +1314,34 @@ export default function TecnicoMisReparaciones() {
                     required
                   />
                 </div>
+                <div className="space-y-2">
+                  <Label htmlFor="fotos_entrega">Fotos de Entrega (Máximo 4)</Label>
+                  <div className="flex items-center gap-2">
+                    <Input
+                      id="fotos_entrega"
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      onChange={handleFotosChange}
+                      className="cursor-pointer"
+                    />
+                    <Upload className="h-4 w-4 text-muted-foreground" />
+                  </div>
+                  {fotosEntrega.length > 0 && (
+                    <p className="text-sm text-muted-foreground">
+                      {fotosEntrega.length} {fotosEntrega.length === 1 ? 'foto seleccionada' : 'fotos seleccionadas'}
+                    </p>
+                  )}
+                </div>
               </div>
               <DialogFooter>
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={() => setIsEntregarDialogOpen(false)}
+                  onClick={() => {
+                    setIsEntregarDialogOpen(false);
+                    setFotosEntrega([]);
+                  }}
                 >
                   Cancelar
                 </Button>

@@ -62,6 +62,7 @@ export default function ConsultarReparacion() {
   const [numeroOrden, setNumeroOrden] = useState('');
   const [reparacion, setReparacion] = useState<Reparacion | null>(null);
   const [repuestos, setRepuestos] = useState<Repuesto[]>([]);
+  const [notaEstadoActual, setNotaEstadoActual] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const [accionCotizacion, setAccionCotizacion] = useState<'aceptar' | 'rechazar' | null>(null);
@@ -117,6 +118,22 @@ export default function ConsultarReparacion() {
         setRepuestos(repuestosData || []);
       } else {
         setRepuestos([]);
+      }
+
+      // Cargar la nota del estado actual
+      const { data: estadoData } = await supabase
+        .from('reparacion_estados')
+        .select('notas')
+        .eq('reparacion_id', reparacionData.id)
+        .eq('estado_nuevo', reparacionData.estado)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single();
+
+      if (estadoData?.notas) {
+        setNotaEstadoActual(estadoData.notas);
+      } else {
+        setNotaEstadoActual('');
       }
 
       toast({
@@ -290,11 +307,17 @@ export default function ConsultarReparacion() {
             {reparacion && (
               <div className="space-y-6 pt-6 border-t">
                 <div className="flex items-center justify-between">
-                  <div>
+                  <div className="flex-1">
                     <h3 className="text-lg font-semibold">Estado Actual</h3>
                     <Badge variant={getEstadoBadgeVariant(reparacion.estado)} className="mt-2">
                       {ESTADOS_LABELS[reparacion.estado] || reparacion.estado}
                     </Badge>
+                    {notaEstadoActual && (
+                      <div className="mt-4 p-3 bg-muted rounded-md">
+                        <p className="text-sm font-medium mb-1">Nota del estado:</p>
+                        <p className="text-sm text-muted-foreground">{notaEstadoActual}</p>
+                      </div>
+                    )}
                   </div>
                   <div className="text-right text-sm text-muted-foreground">
                     <div>Orden: {reparacion.numero_orden}</div>

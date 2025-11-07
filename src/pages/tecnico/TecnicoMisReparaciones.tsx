@@ -82,7 +82,7 @@ const ESTADOS = [
 // Validación de transiciones de estado permitidas
 const TRANSICIONES_PERMITIDAS: Record<string, string[]> = {
   recibido: ['en_diagnostico'],
-  en_diagnostico: ['cotizacion_hecha'],
+  en_diagnostico: [], // No se puede cambiar manualmente, se cambia automáticamente al finalizar diagnóstico
   cotizacion_hecha: [], // Solo el cliente puede cambiar a cotizacion_aceptada/rechazada
   cotizacion_aceptada: ['esperando_repuestos'],
   cotizacion_rechazada: ['listo_para_entrega'],

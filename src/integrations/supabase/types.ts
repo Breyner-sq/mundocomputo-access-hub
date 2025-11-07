@@ -262,6 +262,180 @@ export type Database = {
         }
         Relationships: []
       }
+      reparacion_estados: {
+        Row: {
+          created_at: string
+          estado_anterior: string | null
+          estado_nuevo: string
+          id: string
+          notas: string | null
+          reparacion_id: string
+          usuario_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          estado_anterior?: string | null
+          estado_nuevo: string
+          id?: string
+          notas?: string | null
+          reparacion_id: string
+          usuario_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          estado_anterior?: string | null
+          estado_nuevo?: string
+          id?: string
+          notas?: string | null
+          reparacion_id?: string
+          usuario_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reparacion_estados_reparacion_id_fkey"
+            columns: ["reparacion_id"]
+            isOneToOne: false
+            referencedRelation: "reparaciones"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reparacion_estados_usuario_id_fkey"
+            columns: ["usuario_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reparacion_repuestos: {
+        Row: {
+          cantidad: number
+          costo: number
+          created_at: string
+          descripcion: string
+          id: string
+          producto_id: string | null
+          reparacion_id: string
+        }
+        Insert: {
+          cantidad?: number
+          costo?: number
+          created_at?: string
+          descripcion: string
+          id?: string
+          producto_id?: string | null
+          reparacion_id: string
+        }
+        Update: {
+          cantidad?: number
+          costo?: number
+          created_at?: string
+          descripcion?: string
+          id?: string
+          producto_id?: string | null
+          reparacion_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reparacion_repuestos_producto_id_fkey"
+            columns: ["producto_id"]
+            isOneToOne: false
+            referencedRelation: "productos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reparacion_repuestos_reparacion_id_fkey"
+            columns: ["reparacion_id"]
+            isOneToOne: false
+            referencedRelation: "reparaciones"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reparaciones: {
+        Row: {
+          cliente_id: string
+          costo_total: number | null
+          created_at: string
+          descripcion_falla: string
+          estado: string
+          estado_fisico: string | null
+          fecha_entrega: string | null
+          fecha_finalizacion: string | null
+          fecha_ingreso: string
+          fotos_ingreso: string[] | null
+          id: string
+          marca: string
+          modelo: string
+          nombre_quien_retira: string | null
+          numero_orden: string | null
+          numero_serie: string | null
+          tecnico_id: string | null
+          tiempo_trabajo_minutos: number | null
+          tipo_producto: string
+          updated_at: string
+        }
+        Insert: {
+          cliente_id: string
+          costo_total?: number | null
+          created_at?: string
+          descripcion_falla: string
+          estado?: string
+          estado_fisico?: string | null
+          fecha_entrega?: string | null
+          fecha_finalizacion?: string | null
+          fecha_ingreso?: string
+          fotos_ingreso?: string[] | null
+          id?: string
+          marca: string
+          modelo: string
+          nombre_quien_retira?: string | null
+          numero_orden?: string | null
+          numero_serie?: string | null
+          tecnico_id?: string | null
+          tiempo_trabajo_minutos?: number | null
+          tipo_producto: string
+          updated_at?: string
+        }
+        Update: {
+          cliente_id?: string
+          costo_total?: number | null
+          created_at?: string
+          descripcion_falla?: string
+          estado?: string
+          estado_fisico?: string | null
+          fecha_entrega?: string | null
+          fecha_finalizacion?: string | null
+          fecha_ingreso?: string
+          fotos_ingreso?: string[] | null
+          id?: string
+          marca?: string
+          modelo?: string
+          nombre_quien_retira?: string | null
+          numero_orden?: string | null
+          numero_serie?: string | null
+          tecnico_id?: string | null
+          tiempo_trabajo_minutos?: number | null
+          tipo_producto?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reparaciones_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "clientes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reparaciones_tecnico_id_fkey"
+            columns: ["tecnico_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           id: string

@@ -95,6 +95,7 @@ export default function TecnicoReparaciones() {
   const [reparacionesEntregadas, setReparacionesEntregadas] = useState<Reparacion[]>([]);
   const [ordenActivas, setOrdenActivas] = useState('fecha_ingreso');
   const [ordenEntregadas, setOrdenEntregadas] = useState('fecha_entrega');
+  const [searchEntregadas, setSearchEntregadas] = useState('');
   const [fotosSeleccionadas, setFotosSeleccionadas] = useState<File[]>([]);
   const [uploadingFotos, setUploadingFotos] = useState(false);
 
@@ -122,7 +123,7 @@ export default function TecnicoReparaciones() {
     fetchReparacionesEntregadas();
     fetchClientes();
     fetchTecnicos();
-  }, [ordenActivas, ordenEntregadas]);
+  }, [ordenActivas, ordenEntregadas, searchEntregadas]);
 
   const fetchReparaciones = async () => {
     try {
@@ -535,6 +536,11 @@ export default function TecnicoReparaciones() {
         `)
         .eq('estado', 'entregado');
 
+      // Aplicar búsqueda
+      if (searchEntregadas.trim()) {
+        query = query.or(`numero_orden.ilike.%${searchEntregadas}%,clientes.nombre.ilike.%${searchEntregadas}%,clientes.cedula.ilike.%${searchEntregadas}%`);
+      }
+
       // Ordenar según la selección
       if (ordenEntregadas === 'total') {
         query = query.order('costo_total', { ascending: false });
@@ -874,6 +880,15 @@ export default function TecnicoReparaciones() {
                   </SelectContent>
                 </Select>
               </div>
+            </div>
+            <div className="flex items-center gap-2 mt-4">
+              <Search className="h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Buscar por orden, cliente o cédula..."
+                value={searchEntregadas}
+                onChange={(e) => setSearchEntregadas(e.target.value)}
+                className="max-w-md"
+              />
             </div>
           </CardHeader>
           <CardContent>

@@ -73,6 +73,7 @@ interface Repuesto {
   cantidad: number;
   costo: number;
   producto_id?: string | null;
+  aceptado?: boolean;
 }
 
 const ESTADOS = [
@@ -398,6 +399,28 @@ export default function TecnicoMisReparaciones() {
       return;
     }
 
+    // Verificar si el método de pago fue efectivo y solicitar confirmación
+    const { data: pagoData } = await supabase
+      .from('pagos_reparaciones')
+      .select('metodo_pago')
+      .eq('reparacion_id', selectedReparacion.id)
+      .eq('estado', 'aprobado')
+      .single();
+
+    if (pagoData?.metodo_pago === 'efectivo') {
+      const confirmar = window.confirm(
+        'El cliente pagó por EFECTIVO. ¿Confirmas que has recibido el dinero en efectivo antes de entregar la reparación?'
+      );
+      if (!confirmar) {
+        toast({
+          variant: 'destructive',
+          title: 'Entrega cancelada',
+          description: 'Debes confirmar que recibiste el pago en efectivo antes de entregar',
+        });
+        return;
+      }
+    }
+
     try {
       // Subir fotos de entrega si existen
       const fotosUrls: string[] = [];
@@ -655,7 +678,19 @@ export default function TecnicoMisReparaciones() {
         return;
       }
 
-      generarCotizacion(reparacion, repuestosData, reparacion.costo_total);
+      // Filtrar solo los repuestos aceptados
+      const repuestosAceptados = repuestosData.filter(r => r.aceptado);
+      const totalRepuestosAceptados = repuestosAceptados.reduce(
+        (sum, r) => sum + r.cantidad * r.costo, 
+        0
+      );
+
+      generarCotizacion(reparacion, repuestosAceptados, totalRepuestosAceptados);
+      
+      toast({
+        title: 'Cotización generada',
+        description: `Se incluyeron ${repuestosAceptados.length} de ${repuestosData.length} repuestos (solo los aceptados por el cliente)`,
+      });
     } catch (error: any) {
       toast({
         variant: 'destructive',
@@ -951,12 +986,13 @@ export default function TecnicoMisReparaciones() {
                       <TableHead>Fecha Entrega</TableHead>
                       <TableHead>Total</TableHead>
                       <TableHead>Quien Retiró</TableHead>
+                      <TableHead className="text-right">Acciones</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {reparacionesEntregadas.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
+                        <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
                           No hay reparaciones entregadas
                         </TableCell>
                       </TableRow>
@@ -983,6 +1019,64 @@ export default function TecnicoMisReparaciones() {
                           </TableCell>
                           <TableCell>
                             {rep.nombre_quien_retira || 'N/A'}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={async () => {
+                                // Obtener repuestos para el comprobante
+                                const { data: repuestosData } = await supabase
+                                  .from('reparacion_repuestos')
+                                  .select('*')
+                                  .eq('reparacion_id', rep.id);
+
+                                const doc = new jsPDF();
+                                doc.setFontSize(20);
+                                doc.text('Comprobante de Entrega', 105, 20, { align: 'center' });
+                                doc.setFontSize(12);
+                                doc.text(`Orden: ${rep.numero_orden}`, 20, 40);
+                                doc.text(`Fecha Entrega: ${rep.fecha_entrega ? format(new Date(rep.fecha_entrega), 'dd/MM/yyyy HH:mm') : 'N/A'}`, 20, 48);
+                                doc.setFontSize(14);
+                                doc.text('Cliente', 20, 65);
+                                doc.setFontSize(11);
+                                doc.text(`Nombre: ${rep.clientes?.nombre || 'N/A'}`, 20, 73);
+                                doc.text(`Cédula: ${rep.clientes?.cedula || 'N/A'}`, 20, 80);
+                                doc.setFontSize(14);
+                                doc.text('Dispositivo', 20, 97);
+                                doc.setFontSize(11);
+                                doc.text(`${rep.tipo_producto} - ${rep.marca} ${rep.modelo}`, 20, 105);
+                                
+                                if (repuestosData && repuestosData.length > 0) {
+                                  doc.setFontSize(14);
+                                  doc.text('Repuestos', 20, 122);
+                                  const tableData = repuestosData.map((r: any) => [
+                                    r.descripcion,
+                                    r.cantidad.toString(),
+                                    formatCOP(r.costo),
+                                    formatCOP(r.cantidad * r.costo),
+                                  ]);
+                                  autoTable(doc, {
+                                    startY: 129,
+                                    head: [['Descripción', 'Cant.', 'Precio', 'Subtotal']],
+                                    body: tableData,
+                                  });
+                                  const finalY = (doc as any).lastAutoTable.finalY || 129;
+                                  doc.setFontSize(14);
+                                  doc.text(`Total: ${formatCOP(rep.costo_total)}`, 20, finalY + 15);
+                                  doc.text(`Entregado a: ${rep.nombre_quien_retira || 'N/A'}`, 20, finalY + 25);
+                                } else {
+                                  doc.setFontSize(11);
+                                  doc.text(`Total: ${formatCOP(rep.costo_total)}`, 20, 122);
+                                  doc.text(`Entregado a: ${rep.nombre_quien_retira || 'N/A'}`, 20, 132);
+                                }
+                                
+                                doc.save(`Comprobante-${rep.numero_orden}.pdf`);
+                              }}
+                              title="Descargar comprobante"
+                            >
+                              <Download className="h-4 w-4" />
+                            </Button>
                           </TableCell>
                         </TableRow>
                       ))
@@ -1080,19 +1174,30 @@ export default function TecnicoMisReparaciones() {
                           <TableHead>Cantidad</TableHead>
                           <TableHead>Costo Unit.</TableHead>
                           <TableHead>Subtotal</TableHead>
+                          <TableHead>Estado</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
                         {repuestos.map((rep, index) => (
-                          <TableRow key={index}>
+                          <TableRow key={index} className={!rep.aceptado ? 'bg-red-50 dark:bg-red-950/20' : ''}>
                             <TableCell>{rep.descripcion}</TableCell>
                             <TableCell>{rep.cantidad}</TableCell>
                             <TableCell>{formatCOP(rep.costo)}</TableCell>
                             <TableCell>{formatCOP(rep.cantidad * rep.costo)}</TableCell>
+                            <TableCell>
+                              {rep.aceptado ? (
+                                <Badge variant="default" className="bg-green-600">Aceptado</Badge>
+                              ) : (
+                                <Badge variant="destructive">No aceptado</Badge>
+                              )}
+                            </TableCell>
                           </TableRow>
                         ))}
                       </TableBody>
                     </Table>
+                    <div className="mt-2 text-sm text-muted-foreground">
+                      Total (solo aceptados): <span className="font-semibold">{formatCOP(repuestos.filter(r => r.aceptado).reduce((sum, r) => sum + r.cantidad * r.costo, 0))}</span>
+                    </div>
                   </div>
                 )}
 

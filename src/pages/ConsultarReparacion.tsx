@@ -39,18 +39,33 @@ interface Reparacion {
   fecha_ingreso: string;
   costo_total: number;
   pagado: boolean;
+  tecnico_id: string | null;
   clientes?: {
     nombre: string;
     cedula: string;
     telefono: string;
     email: string;
   };
+  profiles?: {
+    nombre_completo: string;
+    email: string;
+  };
+  reparacion_estados?: Array<{
+    estado_nuevo: string;
+    notas: string | null;
+    created_at: string;
+    profiles?: {
+      nombre_completo: string;
+    };
+  }>;
 }
 
 interface Repuesto {
+  id?: string;
   descripcion: string;
   cantidad: number;
   costo: number;
+  aceptado: boolean;
 }
 
 const ESTADOS_LABELS: Record<string, string> = {
@@ -70,7 +85,6 @@ export default function ConsultarReparacion() {
   const [numeroOrden, setNumeroOrden] = useState('');
   const [reparacion, setReparacion] = useState<Reparacion | null>(null);
   const [repuestos, setRepuestos] = useState<Repuesto[]>([]);
-  const [notaEstadoActual, setNotaEstadoActual] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
   const [accionCotizacion, setAccionCotizacion] = useState<'aceptar' | 'rechazar' | null>(null);
@@ -111,11 +125,24 @@ export default function ConsultarReparacion() {
           fecha_ingreso,
           costo_total,
           pagado,
+          tecnico_id,
           clientes (
             nombre,
             cedula,
             telefono,
             email
+          ),
+          profiles (
+            nombre_completo,
+            email
+          ),
+          reparacion_estados (
+            estado_nuevo,
+            notas,
+            created_at,
+            profiles (
+              nombre_completo
+            )
           )
         `
         )
@@ -139,28 +166,18 @@ export default function ConsultarReparacion() {
       if (reparacionData.estado !== 'recibido' && reparacionData.estado !== 'en_diagnostico') {
         const { data: repuestosData } = await supabase
           .from('reparacion_repuestos')
-          .select('descripcion, cantidad, costo')
+          .select('id, descripcion, cantidad, costo, aceptado')
           .eq('reparacion_id', reparacionData.id);
 
-        setRepuestos(repuestosData || []);
+        setRepuestos((repuestosData || []).map(r => ({
+          id: r.id,
+          descripcion: r.descripcion,
+          cantidad: r.cantidad,
+          costo: r.costo,
+          aceptado: r.aceptado,
+        })));
       } else {
         setRepuestos([]);
-      }
-
-      // Cargar la nota del estado actual
-      const { data: estadoData } = await supabase
-        .from('reparacion_estados')
-        .select('notas')
-        .eq('reparacion_id', reparacionData.id)
-        .eq('estado_nuevo', reparacionData.estado)
-        .order('created_at', { ascending: false })
-        .limit(1)
-        .single();
-
-      if (estadoData?.notas) {
-        setNotaEstadoActual(estadoData.notas);
-      } else {
-        setNotaEstadoActual('');
       }
 
       toast({
@@ -411,12 +428,6 @@ export default function ConsultarReparacion() {
                     <Badge variant={getEstadoBadgeVariant(reparacion.estado)} className="mt-2">
                       {ESTADOS_LABELS[reparacion.estado] || reparacion.estado}
                     </Badge>
-                    {notaEstadoActual && (
-                      <div className="mt-4 p-3 bg-muted rounded-md">
-                        <p className="text-sm font-medium mb-1">Nota del estado:</p>
-                        <p className="text-sm text-muted-foreground">{notaEstadoActual}</p>
-                      </div>
-                    )}
                   </div>
                   <div className="text-right text-sm text-muted-foreground">
                     <div>Orden: {reparacion.numero_orden}</div>
@@ -427,9 +438,23 @@ export default function ConsultarReparacion() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <h4 className="font-medium text-sm text-muted-foreground mb-2">Cliente</h4>
-                    <p className="text-sm">{reparacion.clientes?.nombre}</p>
+                    <p className="text-sm font-semibold">{reparacion.clientes?.nombre}</p>
+                    <p className="text-xs text-muted-foreground">Cédula: {reparacion.clientes?.cedula}</p>
+                    <p className="text-xs text-muted-foreground">Tel: {reparacion.clientes?.telefono}</p>
+                    <p className="text-xs text-muted-foreground">Email: {reparacion.clientes?.email}</p>
                   </div>
                   <div>
+                    <h4 className="font-medium text-sm text-muted-foreground mb-2">Técnico Asignado</h4>
+                    {reparacion.profiles ? (
+                      <>
+                        <p className="text-sm font-semibold">{reparacion.profiles.nombre_completo}</p>
+                        <p className="text-xs text-muted-foreground">Email: {reparacion.profiles.email}</p>
+                      </>
+                    ) : (
+                      <p className="text-sm text-muted-foreground">Sin asignar</p>
+                    )}
+                  </div>
+                  <div className="md:col-span-2">
                     <h4 className="font-medium text-sm text-muted-foreground mb-2">Dispositivo</h4>
                     <p className="text-sm">
                       {reparacion.marca} {reparacion.modelo}
@@ -441,6 +466,37 @@ export default function ConsultarReparacion() {
                     <p className="text-sm">{reparacion.descripcion_falla}</p>
                   </div>
                 </div>
+
+                {/* Historial de Estados con Notas */}
+                {reparacion.reparacion_estados && reparacion.reparacion_estados.length > 0 && (
+                  <div className="space-y-2">
+                    <h4 className="font-medium text-sm text-muted-foreground">Historial de Estados</h4>
+                    <div className="space-y-2">
+                      {reparacion.reparacion_estados
+                        .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+                        .map((estado, index) => (
+                          <div key={index} className="p-3 bg-muted rounded-md text-sm">
+                            <div className="flex justify-between items-start mb-1">
+                              <span className="font-medium">
+                                {ESTADOS_LABELS[estado.estado_nuevo] || estado.estado_nuevo}
+                              </span>
+                              <span className="text-xs text-muted-foreground">
+                                {format(new Date(estado.created_at), 'dd/MM/yyyy HH:mm')}
+                              </span>
+                            </div>
+                            {estado.notas && (
+                              <p className="text-xs text-muted-foreground mt-1">{estado.notas}</p>
+                            )}
+                            {estado.profiles?.nombre_completo && (
+                              <p className="text-xs text-muted-foreground mt-1">
+                                Por: {estado.profiles.nombre_completo}
+                              </p>
+                            )}
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                )}
 
                 {repuestos.length > 0 && (
                   <div className="space-y-4">
@@ -456,6 +512,7 @@ export default function ConsultarReparacion() {
                       <table className="w-full text-sm">
                         <thead className="bg-muted">
                           <tr>
+                            {mostrarBotonesCotizacion && <th className="text-center p-2 w-16">Aceptar</th>}
                             <th className="text-left p-2">Descripción</th>
                             <th className="text-center p-2">Cant.</th>
                             <th className="text-right p-2">Precio</th>
@@ -464,8 +521,36 @@ export default function ConsultarReparacion() {
                         </thead>
                         <tbody>
                           {repuestos.map((repuesto, index) => (
-                            <tr key={index} className="border-t">
-                              <td className="p-2">{repuesto.descripcion}</td>
+                            <tr key={index} className={`border-t ${!repuesto.aceptado ? 'bg-red-50 dark:bg-red-950/20' : ''}`}>
+                              {mostrarBotonesCotizacion && (
+                                <td className="text-center p-2">
+                                  <input
+                                    type="checkbox"
+                                    checked={repuesto.aceptado}
+                                    onChange={async () => {
+                                      // Actualizar el estado local
+                                      const nuevosRepuestos = [...repuestos];
+                                      nuevosRepuestos[index].aceptado = !nuevosRepuestos[index].aceptado;
+                                      setRepuestos(nuevosRepuestos);
+                                      
+                                      // Actualizar en la base de datos
+                                      if (repuesto.id) {
+                                        await supabase
+                                          .from('reparacion_repuestos')
+                                          .update({ aceptado: nuevosRepuestos[index].aceptado })
+                                          .eq('id', repuesto.id);
+                                      }
+                                    }}
+                                    className="cursor-pointer w-4 h-4"
+                                  />
+                                </td>
+                              )}
+                              <td className="p-2">
+                                {repuesto.descripcion}
+                                {!repuesto.aceptado && !mostrarBotonesCotizacion && (
+                                  <span className="text-xs text-red-600 ml-2">(No aceptado)</span>
+                                )}
+                              </td>
                               <td className="text-center p-2">{repuesto.cantidad}</td>
                               <td className="text-right p-2">{formatCOP(repuesto.costo)}</td>
                               <td className="text-right p-2">
@@ -476,10 +561,16 @@ export default function ConsultarReparacion() {
                         </tbody>
                         <tfoot className="border-t bg-muted font-semibold">
                           <tr>
-                            <td colSpan={3} className="text-right p-2">
-                              Total:
+                            <td colSpan={mostrarBotonesCotizacion ? 4 : 3} className="text-right p-2">
+                              Total (repuestos aceptados):
                             </td>
-                            <td className="text-right p-2">{formatCOP(reparacion.costo_total)}</td>
+                            <td className="text-right p-2">
+                              {formatCOP(
+                                repuestos
+                                  .filter(r => r.aceptado)
+                                  .reduce((sum, r) => sum + r.cantidad * r.costo, 0)
+                              )}
+                            </td>
                           </tr>
                         </tfoot>
                       </table>

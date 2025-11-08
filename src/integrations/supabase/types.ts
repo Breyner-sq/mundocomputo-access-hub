@@ -353,6 +353,7 @@ export type Database = {
       }
       reparacion_repuestos: {
         Row: {
+          aceptado: boolean
           cantidad: number
           costo: number
           created_at: string
@@ -362,6 +363,7 @@ export type Database = {
           reparacion_id: string
         }
         Insert: {
+          aceptado?: boolean
           cantidad?: number
           costo?: number
           created_at?: string
@@ -371,6 +373,7 @@ export type Database = {
           reparacion_id: string
         }
         Update: {
+          aceptado?: boolean
           cantidad?: number
           costo?: number
           created_at?: string

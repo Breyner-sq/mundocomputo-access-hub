@@ -70,7 +70,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               <h1 className="text-xl font-bold">MundoComputo</h1>
             </div>
             <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity" onClick={() => window.location.href = '/configuracion/perfil'}>
                 <Avatar className="h-8 w-8">
                   <AvatarImage src={avatarUrl || undefined} />
                   <AvatarFallback>

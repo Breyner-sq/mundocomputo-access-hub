@@ -322,9 +322,37 @@ export default function TecnicoReparaciones() {
           .eq('id', reparacionData.id);
       }
 
+      // Enviar comprobante de ingreso al cliente por email
+      try {
+        const { data: clienteData } = await supabase
+          .from('clientes')
+          .select('nombre, email')
+          .eq('id', formData.cliente_id)
+          .single();
+
+        if (clienteData?.email) {
+          await supabase.functions.invoke('enviar-comprobante-ingreso', {
+            body: {
+              clienteEmail: clienteData.email,
+              clienteNombre: clienteData.nombre,
+              numeroOrden: reparacionData.numero_orden,
+              marca: formData.marca,
+              modelo: formData.modelo,
+              tipoProducto: formData.tipo_producto,
+              descripcionFalla: formData.descripcion_falla,
+              estadoFisico: formData.estado_fisico || '',
+              fechaIngreso: format(new Date(reparacionData.fecha_ingreso), 'dd/MM/yyyy'),
+            },
+          });
+        }
+      } catch (emailError) {
+        console.error('Error enviando email:', emailError);
+        // No mostramos error al usuario, el registro ya fue exitoso
+      }
+
       toast({
         title: 'Reparación registrada',
-        description: 'La reparación se registró correctamente',
+        description: 'La reparación se registró correctamente y se envió el comprobante por email',
       });
 
       fetchReparaciones();
@@ -348,12 +376,42 @@ export default function TecnicoReparaciones() {
 
     // Validar que la reparación esté pagada
     if (!selectedReparacion.pagado) {
-      toast({
-        variant: 'destructive',
-        title: 'Pago pendiente',
-        description: 'No se puede entregar la reparación sin confirmar el pago. El cliente debe pagar primero.',
-      });
-      return;
+      // Verificar en tiempo real el estado de pago
+      const { data: reparacionActualizada } = await supabase
+        .from('reparaciones')
+        .select('pagado, clientes(nombre, email)')
+        .eq('id', selectedReparacion.id)
+        .single();
+
+      if (!reparacionActualizada?.pagado) {
+        toast({
+          variant: 'destructive',
+          title: 'Error',
+          description: 'La reparación debe estar pagada antes de entregar',
+        });
+        return;
+      }
+    }
+
+    // Verificar si el pago fue en efectivo y confirmar recepción
+    const { data: pagoData } = await supabase
+      .from('pagos_reparaciones')
+      .select('metodo_pago')
+      .eq('reparacion_id', selectedReparacion.id)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .single();
+
+    if (pagoData?.metodo_pago === 'efectivo') {
+      const confirmado = window.confirm(
+        '⚠️ CONFIRMACIÓN DE PAGO EN EFECTIVO\n\n' +
+        'El cliente pagó en efectivo.\n\n' +
+        '¿Confirma que ya recibió el dinero en efectivo antes de entregar el dispositivo?'
+      );
+      
+      if (!confirmado) {
+        return;
+      }
     }
 
     try {

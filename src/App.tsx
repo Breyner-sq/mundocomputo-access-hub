@@ -11,6 +11,11 @@ import { useIdleTimer } from "@/hooks/useIdleTimer";
 import Auth from "./pages/Auth";
 import RoleRedirect from "./pages/RoleRedirect";
 import Unauthorized from "./pages/Unauthorized";
+import Home from "./pages/Home";
+import EstadoReparacion from "./pages/EstadoReparacion";
+import Contacto from "./pages/Contacto";
+import QuienesSomos from "./pages/QuienesSomos";
+import Politicas from "./pages/Politicas";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import GestionUsuarios from "./pages/admin/GestionUsuarios";
 import AuthLogs from "./pages/admin/AuthLogs";
@@ -51,12 +56,19 @@ const App = () => (
             <AppContent />
             <AccessibilityMenu />
             <Routes>
-            <Route path="/auth" element={<Auth />} />
-            <Route path="/" element={<RoleRedirect />} />
-            <Route path="/unauthorized" element={<Unauthorized />} />
-            
-            {/* Ruta pública para consultar reparaciones */}
+            {/* Rutas Públicas */}
+            <Route path="/home" element={<Home />} />
+            <Route path="/estado-reparacion" element={<EstadoReparacion />} />
+            <Route path="/contacto" element={<Contacto />} />
+            <Route path="/quienes-somos" element={<QuienesSomos />} />
+            <Route path="/politicas" element={<Politicas />} />
             <Route path="/consultarreparacion" element={<ConsultarReparacion />} />
+            
+            {/* Rutas de Autenticación */}
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/dashboard" element={<RoleRedirect />} />
+            <Route path="/unauthorized" element={<Unauthorized />} />
             
             {/* Admin Routes */}
             <Route

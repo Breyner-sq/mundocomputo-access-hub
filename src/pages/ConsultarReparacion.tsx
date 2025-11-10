@@ -528,17 +528,44 @@ export default function ConsultarReparacion() {
                                     type="checkbox"
                                     checked={repuesto.aceptado}
                                     onChange={async () => {
-                                      // Actualizar el estado local
-                                      const nuevosRepuestos = [...repuestos];
-                                      nuevosRepuestos[index].aceptado = !nuevosRepuestos[index].aceptado;
-                                      setRepuestos(nuevosRepuestos);
-                                      
-                                      // Actualizar en la base de datos
-                                      if (repuesto.id) {
+                                      try {
+                                        // Actualizar el estado local
+                                        const nuevosRepuestos = [...repuestos];
+                                        nuevosRepuestos[index].aceptado = !nuevosRepuestos[index].aceptado;
+                                        setRepuestos(nuevosRepuestos);
+                                        
+                                        // Actualizar en la base de datos
+                                        if (repuesto.id) {
+                                          await supabase
+                                            .from('reparacion_repuestos')
+                                            .update({ aceptado: nuevosRepuestos[index].aceptado })
+                                            .eq('id', repuesto.id);
+                                        }
+
+                                        // Calcular nuevo total solo con repuestos aceptados
+                                        const nuevoTotal = nuevosRepuestos
+                                          .filter(r => r.aceptado)
+                                          .reduce((sum, r) => sum + (r.cantidad * r.costo), 0);
+
+                                        // Actualizar costo total en la reparación
                                         await supabase
-                                          .from('reparacion_repuestos')
-                                          .update({ aceptado: nuevosRepuestos[index].aceptado })
-                                          .eq('id', repuesto.id);
+                                          .from('reparaciones')
+                                          .update({ costo_total: nuevoTotal })
+                                          .eq('id', reparacion.id);
+
+                                        // Actualizar el estado local de la reparación
+                                        setReparacion({ ...reparacion, costo_total: nuevoTotal });
+
+                                        toast({
+                                          title: 'Repuesto actualizado',
+                                          description: `Total actualizado: ${formatCOP(nuevoTotal)}`,
+                                        });
+                                      } catch (error) {
+                                        toast({
+                                          variant: 'destructive',
+                                          title: 'Error',
+                                          description: 'No se pudo actualizar el repuesto',
+                                        });
                                       }
                                     }}
                                     className="cursor-pointer w-4 h-4"

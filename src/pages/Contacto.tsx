@@ -5,8 +5,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { ArrowLeft, Phone, Mail, MapPin, Clock } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
+import { PublicNav } from '@/components/PublicNav';
 
 export default function Contacto() {
   const { toast } = useToast();
@@ -16,32 +18,45 @@ export default function Contacto() {
     telefono: '',
     mensaje: '',
   });
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: 'Mensaje enviado',
-      description: 'Nos pondremos en contacto contigo pronto',
-    });
-    setFormData({ nombre: '', email: '', telefono: '', mensaje: '' });
+    setSubmitting(true);
+
+    try {
+      const { error } = await supabase
+        .from('formularios_contacto')
+        .insert([
+          {
+            nombre: formData.nombre,
+            email: formData.email,
+            telefono: formData.telefono || null,
+            mensaje: formData.mensaje,
+          },
+        ]);
+
+      if (error) throw error;
+
+      toast({
+        title: 'Mensaje enviado',
+        description: 'Nos pondremos en contacto contigo pronto',
+      });
+      setFormData({ nombre: '', email: '', telefono: '', mensaje: '' });
+    } catch (error: any) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'No se pudo enviar el mensaje. Por favor intenta de nuevo.',
+      });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="bg-gradient-to-r from-red-600 to-red-800 text-white py-6 shadow-lg">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between">
-            <h1 className="text-2xl md:text-3xl font-bold">Contacto</h1>
-            <Link to="/">
-              <Button variant="secondary" size="sm">
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Volver al Inicio
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </header>
+      <PublicNav />
 
       {/* Content */}
       <div className="container mx-auto px-4 py-12">
@@ -94,8 +109,12 @@ export default function Contacto() {
                       required
                     />
                   </div>
-                  <Button type="submit" className="w-full bg-red-600 hover:bg-red-700">
-                    Enviar Mensaje
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-red-600 hover:bg-red-700"
+                    disabled={submitting}
+                  >
+                    {submitting ? 'Enviando...' : 'Enviar Mensaje'}
                   </Button>
                 </form>
               </CardContent>

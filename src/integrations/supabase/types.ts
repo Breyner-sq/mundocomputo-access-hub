@@ -138,6 +138,42 @@ export type Database = {
           },
         ]
       }
+      formularios_contacto: {
+        Row: {
+          atendido_por: string | null
+          created_at: string
+          email: string
+          estado: string
+          id: string
+          mensaje: string
+          nombre: string
+          notas_internas: string | null
+          telefono: string | null
+        }
+        Insert: {
+          atendido_por?: string | null
+          created_at?: string
+          email: string
+          estado?: string
+          id?: string
+          mensaje: string
+          nombre: string
+          notas_internas?: string | null
+          telefono?: string | null
+        }
+        Update: {
+          atendido_por?: string | null
+          created_at?: string
+          email?: string
+          estado?: string
+          id?: string
+          mensaje?: string
+          nombre?: string
+          notas_internas?: string | null
+          telefono?: string | null
+        }
+        Relationships: []
+      }
       lotes_inventario: {
         Row: {
           cantidad: number

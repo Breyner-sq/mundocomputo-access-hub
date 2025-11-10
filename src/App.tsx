@@ -30,6 +30,7 @@ import VentasEstadisticas from "./pages/ventas/VentasEstadisticas";
 import VentasProductos from "./pages/ventas/VentasProductos";
 import VentasStock from "./pages/ventas/VentasStock";
 import VentasDevoluciones from "./pages/ventas/VentasDevoluciones";
+import VentasFormularios from "./pages/ventas/VentasFormularios";
 import InventarioDashboard from "./pages/inventario/InventarioDashboard";
 import InventarioProductos from "./pages/inventario/InventarioProductos";
 import InventarioCategorias from "./pages/inventario/InventarioCategorias";
@@ -191,6 +192,14 @@ const App = () => (
               element={
                 <ProtectedRoute allowedRoles={['ventas', 'administrador']}>
                   <VentasDevoluciones />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/ventas/formularios"
+              element={
+                <ProtectedRoute allowedRoles={['ventas', 'administrador']}>
+                  <VentasFormularios />
                 </ProtectedRoute>
               }
             />

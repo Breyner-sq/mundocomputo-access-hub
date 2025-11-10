@@ -147,7 +147,7 @@ export default function TecnicoMisReparaciones() {
 
       // Aplicar búsqueda
       if (searchAsignadas.trim()) {
-        query = query.or(`numero_orden.ilike.%${searchAsignadas}%,clientes.nombre.ilike.%${searchAsignadas}%,clientes.cedula.ilike.%${searchAsignadas}%`);
+        query = query.or(`numero_orden.ilike.%${searchAsignadas}%,marca.ilike.%${searchAsignadas}%,modelo.ilike.%${searchAsignadas}%`);
       }
 
       // Ordenar según la selección
@@ -188,7 +188,7 @@ export default function TecnicoMisReparaciones() {
 
       // Aplicar búsqueda
       if (searchEntregadas.trim()) {
-        query = query.or(`numero_orden.ilike.%${searchEntregadas}%,clientes.nombre.ilike.%${searchEntregadas}%,clientes.cedula.ilike.%${searchEntregadas}%`);
+        query = query.or(`numero_orden.ilike.%${searchEntregadas}%,marca.ilike.%${searchEntregadas}%,modelo.ilike.%${searchEntregadas}%`);
       }
 
       // Ordenar según la selección

@@ -67,6 +67,7 @@ const App = () => (
             {/* Rutas de Autenticación */}
             <Route path="/auth" element={<Auth />} />
             <Route path="/" element={<Home />} />
+            <Route path="/role-redirect" element={<RoleRedirect />} />
             <Route path="/dashboard" element={<RoleRedirect />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
             

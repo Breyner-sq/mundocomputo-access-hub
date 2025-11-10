@@ -21,7 +21,7 @@ export default function Auth() {
 
     try {
       await signIn(email, password);
-      navigate('/');
+      navigate('/role-redirect');
     } catch (error) {
       console.error('Error:', error);
     } finally {

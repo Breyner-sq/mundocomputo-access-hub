@@ -322,37 +322,11 @@ export default function TecnicoReparaciones() {
           .eq('id', reparacionData.id);
       }
 
-      // Enviar comprobante de ingreso al cliente por email
-      try {
-        const { data: clienteData } = await supabase
-          .from('clientes')
-          .select('nombre, email')
-          .eq('id', formData.cliente_id)
-          .single();
-
-        if (clienteData?.email) {
-          await supabase.functions.invoke('enviar-comprobante-ingreso', {
-            body: {
-              clienteEmail: clienteData.email,
-              clienteNombre: clienteData.nombre,
-              numeroOrden: reparacionData.numero_orden,
-              marca: formData.marca,
-              modelo: formData.modelo,
-              tipoProducto: formData.tipo_producto,
-              descripcionFalla: formData.descripcion_falla,
-              estadoFisico: formData.estado_fisico || '',
-              fechaIngreso: format(new Date(reparacionData.fecha_ingreso), 'dd/MM/yyyy'),
-            },
-          });
-        }
-      } catch (emailError) {
-        console.error('Error enviando email:', emailError);
-        // No mostramos error al usuario, el registro ya fue exitoso
-      }
+      // TODO: Implementar envío de comprobante por email cuando se configure el servicio de correo
 
       toast({
         title: 'Reparación registrada',
-        description: 'La reparación se registró correctamente y se envió el comprobante por email',
+        description: 'La reparación se registró correctamente',
       });
 
       fetchReparaciones();

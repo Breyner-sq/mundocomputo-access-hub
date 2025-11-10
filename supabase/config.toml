@@ -11,12 +11,3 @@ verify_jwt = true
 
 [functions.send-invoice]
 verify_jwt = false
-
-[functions.enviar-comprobante-ingreso]
-verify_jwt = false
-
-[functions.enviar-cotizacion]
-verify_jwt = false
-
-[functions.enviar-comprobante-entrega]
-verify_jwt = false

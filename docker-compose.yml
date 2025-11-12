@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  mundocomputo-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mundocomputo-access-hub
+    ports:
+      - "80:80"
+    restart: unless-stopped
+    environment:
+      # Variables de entorno para la aplicación
+      # Estas deben ser configuradas según tu entorno
+      - NODE_ENV=production
+    networks:
+      - mundocomputo-network
+
+networks:
+  mundocomputo-network:
+    driver: bridge
